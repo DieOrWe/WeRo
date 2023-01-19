@@ -1,0 +1,32 @@
+logging:
+  pattern:
+    console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
+  level:
+    dev.bank: DEBUG
+#spring:
+#  # DB ??
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/AllP?serverTimezone=Asia/Seoul
+#    username: root
+#    password: 0000
+#  jpa:
+#    show-sql: true
+#    #    hibernate.hbm2ddl.auto: update
+#    hibernate:
+#      ddl-auto: create
+spring:
+  # DB ??
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/test
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    show-sql: true
+    #    hibernate.hbm2ddl.auto: update
+    hibernate:
+      ddl-auto: create
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
