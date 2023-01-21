@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @Getter @Setter
 @ToString
 @Entity
+@Table(name = "Users")
 public class User {
     @Id
     @Column(name = "userID")

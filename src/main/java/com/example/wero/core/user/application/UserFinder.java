@@ -4,6 +4,7 @@ import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface UserFinder {
     /**
