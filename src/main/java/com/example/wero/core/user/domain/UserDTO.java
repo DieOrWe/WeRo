@@ -24,6 +24,8 @@ public class UserDTO {
     @Length(min = 8,max = 12)
     @Pattern(regexp = "/[^0-9]/g",message = "8 ~ 12자리의 숫자만 입력가능합니다.")
     private String userPw; // 비밀번호
+
+    @Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$", message = "01012345678 or 010-1234-5678")
     private String userMobileNumber; // 휴대폰번호
     private String userCreatedWhen; // 생성일자
     @NotBlank
