@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,17 +22,19 @@ public class UserDTO {
     @NotBlank
     private String userId; // 회원ID
     @NotBlank
-    @Length(min = 8,max = 12)
-    @Pattern(regexp = "/[^0-9]/g",message = "8 ~ 12자리의 숫자만 입력가능합니다.")
+    @Length(min = 8, max = 12)
+    @Pattern(regexp = "^[0-9]*$",message = "비밀번호는 숫자만 입력가능합니다.")
     private String userPw; // 비밀번호
 
-    @Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$", message = "01012345678 or 010-1234-5678")
+
+    @Pattern(regexp = "^01(?:0|1|[6-9])-?(?:\\d{3}|\\d{4})-?\\d{4}$", message = "010******** or 010-****-****")
     private String userMobileNumber; // 휴대폰번호
     private String userCreatedWhen; // 생성일자
     @NotBlank
     private String userNickName; // 닉네임
     private String userEmail; // 이메일
-    @NotBlank
+
+    @NotNull
     private boolean userNotify; // 알림동의여부
 
 
