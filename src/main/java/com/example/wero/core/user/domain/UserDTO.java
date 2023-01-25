@@ -3,6 +3,9 @@ package com.example.wero.core.user.domain;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -19,6 +22,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
+
     @NotBlank
     private String userId; // 회원ID
     @NotBlank

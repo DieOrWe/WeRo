@@ -5,12 +5,9 @@ import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -21,12 +18,10 @@ import java.util.stream.Collectors;
 public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final UserLoginManager userLoginManager;
 
-    public UserManager(UserRepository userRepository, ModelMapper modelMapper, UserLoginManager userLoginManager) {
+    public UserManager(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.userLoginManager = userLoginManager;
     }
 
     @Override
@@ -55,10 +50,10 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
 
     @Override
     public String createUser(UserDTO newUser) {
-//        if(userRepository.findById(newUser.getUserId()).isPresent()) {
-//            String message = String.format("이미 존재하는 user id입니다. %s", newUser.getUserId());
-//            throw new IllegalArgumentException(message);
-//        }
+        if(userRepository.findById(newUser.getUserId()).isPresent()) {
+            String message = String.format("이미 존재하는 user id입니다. %s", newUser.getUserId());
+            throw new IllegalArgumentException(message);
+        }
         User user = modelMapper.map(newUser, User.class);
         userRepository.save(user);
 
@@ -67,12 +62,26 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     }
 
     @Override
-    public String updateUser(@RequestParam("userID") String id, @RequestParam("userPW") String pw, @RequestBody UserDTO updateUser) {
-//        if(userRepository.findById(newUser.getUserId()).isPresent()) {
-//            String message = String.format("이미 존재하는 user id입니다. %s", newUser.getUserId());
-//            throw new IllegalArgumentException(message);
-//        }
+    public String updateUser(String id, String password, UserDTO updateUser) {
+        if (userRepository.findById(id).isPresent()) {
 
-        return updateUser.getUserId();
+            User foundUser = modelMapper.map(findUser(id), User.class);
+            modelMapper.map(updateUser, User.class);
+
+            foundUser.setUserEmail(updateUser.getUserEmail());
+            foundUser.setUserNickName(updateUser.getUserNickName());
+            foundUser.setUserPw(updateUser.getUserPw());
+            foundUser.setUserMobileNumber(updateUser.getUserMobileNumber());
+
+
+            userRepository.save(foundUser);
+            String message = String.format("%s의 회원 정보가 수정 되었습니다.", id);
+            return message;
+
+        }
+
+    return "update Error";
     }
+
+
 }
