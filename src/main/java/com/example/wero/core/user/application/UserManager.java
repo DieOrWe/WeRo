@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +41,13 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     }
 
     @Override
+    public UserDTO infoUser(String userId, String userPw){
+        String message = String.format("해당하는 User가 없습니다.");
+        User foundUser = userRepository.findByUserIdAndUserPw(userId, userPw).orElseThrow(() -> new NoSuchElementException(message));
+        return modelMapper.map(foundUser, UserDTO.class);
+    }
+
+    @Override
     public String checkPw(String inputId, String inputPW) {
         String message = "비밀번호가 일치하지 않습니다.";
         UserDTO userDTO = findUser(inputId);
@@ -63,25 +71,13 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     }
 
     @Override
-    public String updateUser(String id, String password, UserDTO updateUser) {
-        if (userRepository.findById(id).isPresent()) {
-
-            User foundUser = modelMapper.map(findUser(id), User.class);
-            modelMapper.map(updateUser, User.class);
-
-            foundUser.setUserEmail(updateUser.getUserEmail());
-            foundUser.setUserNickName(updateUser.getUserNickName());
-            foundUser.setUserPw(updateUser.getUserPw());
-            foundUser.setUserMobileNumber(updateUser.getUserMobileNumber());
-
-
-            userRepository.save(foundUser);
-            String message = String.format("%s의 회원 정보가 수정 되었습니다.", id);
+    public String updateUser(UserDTO updateUser) {
+            User foundUser = modelMapper.map(findUser(updateUser.getUserId()), User.class);
+            User updatedUser = modelMapper.map(updateUser, User.class);
+            userRepository.save(updatedUser);
+            String message = String.format("%s의 회원 정보가 수정 되었습니다.", updateUser.getUserId());
             return message;
 
-        }
-
-    return "update Error";
     }
 
 

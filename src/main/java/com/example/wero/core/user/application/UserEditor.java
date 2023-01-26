@@ -23,7 +23,7 @@ public interface UserEditor {
      * @return user - 수정된 user 엔티티 객체
      */
 
-    String updateUser(String id, String password, UserDTO updateUser);
+    String updateUser(UserDTO updateUser);
 
     String deleteUser(String userId);
 }

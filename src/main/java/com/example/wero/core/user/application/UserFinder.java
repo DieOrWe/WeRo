@@ -23,4 +23,6 @@ public interface UserFinder {
      * @throws NoSuchElementException - User의 id가 유효하지 않을때
      */
     UserDTO findUser(String id);
+
+    UserDTO infoUser(String userId, String userPw);
 }
