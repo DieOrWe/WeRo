@@ -57,4 +57,9 @@ public class UserRestController {
 
     }
 
+    @DeleteMapping
+    public String deleteUser(@RequestParam("id") String id){
+        return editor.deleteUser(id);
+    }
+
 }

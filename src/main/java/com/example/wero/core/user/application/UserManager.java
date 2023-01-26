@@ -19,6 +19,7 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
+
     public UserManager(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -83,5 +84,15 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     return "update Error";
     }
 
+
+    @Override
+    public String deleteUser(String id) {
+        final Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) { // id에 해당하는 User가 존재할 경우
+            final User foundUser = user.get();
+            userRepository.delete(foundUser);
+        }
+        return id;
+    }
 
 }
