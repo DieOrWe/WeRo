@@ -51,13 +51,17 @@ public class UserRestController {
     }
 
     @PutMapping
-    public String updateUser(@RequestParam("userID") String id, @RequestParam("userPW") String pw, @RequestBody UserDTO updateUser) {
-        // id pw 비교후 updateUser로 재등록
+    public String updateUser(@RequestParam("id") String id, @RequestParam("pw") String pw, @RequestBody UserDTO updateUser) {
+
         return editor.updateUser(id, pw, updateUser);
+
     }
 
+<<<<<<< HEAD
     @DeleteMapping
     public String deleteUser(@RequestParam("id") String id){
         return editor.deleteUser(id);
     }
+=======
+>>>>>>> 619a6772fdef63fe3ef5511a0f77a1147e27623a
 }

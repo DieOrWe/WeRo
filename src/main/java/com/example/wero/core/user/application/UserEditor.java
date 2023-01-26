@@ -1,5 +1,6 @@
 package com.example.wero.core.user.application;
 
+import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 import org.springframework.web.bind.annotation.RequestParam;
 

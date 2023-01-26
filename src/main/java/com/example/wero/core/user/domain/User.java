@@ -3,10 +3,7 @@ package com.example.wero.core.user.domain;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,8 +15,8 @@ import java.util.Date;
 @Entity
 @Table(name = "Users")
 public class User {
-    @Id
     @Column(name = "userID")
+    @Id
     private String userId; // 회원ID
     @Column(name = "userPW")
     private String userPw; // 비밀번호
