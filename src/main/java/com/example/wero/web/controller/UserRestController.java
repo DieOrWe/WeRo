@@ -42,18 +42,22 @@ public class UserRestController {
         System.out.println(br);
         if(br.hasErrors()) {
             List<ObjectError> list =  br.getAllErrors();
-//            for(ObjectError e : list) {
-//              return e.getDefaultMessage();
-//            }
-            return list.toString();
+            for(ObjectError e : list) {
+              return e.getDefaultMessage();
+            }
         }
         return editor.createUser(newUser);
     }
 
-    @PutMapping
-    public String updateUser(@RequestParam("id") String id, @RequestParam("pw") String pw, @RequestBody UserDTO updateUser) {
+    @PostMapping("/{userId}")
+    public UserDTO infoUser(@PathVariable String userId, @RequestParam("pw") String userPw){
+        return finder.infoUser(userId, userPw);
+    }
 
-        return editor.updateUser(id, pw, updateUser);
+    @PutMapping()
+    public String updateUser(@RequestBody UserDTO updateUser) {
+
+        return editor.updateUser(updateUser);
 
     }
 

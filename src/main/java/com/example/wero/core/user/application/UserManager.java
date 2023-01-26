@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-/**
- *  findAll = Read
- *  findUser =
- */
+
 @Service
 public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     private final UserRepository userRepository;
@@ -35,6 +32,12 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     public UserDTO findUser(String id) {
         String message = String.format("%s에 해당하는 User가 없습니다.", id);
         User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(message));
+        return modelMapper.map(user, UserDTO.class);
+    }
+    @Override
+    public UserDTO infoUser(String inputId, String inputPW) {
+        String message = String.format("%s에 해당하는 User가 없습니다.", inputId);
+        User user = userRepository.findByUserIdAndUserPw(inputId, inputPW).orElseThrow(() -> new NoSuchElementException(message));
         return modelMapper.map(user, UserDTO.class);
     }
 
@@ -62,26 +65,11 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     }
 
     @Override
-    public String updateUser(String id, String password, UserDTO updateUser) {
-        if (userRepository.findById(id).isPresent()) {
-
-            User foundUser = modelMapper.map(findUser(id), User.class);
-            modelMapper.map(updateUser, User.class);
-
-            foundUser.setUserEmail(updateUser.getUserEmail());
-            foundUser.setUserNickName(updateUser.getUserNickName());
-            foundUser.setUserPw(updateUser.getUserPw());
-            foundUser.setUserMobileNumber(updateUser.getUserMobileNumber());
-
-
-            userRepository.save(foundUser);
-            String message = String.format("%s의 회원 정보가 수정 되었습니다.", id);
-            return message;
-
-        }
-
-    return "update Error";
+    public String updateUser(UserDTO updateUser) {
+            final User foundUser = modelMapper.map(findUser(updateUser.getUserId()), User.class);
+            User updatedUser = modelMapper.map(updateUser, User.class);
+            userRepository.save(updatedUser);
+            return "회원정보가 수정되었습니다.";
     }
-
 
 }

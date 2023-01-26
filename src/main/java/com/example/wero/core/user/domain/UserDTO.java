@@ -37,7 +37,6 @@ public class UserDTO {
     @NotBlank
     private String userNickName; // 닉네임
     private String userEmail; // 이메일
-
     @NotNull
     private boolean userNotify; // 알림동의여부
 
