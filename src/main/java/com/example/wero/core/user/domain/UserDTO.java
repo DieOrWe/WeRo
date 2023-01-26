@@ -31,8 +31,8 @@ public class UserDTO {
     private String userPw; // 비밀번호
 
 
-    @Pattern(regexp = "^01(?:0|1|[6-9])-?(?:\\d{3}|\\d{4})-?\\d{4}$", message = "010******** or 010-****-****")
-    private String userMobileNumber; // 휴대폰번호
+//    @Pattern(regexp = "^01(?:0|1|[6-9])-?(?:\\d{3}|\\d{4})-?\\d{4}$", message = "010******** or 010-****-****")
+//    private String userMobileNumber; // 휴대폰번호
     private String userCreatedWhen; // 생성일자
     @NotBlank
     private String userNickName; // 닉네임
@@ -56,7 +56,7 @@ public class UserDTO {
         return User.builder()
                 .userId(userId)
                 .userPw(userPw)
-                .userMobileNumber(userMobileNumber)
+//                .userMobileNumber(userMobileNumber)
                 .userCreatedWhen(formatter.format(date))
                 .userNickName(userNickName)
                 .userEmail(userEmail)

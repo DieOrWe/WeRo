@@ -21,7 +21,7 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     private final ModelMapper modelMapper;
 
 
-    public UserManager(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserManager(UserRepository userRepository, ModelMapper modelMapper ){
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -64,6 +64,7 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
             throw new IllegalArgumentException(message);
         }
         User user = modelMapper.map(newUser, User.class);
+//        User user = userDTO.toUser(newUser);
         userRepository.save(user);
 
 
