@@ -21,12 +21,11 @@ import java.util.stream.Collectors;
 public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final UserLoginManager userLoginManager;
 
-    public UserManager(UserRepository userRepository, ModelMapper modelMapper, UserLoginManager userLoginManager) {
+
+    public UserManager(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.userLoginManager = userLoginManager;
     }
 
     @Override
@@ -74,5 +73,15 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
 //        }
 
         return updateUser.getUserId();
+    }
+
+    @Override
+    public String deleteUser(String id) {
+        final Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) { // id에 해당하는 User가 존재할 경우
+            final User foundUser = user.get();
+            userRepository.delete(foundUser);
+        }
+        return id;
     }
 }

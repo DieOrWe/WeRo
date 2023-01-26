@@ -23,4 +23,6 @@ public interface UserEditor {
      */
 
     String updateUser(String id, String password, UserDTO updateUser);
+
+    String deleteUser(String userId);
 }

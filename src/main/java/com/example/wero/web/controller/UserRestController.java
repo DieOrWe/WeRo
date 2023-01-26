@@ -55,4 +55,9 @@ public class UserRestController {
         // id pw 비교후 updateUser로 재등록
         return editor.updateUser(id, pw, updateUser);
     }
+
+    @DeleteMapping
+    public String deleteUser(@RequestParam("id") String id){
+        return editor.deleteUser(id);
+    }
 }
