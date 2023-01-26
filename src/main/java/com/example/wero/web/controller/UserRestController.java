@@ -54,7 +54,7 @@ public class UserRestController {
         return finder.infoUser(userId, userPw);
     }
 
-    @PutMapping()
+    @PutMapping
     public String updateUser(@RequestBody UserDTO updateUser) {
 
         return editor.updateUser(updateUser);
