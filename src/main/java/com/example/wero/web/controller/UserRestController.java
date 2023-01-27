@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/user")
+@CrossOrigin("*")
+
 public class UserRestController {
 
 
@@ -56,9 +58,7 @@ public class UserRestController {
 
     @PutMapping
     public String updateUser(@RequestBody UserDTO updateUser) {
-
         return editor.updateUser(updateUser);
-
     }
 
 }

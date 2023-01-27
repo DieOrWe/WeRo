@@ -16,7 +16,7 @@ import java.util.Date;
  * UserDTO클라이언트의 요청에 사용할 DTO
  */
 
-@Getter @Setter
+@Getter
 @ToString
 @Builder
 @AllArgsConstructor
@@ -30,9 +30,6 @@ public class UserDTO {
     @Pattern(regexp = "^[0-9]*$",message = "비밀번호는 숫자만 입력가능합니다.")
     private String userPw; // 비밀번호
 
-
-    @Pattern(regexp = "^01(?:0|1|[6-9])-?(?:\\d{3}|\\d{4})-?\\d{4}$", message = "010******** or 010-****-****")
-    private String userMobileNumber; // 휴대폰번호
     private String userCreatedWhen; // 생성일자
     @NotBlank
     private String userNickName; // 닉네임
@@ -48,15 +45,11 @@ public class UserDTO {
      * @return User user
      */
     public User toUser(UserDTO userDTO) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
 
         return User.builder()
                 .userId(userId)
                 .userPw(userPw)
-                .userMobileNumber(userMobileNumber)
-                .userCreatedWhen(formatter.format(date))
+                .userCreatedWhen(userCreatedWhen)
                 .userNickName(userNickName)
                 .userEmail(userEmail)
                 .userNotify(userNotify)
