@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Builder
-@Table(name = "Myletters")
+@Table(name = "MyLetters")
 public class MyLetter {
 
     @Id
@@ -30,5 +30,16 @@ public class MyLetter {
     private String myletterCreatedWhen;
 
     private boolean myletterIsPrivate;
+
+    public MyLetterDTO toMyLetterDTO(MyLetter myLetter) {
+        return MyLetterDTO.builder()
+                .myletterId(myletterId)
+                .userId(userId)
+                .myletterTitle(myletterTitle)
+                .myletterContent(myletterContent)
+                .myletterCreatedWhen(myletterCreatedWhen)
+                .myletterIsPrivate(myletterIsPrivate)
+                .build();
+    }
 
 }
