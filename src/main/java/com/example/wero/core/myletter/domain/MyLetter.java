@@ -19,8 +19,8 @@ public class MyLetter {
     @Column(name = "myletterId")
     private String myletterId;
 
-    @ManyToOne
-    @JoinColumn(name ="userID")
+//    @ManyToOne
+//    @JoinColumn(name ="userID")
     private String userId;
 
     private String myletterTitle;

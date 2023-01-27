@@ -6,6 +6,7 @@ import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -80,13 +81,14 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
 
 
     @Override
-    public String deleteUser(String id) {
-        final Optional<User> user = userRepository.findById(id);
+    public String deleteUser(String id, String pw) {
+        final Optional<User> user = userRepository.findByUserIdAndUserPw(id, pw);
         if (user.isPresent()) { // id에 해당하는 User가 존재할 경우
             final User foundUser = user.get();
             userRepository.delete(foundUser);
+            return "회원탈퇴가 성공적으로 이루어졌습니다.";
         }
-        return id;
+        return "회원정보가 일치하지 않습니다.";
     }
 
 }

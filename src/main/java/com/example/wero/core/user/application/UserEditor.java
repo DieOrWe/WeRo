@@ -25,5 +25,5 @@ public interface UserEditor {
 
     String updateUser(UserDTO updateUser);
 
-    String deleteUser(String userId);
+    String deleteUser(String userId, String userPw);
 }

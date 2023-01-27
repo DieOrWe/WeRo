@@ -17,6 +17,7 @@ import java.util.Date;
  */
 
 @Getter
+@Setter
 @ToString
 @Builder
 @AllArgsConstructor

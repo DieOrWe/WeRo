@@ -49,7 +49,7 @@ public class UserRestController {
 
     @PostMapping
     public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
-
+        System.out.println("createUser() called");
         System.out.println(br);
         if(br.hasErrors()) {
             List<ObjectError> list =  br.getAllErrors();
@@ -67,8 +67,9 @@ public class UserRestController {
     }
 
     @DeleteMapping
-    public String deleteUser(@RequestParam("id") String id){
-        return editor.deleteUser(id);
+    public String deleteUser(@RequestBody String id, String pw){
+
+        return editor.deleteUser(id, pw);
     }
 
 }
