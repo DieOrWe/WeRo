@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "api/user")
+
 public class UserRestController {
 
 
@@ -46,7 +47,6 @@ public class UserRestController {
         return finder.infoUser(userId, userPw);
     }
 
-
     @PostMapping
     public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
 
@@ -59,6 +59,7 @@ public class UserRestController {
         }
         return editor.createUser(newUser);
     }
+
 
     @PutMapping
     public String updateUser(@RequestBody UserDTO updateUser) {

@@ -17,8 +17,8 @@ public interface UserEditor {
 
     /**
      * User 정보 변경
-     * DB와 id pw 대조
-     * 있을경우에만 update 실행
+     * User info 이후 실행 (check pw)
+     * id로 찾고 updateUser로 실행
      * @param updateUser - 새롭게 업데이트할 유저 정보를 담고있는 Entity
      * @return user - 수정된 user 엔티티 객체
      */

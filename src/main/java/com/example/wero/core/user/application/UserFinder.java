@@ -24,5 +24,16 @@ public interface UserFinder {
      */
     UserDTO findUser(String id);
 
+
     boolean infoUser(String userId, String userPw);
+
+    /**
+     * 유저 정보를 보여주는 infoUser
+     * id pw를 받은뒤에
+     * return UserDTO
+     * updateUser와 연관
+     * @param userId
+     * @param userPw
+     * @return
+     */
 }

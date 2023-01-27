@@ -11,10 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- *  findAll = Read
- *  findUser =
- */
+
 @Service
 public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     private final UserRepository userRepository;
@@ -75,12 +72,10 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
 
     @Override
     public String updateUser(UserDTO updateUser) {
-            User foundUser = modelMapper.map(findUser(updateUser.getUserId()), User.class);
-            User updatedUser = modelMapper.map(updateUser, User.class);
-            userRepository.save(updatedUser);
-            String message = String.format("%s의 회원 정보가 수정 되었습니다.", updateUser.getUserId());
-            return message;
-
+        final User foundUser = modelMapper.map(findUser(updateUser.getUserId()), User.class);
+        User updatedUser = modelMapper.map(updateUser, User.class);
+        userRepository.save(updatedUser);
+        return "회원정보가 수정되었습니다.";
     }
 
 
