@@ -41,10 +41,12 @@ public class UserManager implements UserFinder, UserEditor, UserLoginManager {
     }
 
     @Override
-    public UserDTO infoUser(String userId, String userPw){
-        String message = String.format("해당하는 User가 없습니다.");
-        User foundUser = userRepository.findByUserIdAndUserPw(userId, userPw).orElseThrow(() -> new NoSuchElementException(message));
-        return modelMapper.map(foundUser, UserDTO.class);
+    public boolean infoUser(String userId, String userPw) {
+        return userRepository.findByUserIdAndUserPw(userId, userPw).isPresent();
+
+//        String message = String.format("id 혹은 pw가 틀렸습니다.");
+//        User foundUser = userRepository.findByUserIdAndUserPw(userId, userPw).orElseThrow(() -> new NoSuchElementException(message));
+//            return modelMapper.map(foundUser, UserDTO.class);
     }
 
     @Override

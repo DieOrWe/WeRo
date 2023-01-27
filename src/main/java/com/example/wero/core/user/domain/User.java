@@ -33,15 +33,15 @@ public class User {
     private boolean userNotify; // 알림동의여부
 
     public UserDTO toUserDTO(User user) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        Date date = new Date();
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
 
         return UserDTO.builder()
                 .userId(userId)
                 .userPw(userPw)
 //                .userMobileNumber(userMobileNumber)
-//                .userCreatedWhen(formatter.format(date))
+                .userCreatedWhen(userCreatedWhen)
                 .userNickName(userNickName)
                 .userEmail(userEmail)
                 .userNotify(userNotify)

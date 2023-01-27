@@ -42,7 +42,7 @@ public class UserRestController {
     }
 
     @PostMapping("/{userId}")
-    public UserDTO infoUser(@RequestParam String userId, @RequestParam String userPw) { // @PathVariable 이렇게 해야 아이디 값을 받아올 수 있음. -> url 변수의 경우
+    public boolean infoUser(@RequestParam String userId, @RequestParam String userPw) { // @PathVariable 이렇게 해야 아이디 값을 받아올 수 있음. -> url 변수의 경우
         return finder.infoUser(userId, userPw);
     }
 

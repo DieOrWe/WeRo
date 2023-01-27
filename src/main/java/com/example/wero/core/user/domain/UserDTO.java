@@ -49,15 +49,15 @@ public class UserDTO {
      * @return User user
      */
     public User toUser(UserDTO userDTO) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        Date date = new Date();
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
 
         return User.builder()
                 .userId(userId)
                 .userPw(userPw)
 //                .userMobileNumber(userMobileNumber)
-                .userCreatedWhen(formatter.format(date))
+                .userCreatedWhen(userCreatedWhen)
                 .userNickName(userNickName)
                 .userEmail(userEmail)
                 .userNotify(userNotify)

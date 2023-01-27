@@ -24,5 +24,5 @@ public interface UserFinder {
      */
     UserDTO findUser(String id);
 
-    UserDTO infoUser(String userId, String userPw);
+    boolean infoUser(String userId, String userPw);
 }
