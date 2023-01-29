@@ -14,29 +14,29 @@ import javax.validation.constraints.NotNull;
 public class MyLetterDTO {
 
     @NotBlank
-    private String myletterId;
+    private String myLetterId;
 
-    private String userId;
+    private String writerId;
 
     @NotBlank
-    private String myletterTitle;
+    private String myLetterTitle;
     @NotBlank
-    private String myletterContent;
+    private String myLetterContent;
 
-    private String myletterCreatedWhen;
+    private String myLetterCreatedWhen;
 
     @NotNull
-    private boolean myletterIsPrivate;
+    private boolean myLetterIsPrivate;
 
 
     public MyLetter myLetter(MyLetterDTO toMyLetterDTO) {
         return MyLetter.builder()
-                .myletterId(myletterId)
-                .userId(userId)
-                .myletterTitle(myletterTitle)
-                .myletterContent(myletterContent)
-                .myletterCreatedWhen(myletterCreatedWhen)
-                .myletterIsPrivate(myletterIsPrivate)
+                .myLetterId(myLetterId)
+                .writerId(writerId)
+                .myLetterTitle(myLetterTitle)
+                .myLetterContent(myLetterContent)
+                .myLetterCreatedWhen(myLetterCreatedWhen)
+                .myLetterIsPrivate(myLetterIsPrivate)
                 .build();
     }
 }

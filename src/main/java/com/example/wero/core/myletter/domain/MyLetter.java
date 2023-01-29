@@ -16,29 +16,29 @@ import javax.persistence.*;
 public class MyLetter {
 
     @Id
-    @Column(name = "myletterId")
-    private String myletterId;
+    @Column(name = "myLetterId")
+    private String myLetterId;
 
 //    @ManyToOne
 //    @JoinColumn(name ="userID")
-    private String userId;
+    private String writerId;
 
-    private String myletterTitle;
+    private String myLetterTitle;
 
-    private String myletterContent;
+    private String myLetterContent;
 
-    private String myletterCreatedWhen;
+    private String myLetterCreatedWhen;
 
-    private boolean myletterIsPrivate;
+    private boolean myLetterIsPrivate;
 
     public MyLetterDTO toMyLetterDTO(MyLetter myLetter) {
         return MyLetterDTO.builder()
-                .myletterId(myletterId)
-                .userId(userId)
-                .myletterTitle(myletterTitle)
-                .myletterContent(myletterContent)
-                .myletterCreatedWhen(myletterCreatedWhen)
-                .myletterIsPrivate(myletterIsPrivate)
+                .myLetterId(myLetterId)
+                .writerId(writerId)
+                .myLetterTitle(myLetterTitle)
+                .myLetterContent(myLetterContent)
+                .myLetterCreatedWhen(myLetterCreatedWhen)
+                .myLetterIsPrivate(myLetterIsPrivate)
                 .build();
     }
 
