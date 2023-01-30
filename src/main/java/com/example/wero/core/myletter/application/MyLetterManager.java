@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,9 +33,32 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     }
 
     @Override
-    public MyLetterDTO findMyLetter(String myLetterId) {
+    public MyLetterDTO findMyLetter(String myLetterId) { // 쓰일 일이 있을 것 같아서 일단 구현
         String message = String.format("%s에 해당하는 MyLetter가 없습니다.", myLetterId);
-        MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
+        final MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
         return modelMapper.map(myLetter, MyLetterDTO.class);
+    }
+
+    @Override
+    public String createMyLetter(MyLetterDTO newMyLetterDTO) {
+        if(myLetterRepository.findById(newMyLetterDTO.getMyLetterId()).isPresent()) {
+            String message = String.format("다시 시도해주세요. : %s", newMyLetterDTO.getMyLetterTitle());
+            System.out.println("이미 존재하는 MyLetterId: " + newMyLetterDTO.getMyLetterId() + "입니다");
+            throw  new IllegalArgumentException(message);
+        }
+        final MyLetter myLetter = modelMapper.map(newMyLetterDTO, MyLetter.class);
+        myLetterRepository.save(myLetter);
+        return "새로운 편지가 전송되었습니다.";
+    }
+
+    @Override
+    public String deleteMyLetter(String myLetterId, String writerId) {
+        final Optional<MyLetter> myLetter = myLetterRepository.findByMyLetterIdAndWriterId(myLetterId, writerId);
+        if (myLetter.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 편지입니다.");
+        }
+        final MyLetter foundMyLetter = myLetter.get();
+        myLetterRepository.delete(foundMyLetter);
+        return "선택한 편지를 삭제했습니다.";
     }
 }

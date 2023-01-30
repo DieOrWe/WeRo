@@ -26,4 +26,15 @@ public class MyLetterController {
     public List<MyLetterDTO> myLetterFindAll(@RequestBody String writerId) {
         return finder.myLetterFindAll(writerId);
     }
+
+    @PostMapping(path = "/createMyLetter")
+    public String createMyLetter(MyLetterDTO myLetterDTO) {
+        return editor.createMyLetter(myLetterDTO);
+    }
+
+    @DeleteMapping
+    public String deleteMyLetter(@RequestBody String myLetterId,@RequestParam String writerId) {
+        return editor.deleteMyLetter(myLetterId, writerId);
+    }
+
 }
