@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Getter
@@ -23,6 +24,9 @@ public class MyLetterDTO {
     @NotBlank
     private String myLetterContent;
 
+    @NotBlank
+    private List<String> myLetterEmotionTags;
+
     private String myLetterCreatedWhen;
 
     @NotNull
@@ -35,6 +39,7 @@ public class MyLetterDTO {
                 .writerId(writerId)
                 .myLetterTitle(myLetterTitle)
                 .myLetterContent(myLetterContent)
+                .myLetterEmotionTags(myLetterEmotionTags)
                 .myLetterCreatedWhen(myLetterCreatedWhen)
                 .myLetterIsPrivate(myLetterIsPrivate)
                 .build();

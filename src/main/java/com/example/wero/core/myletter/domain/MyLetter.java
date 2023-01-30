@@ -3,6 +3,7 @@ package com.example.wero.core.myletter.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +27,8 @@ public class MyLetter {
 
     private String myLetterContent;
 
+    private List<String> myLetterEmotionTags; // ToDo: DB에 저장할 때는 json 타입으로 변경! list type convert to json type!!
+
     private String myLetterCreatedWhen;
 
     private boolean myLetterIsPrivate;
@@ -36,6 +39,7 @@ public class MyLetter {
                 .writerId(writerId)
                 .myLetterTitle(myLetterTitle)
                 .myLetterContent(myLetterContent)
+                .myLetterEmotionTags(myLetterEmotionTags)
                 .myLetterCreatedWhen(myLetterCreatedWhen)
                 .myLetterIsPrivate(myLetterIsPrivate)
                 .build();

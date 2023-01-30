@@ -25,6 +25,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- Spring Security 관련 dependency -->
+
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
