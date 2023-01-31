@@ -28,7 +28,7 @@ public class MyLetterController {
     }
 
     @PostMapping(path = "/createMyLetter")
-    public String createMyLetter(MyLetterDTO myLetterDTO) {
+    public String createMyLetter(@RequestBody MyLetterDTO myLetterDTO) {
         return editor.createMyLetter(myLetterDTO);
     }
 

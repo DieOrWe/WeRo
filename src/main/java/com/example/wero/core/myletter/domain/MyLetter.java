@@ -1,5 +1,6 @@
 package com.example.wero.core.myletter.domain;
 
+import com.example.wero.core.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +20,8 @@ public class MyLetter {
     @Column(name = "myLetterId")
     private String myLetterId; // 편지 Id는 프론트에서 정해진 규칙에 맞춰서 작성됨(클라이언트가 작성하는 것이 아닌 front에서 작성
 
-    @ManyToOne
-    @JoinColumn(name ="userID")
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY) // fetchType - 지연 로딩(편지 객체를 사용하는 시점에만 사용하기 때문에 즉시 로딩할 필요가 없음)
+    @JoinColumn(name ="userID") // 외래키
     private String writerId;
 
     private String myLetterTitle;
