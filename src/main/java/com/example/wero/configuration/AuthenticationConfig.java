@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
+// security 의 config파일
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class AuthenticationConfig {
                 .csrf().disable() // csrf 보안
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.DELETE,"/api/user"). authenticated() // HttpMethod
+                .antMatchers(HttpMethod.GET,"/api/admin"). authenticated() // HttpMethod
 //                .antMatchers("/api/user/**"). authenticated()//.authenticated() 인가받을때만 가능
                 .antMatchers("/api/**").permitAll() // permitAll() 모든기능 기능
                 .and()

@@ -23,6 +23,11 @@ public interface UserFinder {
 
     UserDTO findUser(String userId);
 
+    /**
+     * id와 pw로 로그인기능
+     * DB와 id, pw 조회
+     * @return String JWT 토큰
+     */
     String loginUser(UserDTO newUser);
 
 }
