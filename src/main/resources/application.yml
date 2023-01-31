@@ -28,5 +28,8 @@ spring:
       ddl-auto: create
 
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ant_path_matcher
+
+jwt:
+  secret: hi.man.aa.bb

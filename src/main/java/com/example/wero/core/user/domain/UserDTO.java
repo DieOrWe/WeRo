@@ -3,17 +3,13 @@ package com.example.wero.core.user.domain;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
- * UserDTO클라이언트의 요청에 사용할 DTO
+ * UserDTO 클라이언트의 요청에 사용할 DTO
  */
 
 @Getter
@@ -24,7 +20,7 @@ import java.util.Date;
 public class UserDTO {
 
     @NotBlank
-    private String userId; // 회원ID
+    private String userId; // 회원 ID
     @NotBlank
     @Length(min = 8, max = 12)
     @Pattern(regexp = "^[0-9]*$",message = "비밀번호는 숫자만 입력가능합니다.")
@@ -41,7 +37,6 @@ public class UserDTO {
     /**
      * UserDTO method
      * UserDTO to User
-     * @param userDTO
      * @return User user
      */
     public User toUser(UserDTO userDTO) {
