@@ -24,7 +24,9 @@ public class WebSecurityConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/user").permitAll() // permitAll() 모든기능 기능
-                .antMatchers(HttpMethod.GET,"/api/user").authenticated() //.authenticated() 인가받을때만 가능
+                .antMatchers(HttpMethod.PUT,"/api/user"). authenticated()//.authenticated() 인가받을때만 가능
+                .antMatchers(HttpMethod.DELETE,"/api/user"). authenticated()//.authenticated() 인가받을때만 가능
+                .antMatchers("/api/user/**"). authenticated()//.authenticated() 인가받을때만 가능
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// jwt 토큰 사용하는경우 쓴다고함
