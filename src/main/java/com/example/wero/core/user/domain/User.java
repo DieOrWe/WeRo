@@ -1,11 +1,8 @@
 package com.example.wero.core.user.domain;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +14,7 @@ import java.util.Date;
 public class User {
     @Column(name = "userID")
     @Id
-    private String userId; // 회원ID
+    private String userId; // 회원 ID
     @Column(name = "userPW")
     private String userPw; // 비밀번호
     @Column(name = "userCreateWhen")

@@ -1,6 +1,5 @@
 package com.example.wero.core.user.application;
 
-import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 
 import java.util.List;
@@ -18,22 +17,12 @@ public interface UserFinder {
      * 전달된 id와 일치하는 하나의 User 반환
      * DB에 등록된 user 반환
      * 하나도 없을 경우 null 반환
-     * @param id
      * @return User user
-     * @throws NoSuchElementException - User의 id가 유효하지 않을때
+     * @throws NoSuchElementException - User 의 id가 유효하지 않을때
      */
-    UserDTO findUser(String id);
 
+    UserDTO findUser(String userId);
 
-    boolean infoUser(String userId, String userPw);
+    String loginUser(UserDTO newUser);
 
-    /**
-     * 유저 정보를 보여주는 infoUser
-     * id pw를 받은뒤에
-     * return UserDTO
-     * updateUser와 연관
-     * @param userId
-     * @param userPw
-     * @return
-     */
 }
