@@ -24,7 +24,8 @@ public class MyLetterDTO {
     @NotBlank
     private String myLetterContent;
 
-    @NotBlank
+
+//    @NotBlank
 //    private List<String> myLetterEmotionTags;
 
     private String myLetterCreatedWhen;
