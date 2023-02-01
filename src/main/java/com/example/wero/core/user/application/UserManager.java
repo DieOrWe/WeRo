@@ -46,10 +46,10 @@ public class UserManager implements UserFinder, UserEditor {
     public String loginUser(UserDTO newUser) {
 
         String message = "id 혹은 pw가 틀렸습니다.";
-        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-        String password = scpwd.encode(newUser.getUserPw());
-        System.out.println(password);
-        User foundUser = userRepository.findByUserIdAndUserPw(newUser.getUserId(), password).orElseThrow(() -> new NoSuchElementException(message));
+//        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+//        String password = scpwd.encode(newUser.getUserPw());
+//        System.out.println(password);
+        User foundUser = userRepository.findByUserIdAndUserPw(newUser.getUserId(), newUser.getUserPw()).orElseThrow(() -> new NoSuchElementException(message));
 
         Long expiredMs = 1000 * 60 * 60L;
         return JwtUtil.createJwt(newUser.getUserId(), secretKey, expiredMs);
@@ -65,10 +65,10 @@ public class UserManager implements UserFinder, UserEditor {
             throw new IllegalArgumentException(message);
         }
 
-        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-        String password = scpwd.encode(newUser.getUserPw());
-        System.out.println("password: " + password);
-        newUser.setUserPw(password);
+//        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+//        String password = scpwd.encode(newUser.getUserPw());
+//        System.out.println("password: " + password);
+//        newUser.setUserPw(password);
 
         User user = modelMapper.map(newUser, User.class);
 //        User user = userDTO.toUser(newUser);
