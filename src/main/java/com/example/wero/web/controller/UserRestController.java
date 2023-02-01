@@ -58,12 +58,12 @@ public class UserRestController {
     }
 
 
-    @PutMapping
+    @PutMapping("/data")
     public String updateUser(@RequestBody UserDTO updateUser) {
         return editor.updateUser(updateUser);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/data")
     public String deleteUser(@RequestBody String id, String pw){
 
         return editor.deleteUser(id, pw);

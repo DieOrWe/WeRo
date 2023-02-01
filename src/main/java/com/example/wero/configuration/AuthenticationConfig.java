@@ -33,10 +33,9 @@ public class AuthenticationConfig {
                 .csrf().disable() // csrf 보안
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/api/user/admin").authenticated()//.authenticated() 인가받을때만 가능
-                .antMatchers(HttpMethod.PUT, "/api/user").authenticated()
-                .antMatchers(HttpMethod.DELETE,"/api/user").authenticated()
-                .antMatchers("/api/user").permitAll() // permitAll() 모든기능 기능
+                .antMatchers("/api/user/login").permitAll() // permitAll() 모든기능 기능
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+                .antMatchers("/api/**").authenticated()//.authenticated() 인가받을때만 가능
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// jwt 토큰 사용하는경우 쓴다고함
