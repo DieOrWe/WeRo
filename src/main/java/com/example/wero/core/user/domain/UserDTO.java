@@ -2,6 +2,7 @@ package com.example.wero.core.user.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import javax.validation.constraints.NotBlank;
@@ -41,7 +42,6 @@ public class UserDTO {
      */
     public User toUser(UserDTO userDTO) {
 
-
         return User.builder()
                 .userId(userId)
                 .userPw(userPw)
@@ -52,4 +52,7 @@ public class UserDTO {
                 .build();
     }
 
+    public void setUserPw(String userPw) {
+        this.userPw = userPw;
+    }
 }
