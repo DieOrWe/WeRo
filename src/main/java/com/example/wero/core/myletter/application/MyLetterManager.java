@@ -3,6 +3,8 @@ package com.example.wero.core.myletter.application;
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
+import com.example.wero.core.user.domain.User;
+import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,12 @@ import java.util.stream.Collectors;
 public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     private final MyLetterRepository myLetterRepository;
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
 
-    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper) {
+    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository) {
         this.myLetterRepository = myLetterRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -44,9 +48,13 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         if(myLetterRepository.findById(newMyLetterDTO.getMyLetterId()).isPresent()) {
             String message = String.format("다시 시도해주세요. : %s", newMyLetterDTO.getMyLetterTitle());
             System.out.println("이미 존재하는 MyLetterId: " + newMyLetterDTO.getMyLetterId() + "입니다");
-            throw  new IllegalArgumentException(message);
+            throw new IllegalArgumentException(message);
         }
+        String message = String.format("존재하지 않는 사용자 ID: %s", newMyLetterDTO.getWriterId());
+        User user = userRepository.findById(newMyLetterDTO.getWriterId()).orElseThrow(() -> new NoSuchElementException(message));
+
         final MyLetter myLetter = modelMapper.map(newMyLetterDTO, MyLetter.class);
+        myLetter.setUser(user);
         myLetterRepository.save(myLetter);
         return "새로운 편지가 전송되었습니다.";
     }
