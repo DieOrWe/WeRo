@@ -55,7 +55,8 @@ public class UserManager implements UserFinder, UserEditor {
             throw new NoSuchElementException(message);
         }
         Long expiredMs = 1000 * 60 * 60L;
-        return JwtUtil.createJwt(newUser.getUserId(), secretKey, expiredMs);
+        String json = "{\"token\" : \"" + JwtUtil.createJwt(newUser.getUserId(), secretKey, expiredMs) + "\"}";
+        return json;
     }
 
 
