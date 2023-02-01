@@ -26,6 +26,7 @@ public class MyLetter {
     @Column(name = "user_id", insertable = false, updatable = false)
     private String writerId;
 
+    private boolean myLetterIsRead;
     private String myLetterTitle;
 
     private String myLetterContent;
@@ -39,6 +40,7 @@ public class MyLetter {
     public MyLetterDTO toMyLetterDTO(MyLetter myLetter) {
         return MyLetterDTO.builder()
                 .myLetterId(myLetterId)
+                .myLetterIsRead(myLetterIsRead)
                 .writerId(writerId)
                 .myLetterTitle(myLetterTitle)
                 .myLetterContent(myLetterContent)
