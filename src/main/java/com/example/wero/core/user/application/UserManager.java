@@ -52,7 +52,7 @@ public class UserManager implements UserFinder, UserEditor {
         boolean loginSuccessOrFail = scpwd.matches(newUser.getUserPw(), foundUser.getUserPw());
         System.out.println(loginSuccessOrFail);
         if (!loginSuccessOrFail) {
-            return message;
+            throw new NoSuchElementException(message);
         }
         Long expiredMs = 1000 * 60 * 60L;
         return JwtUtil.createJwt(newUser.getUserId(), secretKey, expiredMs);
