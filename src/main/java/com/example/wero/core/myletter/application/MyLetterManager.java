@@ -6,6 +6,7 @@ import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,8 +54,12 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         String message = String.format("존재하지 않는 사용자 ID: %s", newMyLetterDTO.getWriterId());
         User user = userRepository.findById(newMyLetterDTO.getWriterId()).orElseThrow(() -> new NoSuchElementException(message));
 
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        String letterId = scpwd.encode(newMyLetterDTO.getMyLetterId());
+
         final MyLetter myLetter = modelMapper.map(newMyLetterDTO, MyLetter.class);
         myLetter.setUser(user);
+        myLetter.setMyLetterId(letterId);
         myLetterRepository.save(myLetter);
         return "새로운 편지가 전송되었습니다.";
     }
