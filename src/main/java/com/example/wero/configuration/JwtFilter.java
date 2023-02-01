@@ -33,12 +33,14 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("authorization: {}", authorization);
 
 
         //Bearer JWT 혹은 OAuth 에 대한 토큰을 사용한다. (RFC 6750)
-        if(authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization 을 잘못 보냈습니다.");
+//        if(authorization == null || !authorization.startsWith("Bearer ")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+        if(authorization == null) {
             filterChain.doFilter(request, response);
             return;
         }

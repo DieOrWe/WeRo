@@ -7,14 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-// security 의 config파일
+// security 의 config 파일
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,23 +27,15 @@ public class AuthenticationConfig {
     private String secretKey;
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return web -> {
-            web.ignoring()
-                    .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**"
-                            );
-        };
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .httpBasic().disable() // 토큰인증
                 .csrf().disable() // csrf 보안
                 .cors().and()
                 .authorizeRequests()
-                // .antMatchers(HttpMethod.GET,"/api/user/admin"). authenticated() // HttpMethod
                 .antMatchers("/api/user/admin").authenticated()//.authenticated() 인가받을때만 가능
+                .antMatchers(HttpMethod.PUT, "/api/user").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/api/user").authenticated()
                 .antMatchers("/api/user").permitAll() // permitAll() 모든기능 기능
                 .and()
                 .sessionManagement()
@@ -50,5 +44,4 @@ public class AuthenticationConfig {
                 .addFilterBefore(new JwtFilter(userManager, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 }
