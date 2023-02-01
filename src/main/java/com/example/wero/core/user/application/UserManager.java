@@ -6,6 +6,7 @@ import com.example.wero.core.user.infrastructure.UserRepository;
 import com.example.wero.core.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,11 +46,16 @@ public class UserManager implements UserFinder, UserEditor {
     public String loginUser(UserDTO newUser) {
 
         String message = "id 혹은 pw가 틀렸습니다.";
-        User foundUser = userRepository.findByUserIdAndUserPw(newUser.getUserId(), newUser.getUserPw()).orElseThrow(() -> new NoSuchElementException(message));
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        String password = scpwd.encode(newUser.getUserPw());
+        System.out.println(password);
+        User foundUser = userRepository.findByUserIdAndUserPw(newUser.getUserId(), password).orElseThrow(() -> new NoSuchElementException(message));
 
         Long expiredMs = 1000 * 60 * 60L;
         return JwtUtil.createJwt(newUser.getUserId(), secretKey, expiredMs);
     }
+
+
 
 
     @Override
@@ -58,11 +64,15 @@ public class UserManager implements UserFinder, UserEditor {
             String message = String.format("이미 존재하는 user id 입니다. %s", newUser.getUserId());
             throw new IllegalArgumentException(message);
         }
+
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        String password = scpwd.encode(newUser.getUserPw());
+        System.out.println("password: " + password);
+        newUser.setUserPw(password);
+
         User user = modelMapper.map(newUser, User.class);
 //        User user = userDTO.toUser(newUser);
         userRepository.save(user);
-
-
         return newUser.getUserId();
     }
 
