@@ -75,6 +75,7 @@ public class UserManager implements UserFinder, UserEditor {
         User user = modelMapper.map(newUser, User.class);
 //        User user = userDTO.toUser(newUser);
         userRepository.save(user);
+        return "{\"message\" : \"" + newUser.getUserId() + "\"}";
     }
 
     @Override
