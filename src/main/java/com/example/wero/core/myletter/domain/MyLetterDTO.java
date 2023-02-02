@@ -18,6 +18,7 @@ public class MyLetterDTO {
     private String myLetterId;
 
     private String writerId;
+
     @NotNull
     private boolean myLetterIsRead;
 
