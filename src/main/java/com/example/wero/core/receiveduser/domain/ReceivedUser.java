@@ -19,23 +19,24 @@ public class ReceivedUser {
     @Column(name = "userId")
     private String userId;
 
-    @ManyToOne(targetEntity = MyLetter.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="myLetter_id")
     private MyLetter myLetter;
-    
     @Column(name = "myLetter_id", insertable = false, updatable = false)
     private String myLetterId;
-    
-    @Column(name = "user_nickname")
-    private String writerNickName; // 편지원본에 담겨있는 회원 정보 중 닉네임을 가져오는 것.
 
+    @Column(name = "user_nickname")
+    private String writerNickName;
+
+    @Column(name = "myLetter_title")
     private String myLetterTitle;
 
     private String letterReceivedWhen;
 
     private boolean isRead;
     
-    public ReceivedUserDTO ToReceivedUserDTO(ReceivedUser receivedUser){
+
+    public ReceivedUserDTO receivedUserDTO(ReceivedUser receivedUser){
         return ReceivedUserDTO.builder()
                 .userId(userId)
                 .myLetterId(myLetterId)
