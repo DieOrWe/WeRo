@@ -20,6 +20,8 @@ public class ReceivedUserDTO {
 
     @NotBlank
     private String userId;
+    
+    private String myLetterId;
 
     private String writerNickName;
 
@@ -31,9 +33,10 @@ public class ReceivedUserDTO {
     @NotNull
     private boolean isRead;
 
-    public ReceivedUser receivedUser(ReceivedUserDTO receivedUserDTO){
+    public ReceivedUser ToReceivedUser(ReceivedUserDTO receivedUserDTO){
         return ReceivedUser.builder()
                 .userId(userId)
+                .myLetterId(myLetterId)
                 .writerNickName(writerNickName)
                 .myLetterTitle(myLetterTitle)
                 .letterReceivedWhen(letterReceivedWhen)
