@@ -51,4 +51,5 @@ public class UserDTO {
                 .userNotify(userNotify)
                 .build();
     }
+
 }

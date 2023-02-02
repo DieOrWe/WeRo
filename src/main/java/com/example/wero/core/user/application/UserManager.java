@@ -66,14 +66,12 @@ public class UserManager implements UserFinder, UserEditor {
             String json = "{\"message\" : \"" + "이미 존재하는 ID 입니다." + "\"}";
             return json;
         }
-
+        User user = modelMapper.map(newUser, User.class);
+    
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         String password = scpwd.encode(newUser.getUserPw());
         System.out.println("password: " + password);
-        newUser.setUserPw(password);
-
-        User user = modelMapper.map(newUser, User.class);
-//        User user = userDTO.toUser(newUser);
+        user.setUserPw(password);
         userRepository.save(user);
         return "{\"message\" : \"" + newUser.getUserId() + "\"}";
     }
