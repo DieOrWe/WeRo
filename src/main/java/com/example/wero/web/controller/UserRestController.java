@@ -46,15 +46,8 @@ public class UserRestController {
 
     @PostMapping
     @ResponseBody
-    public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
+    public String createUser(@RequestBody UserDTO newUser) {
         System.out.println("createUser() called");
-        System.out.println(br);
-        if(br.hasErrors()) {
-            List<ObjectError> list =  br.getAllErrors();
-            for(ObjectError e : list) {
-              return e.getDefaultMessage();
-            }
-        }
         return editor.createUser(newUser);
     }
 

@@ -2,16 +2,33 @@ package com.example.wero.core.receiveduser.domain;
 
 import com.example.wero.core.user.domain.User;
 
-import javax.persistence.Id;
+import lombok.*;
+import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@ToString
+@Entity
+@Table(name = "ReceivedUsers")
 public class ReceivedUser {
+
     @Id
-    private String userId; // 회원ID
-    
-    private String myLetterId; // 편지 ID
-    
+    @Column(name = "userId")
+    private String userId;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="user_nickname")
+    private User user;
+    @Column(name = "user_nickname", insertable = false, updatable = false)
+    private String writerNickName;
+
+    private String myLetterTitle;
+
+    private String letterReceivedWhen;
+
     private boolean isRead;
-    
-    
-    
+
+
 }
