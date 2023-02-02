@@ -50,7 +50,4 @@ public class UserDTO {
                 .build();
     }
 
-    public void setUserPw(String userPw) {
-        this.userPw = userPw;
-    }
 }
