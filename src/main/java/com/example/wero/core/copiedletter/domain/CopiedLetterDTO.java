@@ -21,5 +21,22 @@ public class CopiedLetterDTO {
 
     private String receiveUserId;
 
+    private String copiedLetterTitle;
+
+    private String copiedLetterContent;
+
+    private String copiedLetterCreatedWhen;
+
+    private boolean copiedLetterIsRead;
+
+    private String copiedLetterIsReceivedWhen;
+
+    private boolean copiedLetterIsSent;
+
+    public CopiedLetter copiedLetter(CopiedLetterDTO toCopiedLetterDTO){
+        return CopiedLetter.builder()
+                .
+    }
+
 
 }
