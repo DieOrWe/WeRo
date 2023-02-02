@@ -17,15 +17,15 @@ public class SendUserDTO {
     @NotBlank
     private String myLetterTitle;
 
-    private String letterSendWhen;
+    private String letterCreatedWhen;
 
 
-    public SendUser sendUser (SendUserDTO sendUserDTO){
+    public SendUser toSendUser (SendUserDTO sendUserDTO){
         return SendUser.builder()
                 .userId(userId)
                 .myletterId(myletterId)
                 .myLetterTitle(myLetterTitle)
-                .letterSendWhen(letterSendWhen)
+                .letterCreatedWhen(letterCreatedWhen)
                 .build();
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
+@Getter @Setter
 @ToString
 @Entity
 @Table(name = "SendUsers")
@@ -29,15 +29,15 @@ public class SendUser {
     @Column(name = "myletter_title")
     private String myLetterTitle;
 
-    private String letterSendWhen;
+    private String letterCreatedWhen;
 
 
-    public SendUserDTO sendUserDTO(SendUser sendUser){
+    public SendUserDTO toSendUserDTO(SendUser sendUser){
         return SendUserDTO.builder()
                 .userId(userId)
                 .myletterId(myletterId)
                 .myLetterTitle(myLetterTitle)
-                .letterSendWhen(letterSendWhen)
+                .letterSendWhen(letterCreatedWhen)
                 .build();
     }
 

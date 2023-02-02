@@ -3,6 +3,7 @@ package com.example.wero.core.myletter.application;
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
+import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -19,15 +20,15 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     private final MyLetterRepository myLetterRepository;
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
-
-    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository) {
+    private final MyLetterEditor myLetterEditor;
+    
+    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository, MyLetterEditor myLetterEditor) {
         this.myLetterRepository = myLetterRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
+        this.myLetterEditor = myLetterEditor;
     }
-
     
-
     @Override
     public MyLetterDTO findMyLetter(String myLetterId) { // 쓰일 일이 있을 것 같아서 일단 구현
         String message = String.format("%s에 해당하는 MyLetter가 없습니다.", myLetterId);
@@ -52,7 +53,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         myLetter.setUser(user);
         myLetter.setMyLetterId(letterId);
         myLetterRepository.save(myLetter);
-        return "새로운 편지가 전송되었습니다.";
+        return myLetterEditor.createMyLetter(newMyLetterDTO);
     }
 
     @Override
