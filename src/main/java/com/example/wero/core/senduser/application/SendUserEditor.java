@@ -6,4 +6,5 @@ import com.example.wero.core.senduser.domain.SendUserDTO;
 
 public interface SendUserEditor {
     String createUserLetter (MyLetterDTO myLetterDTO);
+    String deleteUserLetter (String letterId);
 }
