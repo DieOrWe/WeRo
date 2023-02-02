@@ -52,5 +52,4 @@ public class UserDTO {
                 .build();
     }
 
-    
 }

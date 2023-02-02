@@ -25,7 +25,6 @@ public class MyLetter {
     private User user;
     @Column(name = "user_id", insertable = false, updatable = false)
     private String writerId;
-    
     private String myLetterTitle;
     private String myLetterContent;
     private String myLetterCreatedWhen;
