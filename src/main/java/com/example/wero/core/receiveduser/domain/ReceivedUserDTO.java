@@ -1,13 +1,8 @@
 package com.example.wero.core.receiveduser.domain;
 
 
-import com.example.wero.core.user.domain.User;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +15,8 @@ public class ReceivedUserDTO {
 
     @NotBlank
     private String userId;
+
+    private String myletterId;
 
     private String writerNickName;
 
@@ -34,6 +31,7 @@ public class ReceivedUserDTO {
     public ReceivedUser receivedUser(ReceivedUserDTO receivedUserDTO){
         return ReceivedUser.builder()
                 .userId(userId)
+                .myletterId(myletterId)
                 .writerNickName(writerNickName)
                 .myLetterTitle(myLetterTitle)
                 .letterReceivedWhen(letterReceivedWhen)
