@@ -3,6 +3,7 @@ package com.example.wero.core.myletter.application;
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
+import com.example.wero.core.senduser.application.SendUserEditor;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
@@ -20,13 +21,13 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     private final MyLetterRepository myLetterRepository;
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
-    private final MyLetterEditor myLetterEditor;
+    private final SendUserEditor sendUserEditor;
     
-    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository, MyLetterEditor myLetterEditor) {
+    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository, SendUserEditor sendUserEditor) {
         this.myLetterRepository = myLetterRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
-        this.myLetterEditor = myLetterEditor;
+        this.sendUserEditor = sendUserEditor;
     }
     
     @Override
@@ -53,7 +54,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         myLetter.setUser(user);
         myLetter.setMyLetterId(letterId);
         myLetterRepository.save(myLetter);
-        return myLetterEditor.createMyLetter(newMyLetterDTO);
+        return sendUserEditor.createUserLetter(newMyLetterDTO);
     }
 
     @Override

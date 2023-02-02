@@ -18,13 +18,13 @@ public class SendUserManager implements SendUserEditor {
     }
     
     @Override
-    public SendUserDTO createUserLetter(MyLetterDTO myLetterDTO) {
+    public String createUserLetter(MyLetterDTO myLetterDTO) {
         SendUser sendUser = new SendUser();
         sendUser.setUserId(myLetterDTO.getWriterId());
         sendUser.setMyLetterTitle(myLetterDTO.getMyLetterTitle());
         sendUser.setLetterCreatedWhen(myLetterDTO.getMyLetterCreatedWhen());
         sendUserRepository.save(sendUser);
         SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-        return sendUserDTO;
+        return sendUserDTO.getUserId();
     }
 }
