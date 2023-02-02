@@ -19,19 +19,11 @@ public class MyLetterDTO {
 
     private String writerId;
 
-    @NotNull
-    private boolean myLetterIsRead;
 
     @NotBlank
     private String myLetterTitle;
     @NotBlank
     private String myLetterContent;
-
-
-
-//    @NotBlank
-//    private List<String> myLetterEmotionTags;
-
 
     private String myLetterCreatedWhen;
 
@@ -43,10 +35,8 @@ public class MyLetterDTO {
         return MyLetter.builder()
                 .myLetterId(myLetterId)
                 .writerId(writerId)
-                .myLetterIsRead(myLetterIsRead)
                 .myLetterTitle(myLetterTitle)
                 .myLetterContent(myLetterContent)
-//                .myLetterEmotionTags(myLetterEmotionTags)
                 .myLetterCreatedWhen(myLetterCreatedWhen)
                 .myLetterIsPrivate(myLetterIsPrivate)
                 .build();
