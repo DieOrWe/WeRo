@@ -41,4 +41,7 @@ public class User {
                 .userNotify(userNotify)
                 .build();
     }
+    public void setUserPw(String userPw) {
+        this.userPw = userPw;
+    }
 }
