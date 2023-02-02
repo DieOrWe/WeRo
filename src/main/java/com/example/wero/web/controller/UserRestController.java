@@ -45,6 +45,7 @@ public class UserRestController {
     }
 
     @PostMapping
+    @ResponseBody
     public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
         System.out.println("createUser() called");
         System.out.println(br);
