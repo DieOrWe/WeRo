@@ -45,6 +45,7 @@ public class UserRestController {
     }
 
     @PostMapping
+    @ResponseBody
     public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
         System.out.println("createUser() called");
         System.out.println(br);
@@ -58,12 +59,12 @@ public class UserRestController {
     }
 
 
-    @PutMapping
+    @PutMapping("/data")
     public String updateUser(@RequestBody UserDTO updateUser) {
         return editor.updateUser(updateUser);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/data")
     public String deleteUser(@RequestBody String id, String pw){
 
         return editor.deleteUser(id, pw);

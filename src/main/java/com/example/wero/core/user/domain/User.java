@@ -1,6 +1,7 @@
 package com.example.wero.core.user.domain;
 
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 
@@ -37,5 +38,4 @@ public class User {
                 .userNotify(userNotify)
                 .build();
     }
-
 }
