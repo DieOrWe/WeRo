@@ -26,16 +26,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public List<MyLetterDTO> myLetterFindAll(String writerId) { // 일단 지금 myLetter를 전부 받아서 조건을 찾고 변환하는 것으로 구현
-        // ToDo: MyLetterRepository에서 "Select * from MyLetters where writerId = writerId" 이런식으로 직접 받아오는 것 구현하기
-        List<MyLetter> myLetters = myLetterRepository.findAll(); // repository에서 myLetter를 다 찾음
-        List<MyLetter> filteredMyLetter = myLetters.stream() 
-                .filter(a -> a.getWriterId().equals(writerId))
-                .collect(Collectors.toList()); // 찾은 myLetter에서 writerId가 파라미터로 받은 것과 일치하는 것만 리스트로 다시 만듦
-        // modelMapper를 통해 MyLetter entity를 DTO로 바꿔서 return 해줌
-        return filteredMyLetter.stream().map(p -> modelMapper.map(p,MyLetterDTO.class)).collect(Collectors.toList()); 
-    }
+    
 
     @Override
     public MyLetterDTO findMyLetter(String myLetterId) { // 쓰일 일이 있을 것 같아서 일단 구현
@@ -66,12 +57,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
 
     @Override
     public String deleteMyLetter(String myLetterId, String writerId) {
-        final Optional<MyLetter> myLetter = myLetterRepository.findByMyLetterIdAndWriterId(myLetterId, writerId);
-        if (myLetter.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 편지입니다.");
-        }
-        final MyLetter foundMyLetter = myLetter.get();
-        myLetterRepository.delete(foundMyLetter);
-        return "선택한 편지를 삭제했습니다.";
+        // ToDo: 받은사람 + 보낸사람 DB에 편지 id 없으면 MyLetter삭제 (주기적으로 삭제를 하는 기간을 정해서?)
+        return null;
     }
 }

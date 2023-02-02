@@ -24,7 +24,7 @@ public class UserDTO {
     private String userId; // 회원 ID
     @NotBlank
     @Length(min = 8, max = 12)
-    @Pattern(regexp = "^[0-9]*$",message = "비밀번호는 숫자만 입력가능합니다.")
+//    @Pattern(regexp = "^[0-9]*$",message = "비밀번호는 숫자만 입력가능합니다.")
     private String userPw; // 비밀번호
 
     private String userCreatedWhen; // 생성일자

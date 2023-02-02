@@ -26,6 +26,9 @@ public class User {
     private String userEmail; // 이메일
     @Column(name = "userNotify")
     private boolean userNotify; // 알림동의여부
+    
+//    @Column(name = "num_of_send")
+//    private
 
     public UserDTO toUserDTO(User user) {
 
