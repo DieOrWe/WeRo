@@ -3,6 +3,7 @@ package com.example.wero.core.senduser.application;
 import com.example.wero.core.myletter.application.MyLetterManager;
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
+import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.senduser.infrastructure.SendUserRepository;
@@ -12,16 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
 public class SendUserManager implements SendUserEditor, SendUserFinder {
     private final SendUserRepository sendUserRepository;
     private final ModelMapper modelMapper;
+    private final MyLetterRepository myLetterRepository;
 
-    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper) {
+    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository) {
         this.sendUserRepository = sendUserRepository;
         this.modelMapper = modelMapper;
+        this.myLetterRepository = myLetterRepository;
     }
 
     @Override
@@ -48,7 +52,9 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
 
     @Override
     public MyLetterDTO findSendLetter(String myLetterId) {
-        return null;
+        String message = String.format("%s에 해당하는 MyLetter가 없습니다.", myLetterId);
+        final MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
+        return modelMapper.map(myLetter, MyLetterDTO.class);
     }
 
     @Override

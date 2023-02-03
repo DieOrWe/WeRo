@@ -15,12 +15,16 @@ import javax.persistence.*;
 @Table(name = "SendUsers")
 public class SendUser {
 
+    @Id
+    @Column(name = "index")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int index;
+
 
     @Column(name = "userId")
     private String userId;
 
-    @Id
-    @Column(name = "myLetter_id", insertable = false, updatable = false)
+    @Column(name = "myLetter_id")
     private String myLetterId;
 
 
