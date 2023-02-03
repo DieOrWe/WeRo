@@ -28,6 +28,6 @@ public interface UserFinder {
      * DB와 id, pw 조회
      * @return String JWT 토큰
      */
-    String loginUser(UserDTO newUser);
+    String loginUser(UserDTO loginUser);
 
 }

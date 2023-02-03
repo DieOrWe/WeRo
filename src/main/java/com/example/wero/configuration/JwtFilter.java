@@ -2,11 +2,13 @@ package com.example.wero.configuration;
 
 import com.example.wero.core.user.application.UserManager;
 import com.example.wero.core.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -44,6 +46,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Token 꺼내기
         String token = authorization.split(" ")[1];
+//        log.info("Realtoken:{}", token);
+//        log.info("secretKey:{}", secretKey);
+
 
         // Token expired (만료)확인
         if (JwtUtil.isExpired(token, secretKey)) {
@@ -52,12 +57,23 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // userName 에서 Token 꺼내기
-        String userName = JwtUtil.getUserName(token,secretKey);
-//        log.info("userid:{}", userName);
+
+        // Token 에서 userID 꺼내기
+        String UserId = JwtUtil.getUserId(token, secretKey);
+        log.info("UserId:{}", UserId);
+
+        // Token 에서 userNickName 꺼내기
+        String UserNickName = JwtUtil.getUserNickName(token, secretKey);
+        log.info("UserNickName:{}", UserNickName);
+
+        // 프론트에서 전송된 Jwt 토큰
+//        String ReqeustJwt = JwtUtil.getJwt();
+//        log.info("ReqeustJwt:{}", ReqeustJwt);
+
 
         // 권한부여
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, null, List.of(new SimpleGrantedAuthority("USER")));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(UserId, null, List.of(new SimpleGrantedAuthority("USER")));
+
         // Detail 넣음 (규칙)
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
