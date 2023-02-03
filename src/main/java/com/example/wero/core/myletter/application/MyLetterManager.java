@@ -4,6 +4,7 @@ import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.senduser.application.SendUserEditor;
+import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
@@ -58,7 +59,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         myLetter.setUser(user);
         myLetter.setMyLetterId(letterId);
         myLetterRepository.save(myLetter);
-        return sendUserEditor.createUserLetter(myLetter); //
+        return sendUserEditor.createUserLetter(myLetter);
     }
 
     @Override

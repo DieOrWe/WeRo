@@ -15,14 +15,12 @@ import javax.persistence.*;
 @Table(name = "SendUsers")
 public class SendUser {
 
-    @Id
+
     @Column(name = "userId")
     private String userId;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name="myletter_id")
-    private MyLetter myLetter;
-    @Column(name = "myletter_id", insertable = false, updatable = false)
+    @Id
+    @Column(name = "myLetter_id", insertable = false, updatable = false)
     private String myLetterId;
 
 
