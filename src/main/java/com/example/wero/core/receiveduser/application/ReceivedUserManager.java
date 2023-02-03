@@ -2,6 +2,7 @@ package com.example.wero.core.receiveduser.application;
 
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
+import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
@@ -18,21 +19,30 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
 
     private final ModelMapper modelMapper;
 
-    public ReceivedUserManager(ReceivedUserRepository receivedUserRepository, ModelMapper modelMapper){
+    private final MyLetterRepository myLetterRepository;
+
+    public ReceivedUserManager(ReceivedUserRepository receivedUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository){
         this.receivedUserRepository = receivedUserRepository;
         this.modelMapper = modelMapper;
+        this.myLetterRepository = myLetterRepository;
     }
 
     @Override
     public List<ReceivedUserDTO> findAllMyReceivedLetters(String userId){
-        List<ReceivedUser> foundUser = receivedUserRepository.findAll();
-        List<ReceivedUserDTO> result;
-        result = foundUser.stream().map(p -> modelMapper.map(p,ReceivedUserDTO.class)).collect(Collectors.toList());
-        return result;
+        List<ReceivedUser> foundUser = receivedUserRepository.findAll(); // repository에서 가져오기
+        // ReceivedUser -> ReceivedUserDTO로 변환
+        List<ReceivedUserDTO> result = foundUser.stream().map(p-> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
+        // 모든 받은 편지를 사용자 ID (userId)로 필터링
+        List<ReceivedUserDTO> filteredResult;
+        filteredResult = result.stream().filter(a -> a.getUserId().equals(userId))
+                .collect(Collectors.toList());
+        return filteredResult;
     }
 
     @Override
     public MyLetterDTO findReceivedLetter(String myLetterId){
-    return null;
+        String message = String.format("%s에 해당하는 MyLetter가 없습니다.", myLetterId);
+        final MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
+        return modelMapper.map(myLetter, MyLetterDTO.class);
     }
 }
