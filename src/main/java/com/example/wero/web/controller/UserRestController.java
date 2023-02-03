@@ -44,25 +44,19 @@ public class UserRestController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
+    @ResponseBody
+    public String createUser(@RequestBody UserDTO newUser) {
         System.out.println("createUser() called");
-        System.out.println(br);
-        if(br.hasErrors()) {
-            List<ObjectError> list =  br.getAllErrors();
-            for(ObjectError e : list) {
-              return e.getDefaultMessage();
-            }
-        }
         return editor.createUser(newUser);
     }
 
 
-    @PutMapping
+    @PutMapping("/data")
     public String updateUser(@RequestBody UserDTO updateUser) {
         return editor.updateUser(updateUser);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/data")
     public String deleteUser(@RequestBody String id, String pw){
 
         return editor.deleteUser(id, pw);

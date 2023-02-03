@@ -22,11 +22,6 @@ public class MyLetterController {
         this.myLetterRepository = myLetterRepository;
     }
 
-    @PostMapping
-    public List<MyLetterDTO> myLetterFindAll(@RequestBody String writerId) {
-        return finder.myLetterFindAll(writerId);
-    }
-
     @PostMapping(path = "/createMyLetter")
     @ResponseBody
     public String createMyLetter(@RequestBody MyLetterDTO myLetterDTO) {

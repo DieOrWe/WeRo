@@ -25,16 +25,13 @@ public class MyLetter {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="user_id")
     private User user;
-
     private String myLetterTitle;
-
     private String myLetterContent;
-
-//    private List<String> myLetterEmotionTags; // ToDo: DB에 저장할 때는 json 타입으로 변경! list type convert to json type!!
-
     private String myLetterCreatedWhen;
-
     private boolean myLetterIsPrivate;
+    
+    
+
 
     public MyLetterDTO toMyLetterDTO(MyLetter myLetter) {
         return MyLetterDTO.builder()
@@ -42,7 +39,6 @@ public class MyLetter {
                 .writerId(writerId)
                 .myLetterTitle(myLetterTitle)
                 .myLetterContent(myLetterContent)
-//                .myLetterEmotionTags(myLetterEmotionTags)
                 .myLetterCreatedWhen(myLetterCreatedWhen)
                 .myLetterIsPrivate(myLetterIsPrivate)
                 .build();

@@ -63,19 +63,19 @@ public class UserManager implements UserFinder, UserEditor {
     @Override
     public String createUser(UserDTO newUser) {
         if(userRepository.findById(newUser.getUserId()).isPresent()) {
-            String message = String.format("이미 존재하는 user id 입니다. %s", newUser.getUserId());
-            throw new IllegalArgumentException(message);
+            String json = "{\"message\" : \"" + "이미 존재하는 ID 입니다." + "\"}";
+            return json;
         }
-
+    
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         String password = scpwd.encode(newUser.getUserPw());
 //        System.out.println("password: " + password);
-        newUser.setUserPw(password);
 
         User user = modelMapper.map(newUser, User.class);
+        user.setUserPw(password);
 //        User user = userDTO.toUser(newUser);
         userRepository.save(user);
-        return newUser.getUserId();
+        return "{\"message\" : \"" + newUser.getUserId() + "\"}";
     }
 
     @Override

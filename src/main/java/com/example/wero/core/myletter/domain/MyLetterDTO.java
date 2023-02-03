@@ -19,16 +19,11 @@ public class MyLetterDTO {
 
     private String writerId;
 
+
     @NotBlank
     private String myLetterTitle;
     @NotBlank
     private String myLetterContent;
-
-
-
-//    @NotBlank
-//    private List<String> myLetterEmotionTags;
-
 
     private String myLetterCreatedWhen;
 
@@ -42,7 +37,6 @@ public class MyLetterDTO {
                 .writerId(writerId)
                 .myLetterTitle(myLetterTitle)
                 .myLetterContent(myLetterContent)
-//                .myLetterEmotionTags(myLetterEmotionTags)
                 .myLetterCreatedWhen(myLetterCreatedWhen)
                 .myLetterIsPrivate(myLetterIsPrivate)
                 .build();

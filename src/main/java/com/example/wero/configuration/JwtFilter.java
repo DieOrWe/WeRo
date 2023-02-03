@@ -36,14 +36,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
         //Bearer JWT 혹은 OAuth 에 대한 토큰을 사용한다. (RFC 6750)
-//        if(authorization == null || !authorization.startsWith("Bearer ")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
-        if(authorization == null) {
+        if(authorization == null || !authorization.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+
 
         // Token 꺼내기
         String token = authorization.split(" ")[1];
