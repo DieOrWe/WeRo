@@ -22,9 +22,9 @@ public class MyLetter {
 
     @Column(name = "user_id", insertable = false, updatable = false)
     private String writerId;
-//    @ManyToOne(targetEntity = User.class)
-//    @JoinColumn(name="user_id")
-//    private User user;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="user_id")
+    private User user;
     private String myLetterTitle;
     private String myLetterContent;
     private String myLetterCreatedWhen;

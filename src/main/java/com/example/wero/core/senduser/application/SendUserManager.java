@@ -1,5 +1,6 @@
 package com.example.wero.core.senduser.application;
 
+import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.senduser.domain.SendUserDTO;
@@ -22,12 +23,12 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     }
     
     @Override
-    public String createUserLetter(MyLetterDTO myLetterDTO) {
+    public String createUserLetter(MyLetter myLetter) {
         SendUser sendUser = new SendUser();
-        sendUser.setUserId(myLetterDTO.getWriterId());
-        sendUser.setMyLetterId(myLetterDTO.getMyLetterId());
-        sendUser.setMyLetterTitle(myLetterDTO.getMyLetterTitle());
-        sendUser.setLetterCreatedWhen(myLetterDTO.getMyLetterCreatedWhen());
+        sendUser.setUserId(myLetter.getWriterId());
+        sendUser.setMyLetterId(myLetter.getMyLetterId());
+        sendUser.setMyLetterTitle(myLetter.getMyLetterTitle());
+        sendUser.setLetterCreatedWhen(myLetter.getMyLetterCreatedWhen());
         sendUserRepository.save(sendUser);
         SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
         return sendUserDTO.getUserId();
