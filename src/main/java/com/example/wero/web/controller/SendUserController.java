@@ -1,5 +1,6 @@
 package com.example.wero.web.controller;
 
+import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.senduser.application.SendUserEditor;
 import com.example.wero.core.senduser.application.SendUserFinder;
 import com.example.wero.core.senduser.domain.SendUserDTO;
@@ -20,8 +21,13 @@ public class SendUserController {
     }
     
     @PostMapping
-    public List<SendUserDTO> findSendLetters(@RequestParam String userId) {
-        return finder.findSendLetters(userId);
+    public List<SendUserDTO> findAllMySendLetters(@RequestParam String userId) {
+        return finder.findAllMySendLetters(userId);
+    }
+
+    @PostMapping(path = "/{myLetterId}")
+    public MyLetterDTO findMySendLetter(@RequestParam String myLetterId) {
+        return null;
     }
     
     @DeleteMapping
