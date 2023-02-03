@@ -13,6 +13,8 @@ public class SendUserDTO {
     @NotBlank
     private String userId;
 
+    private String userNickName;
+
     private String myLetterId;
     @NotBlank
     private String myLetterTitle;
@@ -23,6 +25,7 @@ public class SendUserDTO {
     public SendUser toSendUser (SendUserDTO sendUserDTO){
         return SendUser.builder()
                 .userId(userId)
+                .userNickName(userNickName)
                 .myLetterId(myLetterId)
                 .myLetterTitle(myLetterTitle)
                 .letterCreatedWhen(letterCreatedWhen)
