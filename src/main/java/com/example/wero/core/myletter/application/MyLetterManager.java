@@ -8,6 +8,7 @@ import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,13 +29,20 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
 
     @Override
     public List<MyLetterDTO> myLetterFindAll(String writerId) { // 일단 지금 myLetter를 전부 받아서 조건을 찾고 변환하는 것으로 구현
-        // ToDo: MyLetterRepository에서 "Select * from MyLetters where writerId = writerId" 이런식으로 직접 받아오는 것 구현하기
-        List<MyLetter> myLetters = myLetterRepository.findAll(); // repository에서 myLetter를 다 찾음
-        List<MyLetter> filteredMyLetter = myLetters.stream() 
-                .filter(a -> a.getWriterId().equals(writerId))
-                .collect(Collectors.toList()); // 찾은 myLetter에서 writerId가 파라미터로 받은 것과 일치하는 것만 리스트로 다시 만듦
-        // modelMapper를 통해 MyLetter entity를 DTO로 바꿔서 return 해줌
-        return filteredMyLetter.stream().map(p -> modelMapper.map(p,MyLetterDTO.class)).collect(Collectors.toList()); 
+        // ToDo: MyLetterRepository에서 "Select * from MyLetters where userId = writerId" 이런식으로 직접 받아오는 것 구현하기
+        List<MyLetter> myLetters = myLetterRepository.findByWriterId(writerId);
+        System.out.println("writerId" + writerId);
+        System.out.println(myLetterRepository.findAll());
+        System.out.println(myLetters);
+//        if(myLetters.isEmpty()) {
+//            String message = "작성한 편지가 없습니다.";
+//            return null;
+//        }
+        List<MyLetterDTO> foundLetters = myLetters.stream().map(myLetter -> modelMapper.map(myLetter, MyLetterDTO.class)).collect(Collectors.toList());
+        System.out.println("---- foundLetters : " + foundLetters);
+
+//        return myLetters.stream().map(p -> modelMapper.map(p,MyLetterDTO.class)).collect(Collectors.toList());
+        return myLetters.stream().map(myLetter -> modelMapper.map(myLetter, MyLetterDTO.class)).collect(Collectors.toList());
     }
 
     @Override

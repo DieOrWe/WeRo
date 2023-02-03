@@ -20,11 +20,11 @@ public class MyLetter {
     @Column(name = "myLetterId")
     private String myLetterId; // 편지 Id는 프론트에서 정해진 규칙에 맞춰서 작성됨(클라이언트가 작성하는 것이 아닌 front에서 작성
 
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private String writerId;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="user_id")
     private User user;
-    @Column(name = "user_id", insertable = false, updatable = false)
-    private String writerId;
 
     private String myLetterTitle;
 

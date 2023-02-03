@@ -69,7 +69,7 @@ public class UserManager implements UserFinder, UserEditor {
 
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         String password = scpwd.encode(newUser.getUserPw());
-        System.out.println("password: " + password);
+//        System.out.println("password: " + password);
         newUser.setUserPw(password);
 
         User user = modelMapper.map(newUser, User.class);
