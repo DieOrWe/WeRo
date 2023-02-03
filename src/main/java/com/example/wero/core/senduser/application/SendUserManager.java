@@ -1,5 +1,6 @@
 package com.example.wero.core.senduser.application;
 
+import com.example.wero.core.myletter.application.MyLetterManager;
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.senduser.domain.SendUser;
@@ -16,12 +17,12 @@ import java.util.stream.Collectors;
 public class SendUserManager implements SendUserEditor, SendUserFinder {
     private final SendUserRepository sendUserRepository;
     private final ModelMapper modelMapper;
-    
+
     public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper) {
         this.sendUserRepository = sendUserRepository;
         this.modelMapper = modelMapper;
     }
-    
+
     @Override
     public String createUserLetter(MyLetter myLetter) {
         SendUser sendUser = new SendUser();
@@ -35,13 +36,18 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     }
     
     @Override
-    public List<SendUserDTO> findSendLetters(String userId) {
+    public List<SendUserDTO> findAllMySendLetters(String userId) {
         List<SendUser> foundUser = sendUserRepository.findAll();
         List<SendUserDTO> result;
         result = foundUser.stream().map(p -> modelMapper.map(p, SendUserDTO.class)).collect(Collectors.toList());
         return result;
     }
-    
+
+    @Override
+    public MyLetterDTO findSendLetter(String myLetterId) {
+        return null;
+    }
+
     @Override
     public String deleteUserLetter(String letterId) {
         if(sendUserRepository.findByMyLetterId(letterId).isEmpty()) {
