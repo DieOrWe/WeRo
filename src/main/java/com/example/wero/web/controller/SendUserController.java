@@ -25,12 +25,7 @@ public class SendUserController {
         return finder.findAllMySendLetters(userId);
     }
 
-<<<<<<< HEAD
-
-    @PostMapping(path = "/check/{myLetterId}")
-=======
     @PostMapping(path = "/check")
->>>>>>> 590ff761fa2ac0815ec46b8b49a92fbfc00ebd28
     public MyLetterDTO findMySendLetter(@RequestBody String myLetterId) {
         return finder.findSendLetter(myLetterId);
     }
