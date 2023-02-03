@@ -19,6 +19,6 @@ public interface ReceivedUserFinder {
      * @param myLetterId: 편지함에서 편지를 클릭하면 myLetterId를 파라미터로 보내줘야 함.
      * @return myLetterDTO
      */
-    MyLetterDTO findSendLetter(String myLetterId);
+    MyLetterDTO findReceivedLetter(String myLetterId);
     
 }

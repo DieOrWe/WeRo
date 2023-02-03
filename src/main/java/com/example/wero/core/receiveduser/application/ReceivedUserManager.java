@@ -1,5 +1,6 @@
 package com.example.wero.core.receiveduser.application;
 
+import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
@@ -8,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +32,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     }
 
     @Override
-    public MyLetterDTO findSendLetter(String myLetterId) {
-        return null;
+    public MyLetterDTO findReceivedLetter(String myLetterId){
+    return null;
     }
 }
