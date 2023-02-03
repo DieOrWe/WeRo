@@ -3,7 +3,6 @@ package com.example.wero.web.controller;
 import com.example.wero.core.user.application.UserEditor;
 import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,14 +13,12 @@ import java.util.List;
 public class UserRestController {
 
 
+    private final UserFinder finder;
+    private final UserEditor editor;
     public UserRestController(UserFinder finder, UserEditor editor) {
         this.finder = finder;
         this.editor = editor;
     }
-
-    private final UserFinder finder;
-    private final UserEditor editor;
-
 
     @GetMapping("/admin")
     public List<UserDTO> findAll() {
@@ -56,7 +53,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/data")
-    public String deleteUser(@RequestBody String id, String pw){
+    public String deleteUser(@RequestBody String id, String pw) {
 
         return editor.deleteUser(id, pw);
     }
