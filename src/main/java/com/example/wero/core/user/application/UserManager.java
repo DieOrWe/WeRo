@@ -6,6 +6,7 @@ import com.example.wero.core.user.infrastructure.UserRepository;
 import com.example.wero.core.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class UserManager implements UserFinder, UserEditor {
     private String secretKey;
 
 
-    public UserManager(UserRepository userRepository, ModelMapper modelMapper ){
+    public UserManager(UserRepository userRepository, ModelMapper modelMapper){
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -43,21 +44,23 @@ public class UserManager implements UserFinder, UserEditor {
     }
 
     @Override
-    public String loginUser(UserDTO newUser) {
+    public String loginUser(UserDTO loginUser) {
 
-        User foundUser = userRepository.findById(newUser.getUserId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
+        User foundUser = userRepository.findById(loginUser.getUserId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
         String message = "id 혹은 pw가 틀렸습니다.";
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-        boolean loginSuccessOrFail = scpwd.matches(newUser.getUserPw(), foundUser.getUserPw());
+        boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), foundUser.getUserPw());
         System.out.println(loginSuccessOrFail);
         if (!loginSuccessOrFail) {
             throw new NoSuchElementException(message);
         }
         Long expiredMs = 1000 * 60 * 60L;
-        String json = "{\"token\" : \"" + JwtUtil.createJwt(newUser.getUserId(), secretKey, expiredMs) + "\"}";
+        String json = "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
         return json;
     }
+
+
 
 
     @Override
