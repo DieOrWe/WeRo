@@ -1,5 +1,6 @@
 package com.example.wero.core.myletter.domain;
 
+import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.user.domain.User;
 import lombok.*;
 
@@ -41,6 +42,16 @@ public class MyLetter {
                 .myLetterContent(myLetterContent)
                 .myLetterCreatedWhen(myLetterCreatedWhen)
                 .myLetterIsPrivate(myLetterIsPrivate)
+                .build();
+    }
+
+    public SendUser myLetterToSendUser(MyLetter myLetter) {
+        System.out.println("************* myLetterID: ==" + myLetter.getMyLetterId());
+        return SendUser.builder()
+                .userId(writerId)
+                .myLetterId(myLetterId)
+                .myLetterTitle(myLetterTitle)
+                .letterCreatedWhen(myLetterCreatedWhen)
                 .build();
     }
 

@@ -8,6 +8,7 @@ import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.senduser.infrastructure.SendUserRepository;
 import com.example.wero.core.user.domain.UserDTO;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,22 +26,24 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
 
     @Override
     public String createUserLetter(MyLetter myLetter) {
-        SendUser sendUser = new SendUser();
-        sendUser.setUserId(myLetter.getWriterId());
-        sendUser.setMyLetterId(myLetter.getMyLetterId());
-        sendUser.setMyLetterTitle(myLetter.getMyLetterTitle());
-        sendUser.setLetterCreatedWhen(myLetter.getMyLetterCreatedWhen());
+        SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
         sendUserRepository.save(sendUser);
         SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+        System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
         return sendUserDTO.getUserId();
     }
     
     @Override
     public List<SendUserDTO> findAllMySendLetters(String userId) {
-        List<SendUser> foundUser = sendUserRepository.findAll();
-        List<SendUserDTO> result;
-        result = foundUser.stream().map(p -> modelMapper.map(p, SendUserDTO.class)).collect(Collectors.toList());
-        return result;
+        List<SendUser> foundUser = sendUserRepository.findAll(); // 일단 repository에서 다 가져와
+        // SendUser -> SendUserDTO 로 변환
+        List<SendUserDTO> result = foundUser.stream().map(p -> modelMapper.map(p, SendUserDTO.class)).collect(Collectors.toList());
+        // 모든 보낸 편지를 사용자 ID(userId)로 필터링
+        List<SendUserDTO> filteredResult;
+        filteredResult= result.stream()
+                .filter(a -> a.getUserId().equals(userId))
+                .collect(Collectors.toList());
+        return filteredResult;
     }
 
     @Override
