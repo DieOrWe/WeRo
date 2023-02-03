@@ -25,6 +25,7 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     public String createUserLetter(MyLetterDTO myLetterDTO) {
         SendUser sendUser = new SendUser();
         sendUser.setUserId(myLetterDTO.getWriterId());
+        sendUser.setMyLetterId(myLetterDTO.getMyLetterId());
         sendUser.setMyLetterTitle(myLetterDTO.getMyLetterTitle());
         sendUser.setLetterCreatedWhen(myLetterDTO.getMyLetterCreatedWhen());
         sendUserRepository.save(sendUser);
@@ -35,7 +36,8 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     @Override
     public List<SendUserDTO> findSendLetters(String userId) {
         List<SendUser> foundUser = sendUserRepository.findAll();
-        List<SendUserDTO> result = foundUser.stream().map(p -> modelMapper.map(p, SendUserDTO.class)).collect(Collectors.toList());
+        List<SendUserDTO> result;
+        result = foundUser.stream().map(p -> modelMapper.map(p, SendUserDTO.class)).collect(Collectors.toList());
         return result;
     }
     

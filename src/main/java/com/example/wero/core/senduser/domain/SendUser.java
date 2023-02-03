@@ -21,9 +21,9 @@ public class SendUser {
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="myletter_id")
-    private MyLetter myletter;
+    private MyLetter myLetter;
     @Column(name = "myletter_id", insertable = false, updatable = false)
-    private String myletterId;
+    private String myLetterId;
 
 
     @Column(name = "myletter_title")
@@ -35,9 +35,9 @@ public class SendUser {
     public SendUserDTO toSendUserDTO(SendUser sendUser){
         return SendUserDTO.builder()
                 .userId(userId)
-                .myletterId(myletterId)
+                .myLetterId(myLetterId)
                 .myLetterTitle(myLetterTitle)
-                .letterSendWhen(letterCreatedWhen)
+                .letterCreatedWhen(letterCreatedWhen)
                 .build();
     }
 

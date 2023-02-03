@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequestMapping(path = "api/user/myLetters")
 public class ReceivedUserController {
-    private final ReceivedUserFinder finder;
-    private final ReceivedUserEditor editor;
-    
-    public ReceivedUserController(ReceivedUserFinder finder, ReceivedUserEditor editor) {
-        this.finder = finder;
-        this.editor = editor;
-    }
-    @PostMapping
-    public ReceivedUserDTO showMyAllLetters(@RequestBody String userId) {
-        return finder.findMyAllLetter(userId);
-    }
+//    private final ReceivedUserFinder finder;
+//    private final ReceivedUserEditor editor;
+//
+//    public ReceivedUserController(ReceivedUserFinder finder, ReceivedUserEditor editor) {
+//        this.finder = finder;
+//        this.editor = editor;
+//    }
+//    @PostMapping
+//    public ReceivedUserDTO showMyAllLetters(@RequestBody String userId) {
+//        return finder.findMyAllLetter(userId);
+//    }
 }

@@ -53,7 +53,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         String letterId = scpwd.encode(newMyLetterDTO.getMyLetterId());
 
         final MyLetter myLetter = modelMapper.map(newMyLetterDTO, MyLetter.class);
-        myLetter.setUser(user);
+//        myLetter.setUser(user);
         myLetter.setMyLetterId(letterId);
         myLetterRepository.save(myLetter);
         return sendUserEditor.createUserLetter(newMyLetterDTO);

@@ -13,7 +13,7 @@ public class SendUserDTO {
     @NotBlank
     private String userId;
 
-    private String myletterId;
+    private String myLetterId;
     @NotBlank
     private String myLetterTitle;
 
@@ -23,7 +23,7 @@ public class SendUserDTO {
     public SendUser toSendUser (SendUserDTO sendUserDTO){
         return SendUser.builder()
                 .userId(userId)
-                .myletterId(myletterId)
+                .myLetterId(myLetterId)
                 .myLetterTitle(myLetterTitle)
                 .letterCreatedWhen(letterCreatedWhen)
                 .build();
