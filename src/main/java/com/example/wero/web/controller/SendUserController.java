@@ -31,7 +31,7 @@ public class SendUserController {
     }
     
     @DeleteMapping
-    public String deleteSendLetter(@RequestParam String myLetterId) {
-        return editor.deleteUserLetter(myLetterId);
+    public String deleteSendLetter(@RequestParam String[] myLetterIds) {
+        return editor.deleteUserLetter(myLetterIds);
     }
 }
