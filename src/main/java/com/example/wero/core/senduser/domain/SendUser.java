@@ -16,13 +16,18 @@ import javax.persistence.*;
 public class SendUser {
 
     @Id
+    @Column(name = "index")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int index;
+
+
     @Column(name = "userId")
     private String userId;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name="myletter_id")
-    private MyLetter myLetter;
-    @Column(name = "myletter_id", insertable = false, updatable = false)
+    @Column(name = "user_nickName")
+    private String userNickName;
+
+    @Column(name = "myLetter_id")
     private String myLetterId;
 
 
@@ -36,6 +41,7 @@ public class SendUser {
         return SendUserDTO.builder()
                 .userId(userId)
                 .myLetterId(myLetterId)
+                .userNickName(userNickName)
                 .myLetterTitle(myLetterTitle)
                 .letterCreatedWhen(letterCreatedWhen)
                 .build();

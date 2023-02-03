@@ -4,6 +4,7 @@ import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.senduser.application.SendUserEditor;
+import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
@@ -48,15 +49,17 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
         }
         String message = String.format("존재하지 않는 사용자 ID: %s", newMyLetterDTO.getWriterId());
         User user = userRepository.findById(newMyLetterDTO.getWriterId()).orElseThrow(() -> new NoSuchElementException(message));
+        System.out.println("--------------User: " + user);
 
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         String letterId = scpwd.encode(newMyLetterDTO.getMyLetterId());
 
-        final MyLetter myLetter = modelMapper.map(newMyLetterDTO, MyLetter.class);
-//        myLetter.setUser(user);
+        MyLetter myLetter = modelMapper.map(newMyLetterDTO, MyLetter.class);
+        System.out.println("------------------------- myLetter: " + myLetter);
+        myLetter.setUser(user);
         myLetter.setMyLetterId(letterId);
         myLetterRepository.save(myLetter);
-        return sendUserEditor.createUserLetter(newMyLetterDTO);
+        return sendUserEditor.createUserLetter(myLetter);
     }
 
     @Override
