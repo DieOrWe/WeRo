@@ -49,6 +49,7 @@ public class MyLetter {
         System.out.println("************* myLetterID: ==" + myLetter.getMyLetterId());
         return SendUser.builder()
                 .userId(writerId)
+                .userNickName(myLetter.user.getUserNickName())
                 .myLetterId(myLetterId)
                 .myLetterTitle(myLetterTitle)
                 .letterCreatedWhen(myLetterCreatedWhen)
