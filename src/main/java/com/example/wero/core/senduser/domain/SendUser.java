@@ -24,6 +24,9 @@ public class SendUser {
     @Column(name = "userId")
     private String userId;
 
+    @Column(name = "user_nickName")
+    private String userNickName;
+
     @Column(name = "myLetter_id")
     private String myLetterId;
 
@@ -38,6 +41,7 @@ public class SendUser {
         return SendUserDTO.builder()
                 .userId(userId)
                 .myLetterId(myLetterId)
+                .userNickName(userNickName)
                 .myLetterTitle(myLetterTitle)
                 .letterCreatedWhen(letterCreatedWhen)
                 .build();

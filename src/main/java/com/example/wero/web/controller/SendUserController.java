@@ -20,14 +20,14 @@ public class SendUserController {
         this.editor = editor;
     }
     
-    @PostMapping
-    public List<SendUserDTO> findAllMySendLetters(@RequestParam String userId) {
+    @PostMapping(path = "/{userId}")
+    public List<SendUserDTO> findAllMySendLetters(@PathVariable String userId) {
         return finder.findAllMySendLetters(userId);
     }
 
-    @PostMapping(path = "/{myLetterId}")
-    public MyLetterDTO findMySendLetter(@RequestParam String myLetterId) {
-        return null;
+    @PostMapping(path = "/check/{myLetterId}")
+    public MyLetterDTO findMySendLetter(@PathVariable String myLetterId) {
+        return finder.findSendLetter(myLetterId);
     }
     
     @DeleteMapping

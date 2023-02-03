@@ -28,6 +28,7 @@ public class UserDTO {
     private String userCreatedWhen; // 생성일자
     @NotBlank
     private String userNickName; // 닉네임
+
     private String userEmail; // 이메일
     @NotNull
     private boolean userNotify; // 알림동의여부

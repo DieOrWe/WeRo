@@ -3,9 +3,7 @@ package com.example.wero.web.controller;
 import com.example.wero.core.user.application.UserEditor;
 import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +28,7 @@ public class UserRestController {
         System.out.println("findAll() called");
         return finder.findAll();
     }
+
 
     @GetMapping("/{userId}") // localhost:8080/api/user/guguttemi <- 이렇게 받을거임
     public UserDTO findUser(@PathVariable String userId) { // @PathVariable 이렇게 해야 아이디 값을 받아올 수 있음. -> url 변수의 경우
