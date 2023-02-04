@@ -58,9 +58,10 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     }
 
     @Override
-    public String deleteUserLetter(String[] letterIds) {
+    public String deleteUserLetter(String letterIds) {
+        String[] letters = letterIds.split(",");
         // ToDo: List 형태로 받아서 여러 편지 삭제
-        for (String letterId: letterIds) {
+        for (String letterId: letters) {
             if(sendUserRepository.findByMyLetterId(letterId).isEmpty()) {
                 String message = String.format("존재하지 않는 LetterID : %s", letterId);
                 throw new IllegalArgumentException(message);

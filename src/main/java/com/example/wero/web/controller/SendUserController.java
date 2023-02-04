@@ -30,8 +30,8 @@ public class SendUserController {
         return finder.findSendLetter(myLetterId);
     }
     
-    @DeleteMapping
-    public String deleteSendLetter(@RequestBody String[] myLetterIds) {
+    @DeleteMapping(path = "/{myLetterIds}")
+    public String deleteSendLetter(@PathVariable String myLetterIds) {
         return editor.deleteUserLetter(myLetterIds);
     }
 }
