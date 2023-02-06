@@ -6,8 +6,6 @@ import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "api/myLetter")
@@ -23,13 +21,12 @@ public class MyLetterController {
     }
 
     @PostMapping(path = "/createMyLetter")
-    @ResponseBody
     public String createMyLetter(@RequestBody MyLetterDTO myLetterDTO) {
         return editor.createMyLetter(myLetterDTO);
     }
 
     @DeleteMapping
-    public String deleteMyLetter(@RequestBody String myLetterId,@RequestParam String writerId) {
+    public String deleteMyLetter(@RequestBody String myLetterId, @RequestParam String writerId) {
         return editor.deleteMyLetter(myLetterId, writerId);
     }
 

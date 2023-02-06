@@ -2,7 +2,7 @@ logging:
   pattern:
     console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
   level:
-    dev.bank: DEBUG
+    dev.bank: INFO
 #spring:
 #  # DB ??
 #  datasource:
@@ -10,11 +10,7 @@ logging:
 #    url: jdbc:mysql://localhost:3306/AllP?serverTimezone=Asia/Seoul
 #    username: root
 #    password: 0000
-#  jpa:
-#    show-sql: true
-#    #    hibernate.hbm2ddl.auto: update
-#    hibernate:
-#      ddl-auto: create
+
 spring:
   # DB ??
   datasource:
@@ -23,6 +19,9 @@ spring:
     username: sa
   jpa:
     show-sql: true
+    #    properties:
+    #      hibernate:
+    #        format_sql: true
     #    hibernate.hbm2ddl.auto: update
     hibernate:
       ddl-auto: create

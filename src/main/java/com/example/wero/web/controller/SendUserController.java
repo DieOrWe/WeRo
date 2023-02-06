@@ -14,12 +14,12 @@ import java.util.List;
 public class SendUserController {
     private final SendUserFinder finder;
     private final SendUserEditor editor;
-    
+
     public SendUserController(SendUserFinder finder, SendUserEditor editor) {
         this.finder = finder;
         this.editor = editor;
     }
-    
+
     @PostMapping(path = "/{userId}")
     public List<SendUserDTO> findAllMySendLetters(@PathVariable String userId) {
         return finder.findAllMySendLetters(userId);
@@ -29,7 +29,7 @@ public class SendUserController {
     public MyLetterDTO findMySendLetter(@RequestBody String myLetterId) {
         return finder.findSendLetter(myLetterId);
     }
-    
+
     @DeleteMapping
     public String deleteSendLetter(@RequestBody String myLetterIds) {
         return editor.deleteUserLetter(myLetterIds);
