@@ -46,8 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Token 꺼내기
         String token = authorization.split(" ")[1];
-//        log.info("Realtoken:{}", token);
-//        log.info("secretKey:{}", secretKey);
+        log.info("Realtoken:{}", token);
+        log.info("secretKey:{}", secretKey);
 
 
         // Token expired (만료)확인
@@ -67,8 +67,8 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("UserNickName:{}", UserNickName);
 
         // 프론트에서 전송된 Jwt 토큰
-//        String ReqeustJwt = JwtUtil.getJwt();
-//        log.info("ReqeustJwt:{}", ReqeustJwt);
+        String ReqeustJwt = JwtUtil.getJwt();
+        log.info("ReqeustJwt:{}", ReqeustJwt);
 
 
         // 권한부여
