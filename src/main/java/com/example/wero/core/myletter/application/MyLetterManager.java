@@ -4,19 +4,13 @@ import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.senduser.application.SendUserEditor;
-import com.example.wero.core.senduser.domain.SendUser;
-import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
@@ -24,7 +18,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final SendUserEditor sendUserEditor;
-    
+
     public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository, SendUserEditor sendUserEditor) {
         this.myLetterRepository = myLetterRepository;
         this.modelMapper = modelMapper;
@@ -42,7 +36,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
 
     @Override
     public String createMyLetter(MyLetterDTO newMyLetterDTO) {
-        if(myLetterRepository.findById(newMyLetterDTO.getMyLetterId()).isPresent()) {
+        if (myLetterRepository.findById(newMyLetterDTO.getMyLetterId()).isPresent()) {
             String message = String.format("다시 시도해주세요. : %s", newMyLetterDTO.getMyLetterTitle());
             System.out.println("이미 존재하는 MyLetterId: " + newMyLetterDTO.getMyLetterId() + "입니다");
             throw new IllegalArgumentException(message);
