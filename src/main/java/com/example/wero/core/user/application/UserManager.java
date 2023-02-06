@@ -97,10 +97,19 @@ public class UserManager implements UserFinder, UserEditor {
 
     @Override
     public String deleteUser(String id, String pw) {
-        final Optional<User> user = userRepository.findByUserIdAndUserPw(id, pw);
+        final Optional<User> user = userRepository.findById(id);
+        System.out.println("----------id = " + id);
+        System.out.println("-----------pw = " + pw);
         if (user.isPresent()) {
-            final User foundUser = user.get();
-            userRepository.delete(foundUser);
+            User foundUser = user.get();
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            boolean loginSuccessOrFail = scpwd.matches(pw, foundUser.getUserPw());
+            System.out.println(loginSuccessOrFail);
+
+            if (!loginSuccessOrFail) {
+                return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
+            }
+            userRepository.deleteById(id);
             return "{\"message\" : \"" + "회원탈퇴가 성공적으로 이루어졌습니다." + "\"}";
         }
         return "{\"message\" : \"" + "회원정보가 일치하지 않습니다." + "\"}";
