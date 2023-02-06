@@ -55,14 +55,14 @@ public class UserManager implements UserFinder, UserEditor {
 
             BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
             boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), foundUser.getUserPw());
-            System.out.println(loginSuccessOrFail);
+
 
             if (!loginSuccessOrFail) {
                 return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
             }
             return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
         }
-        return "존재하지 않는 사용자입니다.";
+        return "{\"message\" : \"" + "존재하지 않는 사용자입니다." + "\"}";
 
     }
 
@@ -99,8 +99,10 @@ public class UserManager implements UserFinder, UserEditor {
             }
             final User updateUserEntity = modelMapper.map(updateUser, User.class);
             userRepository.save(updateUserEntity);
+            Long expiredMs = 3000 * 60 * 60L;
+            return "{\"token\" : \"" + JwtUtil.createJwt(updateUser, secretKey, expiredMs) + "\"}";
         }
-        return "{\"message\" : \"" + "회원정보가 수정되었습니다." + "\"}";
+        return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
     }
 
     @Override
@@ -116,20 +118,18 @@ public class UserManager implements UserFinder, UserEditor {
             }
             foundUser.setUserPw(changePw);
             userRepository.save(foundUser);
+            return "{\"message\" : \"" + "비밀번호 변경이 성공적으로 이루어졌습니다." + "\"}";
         }
-        return "{\"message\" : \"" + "비밀번호 변경이 성공적으로 이루어졌습니다." + "\"}";
+        return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
     }
 
     @Override
     public String deleteUser(String id, String pw) {
         final Optional<User> user = userRepository.findById(id);
-        System.out.println("----------id = " + id);
-        System.out.println("-----------pw = " + pw);
         if (user.isPresent()) {
             User foundUser = user.get();
             BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
             boolean loginSuccessOrFail = scpwd.matches(pw, foundUser.getUserPw());
-            System.out.println(loginSuccessOrFail);
 
             if (!loginSuccessOrFail) {
                 return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
