@@ -30,4 +30,6 @@ public interface UserFinder {
      */
     String loginUser(UserDTO loginUser);
 
+    Boolean checkPw(String userId, String userPw);
+
 }

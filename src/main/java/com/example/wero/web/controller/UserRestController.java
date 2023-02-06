@@ -21,6 +21,12 @@ public class UserRestController {
         this.editor = editor;
     }
 
+    @PostMapping("/admin/IdPw/{userId}")
+    public Boolean checkPw(@PathVariable String userId, @RequestBody String userPw) {
+        return finder.checkPw(userId, userPw);
+    }
+
+
     @GetMapping("/admin")
     public List<UserDTO> findAll() {
         return finder.findAll();
@@ -49,7 +55,7 @@ public class UserRestController {
     }
 
 
-    @PutMapping("/data/updateWord")
+    @PutMapping("/data/updateWord/{userId}")
     public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
         return editor.updateUserPw(userId, userPw, changePw);
     };

@@ -35,6 +35,17 @@ public class UserManager implements UserFinder, UserEditor {
     }
 
     @Override
+    public Boolean checkPw(String userId, String userPw) {
+        final Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            return scpwd.matches(userPw, foundUser.getUserPw());
+        }
+        return false;
+    }
+
+    @Override
     public UserDTO findUser(String id) {
         String message = String.format("%s에 해당하는 User 가 없습니다.", id);
         User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(message));
