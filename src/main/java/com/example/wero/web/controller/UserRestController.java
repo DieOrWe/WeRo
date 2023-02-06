@@ -48,12 +48,16 @@ public class UserRestController {
         return editor.updateUser(updateUser);
     }
 
-    @PutMapping("/data/updateWord")
-    public String updateUserPw();
 
-    @DeleteMapping("/data")
-    public String deleteUser(@RequestBody String id, String pw) {
-        return editor.deleteUser(id, pw);
+    @PutMapping("/data/updateWord")
+    public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
+        return editor.updateUserPw(userId, userPw, changePw);
+    };
+
+
+    @DeleteMapping("/data/{id}")
+    public String deleteUser(@PathVariable String userId, @RequestBody String userPw) {
+        return editor.deleteUser(userId, userPw);
     }
 
 }
