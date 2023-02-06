@@ -25,13 +25,13 @@ public class SendUserController {
         return finder.findAllMySendLetters(userId);
     }
 
-    @PostMapping(path = "/check/{myLetterId}")
-    public MyLetterDTO findMySendLetter(@PathVariable String myLetterId) {
+    @PostMapping(path = "/check")
+    public MyLetterDTO findMySendLetter(@RequestBody String myLetterId) {
         return finder.findSendLetter(myLetterId);
     }
     
     @DeleteMapping
-    public String deleteSendLetter(@RequestParam String myLetterId) {
-        return editor.deleteUserLetter(myLetterId);
+    public String deleteSendLetter(@RequestBody String myLetterIds) {
+        return editor.deleteUserLetter(myLetterIds);
     }
 }

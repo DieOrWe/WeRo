@@ -18,5 +18,5 @@ public interface SendUserEditor {
      * @param letterId
      * @return String message (error: "편지 ID가 존재하지 않음", success: "삭제 성공")
      */
-    String deleteUserLetter (String letterId);
+    String deleteUserLetter (String letterIds);
 }
