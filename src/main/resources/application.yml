@@ -3,25 +3,28 @@ logging:
     console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
   level:
     dev.bank: INFO
-#spring:
-#  # DB ??
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/AllP?serverTimezone=Asia/Seoul
-#    username: root
-#    password: 0000
 
 spring:
-  # DB ??
+  # DB
   datasource:
     url: jdbc:h2:tcp://localhost/~/test
     driver-class-name: org.h2.Driver
     username: sa
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://localhost:3306/Wero?serverTimezone=UTC&characterEncoding=UTF-8
+  #    username: root
+  #    password: Asdf1234@
   jpa:
     show-sql: true
-    hibernate.hbm2ddl.auto: update
-#    hibernate:
-#      ddl-auto: create
+    #    hibernate.hbm2ddl.auto: update
+    #    hibernate:
+    #      ddl-auto: create-or-extend-tables
+javax:
+  persistence:
+    schema-generation:
+      database:
+        action: create-or-extend-tables
 
   mvc:
     path match:
@@ -29,3 +32,5 @@ spring:
 
 jwt:
   secret: hi.man.aa.bb
+
+

@@ -55,9 +55,18 @@ public class UserManager implements UserFinder, UserEditor {
     @Override
     public String loginUser(UserDTO loginUser) {
         Long expiredMs = 3000 * 60 * 60L;
+        String id = loginUser.getUserId();
 
-        if (checkPw(loginUser.getUserId(), loginUser.getUserPw())) {
-            return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
+        if (!userRepository.findById(id).isPresent()) {
+            return "{\"message\" : \"" + "존재하지 않는 사용자 입니다." + "\"}";
+        } else {
+            Optional<User> foundUser = userRepository.findById(id);
+            final User user = foundUser.get();
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), user.getUserPw());
+            if (!loginSuccessOrFail) {
+                return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
+            }
         }
         return "{\"message\" : \"" + "존재하지 않는 사용자입니다." + "\"}";
     }
