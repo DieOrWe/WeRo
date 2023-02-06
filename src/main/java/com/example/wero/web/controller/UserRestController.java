@@ -55,7 +55,7 @@ public class UserRestController {
     };
 
 
-    @DeleteMapping("/data/{id}")
+    @DeleteMapping("/data/{userId}")
     public String deleteUser(@PathVariable String userId, @RequestBody String userPw) {
         return editor.deleteUser(userId, userPw);
     }
