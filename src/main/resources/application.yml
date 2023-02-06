@@ -13,10 +13,15 @@ logging:
 
 spring:
   # DB ??
+  #  datasource:
+  #    url: jdbc:h2:tcp://localhost/~/test
+  #    driver-class-name: org.h2.Driver
+  #    username: sa
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
-    driver-class-name: org.h2.Driver
-    username: sa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/Wero?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: Asdf1234@
   jpa:
     show-sql: true
     #    properties:
