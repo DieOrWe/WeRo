@@ -48,6 +48,9 @@ public class UserRestController {
         return editor.updateUser(updateUser);
     }
 
+    @PutMapping("/data/updateWord")
+    public String updateUserPw();
+
     @DeleteMapping("/data")
     public String deleteUser(@RequestBody String id, String pw) {
         return editor.deleteUser(id, pw);
