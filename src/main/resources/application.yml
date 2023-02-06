@@ -18,8 +18,13 @@ spring:
   jpa:
     show-sql: true
     #    hibernate.hbm2ddl.auto: update
-    hibernate:
-      ddl-auto: update
+    #    hibernate:
+    #      ddl-auto: create-or-extend-tables
+javax:
+  persistence:
+    schema-generation:
+      database:
+        action: create-or-extend-tables
 
   mvc:
     path match:
@@ -27,3 +32,5 @@ spring:
 
 jwt:
   secret: hi.man.aa.bb
+
+
