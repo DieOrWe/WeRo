@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface SendUserRepository extends JpaRepository<SendUser,String> {
+public interface SendUserRepository extends JpaRepository<SendUser,Integer> {
     Optional<SendUser> findByMyLetterId(String letterId);
 
     @Transactional
