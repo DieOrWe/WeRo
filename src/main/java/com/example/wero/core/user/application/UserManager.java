@@ -46,17 +46,24 @@ public class UserManager implements UserFinder, UserEditor {
         Long expiredMs = 3000 * 60 * 60L;
 
 
-        User foundUser = userRepository.findById(loginUser.getUserId()).orElseThrow(() ->
-                new NoSuchElementException("존재하지 않는 사용자입니다."));
+//        User foundUser = userRepository.findById(loginUser.getUserId()).orElseThrow(() ->
+//                new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-        boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), foundUser.getUserPw());
+        Optional<User> user = userRepository.findById(loginUser.getUserId());
+        if (user.isPresent()) {
+            User foundUser = user.get();
 
-        if (!loginSuccessOrFail) {
-            return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), foundUser.getUserPw());
+            System.out.println(loginSuccessOrFail);
+
+            if (!loginSuccessOrFail) {
+                return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
+            }
+            return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
         }
+        return "존재하지 않는 사용자입니다.";
 
-        return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
 
 
