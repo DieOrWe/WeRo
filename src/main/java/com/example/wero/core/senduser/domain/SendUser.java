@@ -1,7 +1,5 @@
 package com.example.wero.core.senduser.domain;
 
-import com.example.wero.core.myletter.domain.MyLetter;
-import com.example.wero.core.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +7,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter @Setter
+@Getter
 @ToString
 @Entity
 @Table(name = "SendUsers")
@@ -37,7 +35,7 @@ public class SendUser {
     private String letterCreatedWhen;
 
 
-    public SendUserDTO toSendUserDTO(SendUser sendUser){
+    public SendUserDTO toSendUserDTO(SendUser sendUser) {
         return SendUserDTO.builder()
                 .userId(userId)
                 .myLetterId(myLetterId)
