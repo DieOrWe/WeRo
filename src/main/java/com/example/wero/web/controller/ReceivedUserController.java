@@ -1,32 +1,13 @@
 package com.example.wero.web.controller;
 
 
-
-import com.example.wero.core.receiveduser.application.ReceivedUserEditor;
-import com.example.wero.core.receiveduser.application.ReceivedUserFinder;
-import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
-import com.example.wero.core.utils.JwtUtil;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "api/user/myLetters")
 public class ReceivedUserController {
-    private final ReceivedUserFinder finder;
-    private final ReceivedUserEditor editor;
-
-    public ReceivedUserController(ReceivedUserFinder finder, ReceivedUserEditor editor) {
-        this.finder = finder;
-        this.editor = editor;
-    }
-    @PostMapping
-    public List<ReceivedUserDTO> findAllMyReceivedLetters() {
-        String ReqeustJwt = JwtUtil.getJwt();
-        return finder.findAllMyReceivedLetters(ReqeustJwt);
-    }
-
-//    @PostMapping(path = "/{myLetterid}")
-//    public MyLetterDTO find
+    
 }

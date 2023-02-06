@@ -6,7 +6,6 @@ import com.example.wero.core.user.infrastructure.UserRepository;
 import com.example.wero.core.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class UserManager implements UserFinder, UserEditor {
     private String secretKey;
 
 
-    public UserManager(UserRepository userRepository, ModelMapper modelMapper){
+    public UserManager(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -32,7 +31,6 @@ public class UserManager implements UserFinder, UserEditor {
     @Override
     public List<UserDTO> findAll() {
         List<User> usersEntity = userRepository.findAll();
-        // ModelMapper 사용 부분 - Entity -> DTO
         return usersEntity.stream().map(p -> modelMapper.map(p, UserDTO.class)).collect(Collectors.toList());
     }
 
@@ -45,60 +43,60 @@ public class UserManager implements UserFinder, UserEditor {
 
     @Override
     public String loginUser(UserDTO loginUser) {
+        Long expiredMs = 3000 * 60 * 60L;
 
-        User foundUser = userRepository.findById(loginUser.getUserId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 사용자입니다."));
 
-        String message = "id 혹은 pw가 틀렸습니다.";
+        User foundUser = userRepository.findById(loginUser.getUserId()).orElseThrow(() ->
+                new NoSuchElementException("존재하지 않는 사용자입니다."));
+
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), foundUser.getUserPw());
-        System.out.println(loginSuccessOrFail);
+
         if (!loginSuccessOrFail) {
-            throw new NoSuchElementException(message);
+            return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
         }
-        Long expiredMs = 1000 * 60 * 60L;
-        String json = "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
-        return json;
+
+        return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
-
-
 
 
     @Override
     public String createUser(UserDTO newUser) {
-        if(userRepository.findById(newUser.getUserId()).isPresent()) {
-            String json = "{\"message\" : \"" + "이미 존재하는 ID 입니다." + "\"}";
-            return json;
+
+        boolean createSuccessOrFail = userRepository.findById(newUser.getUserId()).isPresent();
+
+        if (createSuccessOrFail) {
+            return "{\"message\" : \"" + "이미 존재하는 ID 입니다." + "\"}";
         }
-    
+
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         String password = scpwd.encode(newUser.getUserPw());
-//        System.out.println("password: " + password);
-
         User user = modelMapper.map(newUser, User.class);
         user.setUserPw(password);
-//        User user = userDTO.toUser(newUser);
         userRepository.save(user);
+
         return "{\"message\" : \"" + newUser.getUserId() + "\"}";
     }
 
     @Override
     public String updateUser(UserDTO updateUser) {
-        final User foundUser = modelMapper.map(findUser(updateUser.getUserId()), User.class);
+
         User updatedUser = modelMapper.map(updateUser, User.class);
         userRepository.save(updatedUser);
-        return "회원정보가 수정되었습니다.";
+
+        return "{\"message\" : \"" + "회원정보가 수정되었습니다." + "\"}";
     }
 
 
     @Override
     public String deleteUser(String id, String pw) {
         final Optional<User> user = userRepository.findByUserIdAndUserPw(id, pw);
-        if (user.isPresent()) { // id에 해당하는 User 가 존재할 경우
+        if (user.isPresent()) {
             final User foundUser = user.get();
             userRepository.delete(foundUser);
-            return "회원탈퇴가 성공적으로 이루어졌습니다.";
+            return "{\"message\" : \"" + "회원탈퇴가 성공적으로 이루어졌습니다." + "\"}";
         }
-        return "회원정보가 일치하지 않습니다.";
+        return "{\"message\" : \"" + "회원정보가 일치하지 않습니다." + "\"}";
     }
 
 }

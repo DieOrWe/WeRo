@@ -1,5 +1,12 @@
 package com.example.wero.core.receiveduser.application;
 
+<<<<<<< HEAD
+public interface ReceivedUserFinder {
+//    ReceivedUserDTO findMyAllLetter(String userId);
+//
+//    ReceivedUserDTO findMyLetter(String userId);
+
+=======
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 import com.example.wero.core.senduser.domain.SendUserDTO;
@@ -21,4 +28,5 @@ public interface ReceivedUserFinder {
      */
     MyLetterDTO findReceivedLetter(String myLetterId);
     
+>>>>>>> e5240730a23385927310586d85c63791efdfa216
 }
