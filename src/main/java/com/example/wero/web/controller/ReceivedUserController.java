@@ -5,6 +5,7 @@ package com.example.wero.web.controller;
 import com.example.wero.core.receiveduser.application.ReceivedUserEditor;
 import com.example.wero.core.receiveduser.application.ReceivedUserFinder;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
+import com.example.wero.core.utils.JwtUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,10 +22,11 @@ public class ReceivedUserController {
         this.editor = editor;
     }
     @PostMapping
-    public List<ReceivedUserDTO> findAllMyReceivedLetters(@RequestParam String userId) {
-        return finder.findAllMyReceivedLetters(userId);
+    public List<ReceivedUserDTO> findAllMyReceivedLetters() {
+        String ReqeustJwt = JwtUtil.getJwt();
+        return finder.findAllMyReceivedLetters(ReqeustJwt);
     }
 
-    @PostMapping(path = "/{myLetterid}")
-    public MyLetterDTO find
+//    @PostMapping(path = "/{myLetterid}")
+//    public MyLetterDTO find
 }
