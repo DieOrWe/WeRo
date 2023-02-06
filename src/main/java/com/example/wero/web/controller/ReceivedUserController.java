@@ -14,6 +14,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(path = "api/user/myLetters")
 public class ReceivedUserController {
+
     private final ReceivedUserFinder finder;
     private final MyLetterRepository myLetterRepository;
 
@@ -32,4 +33,5 @@ public class ReceivedUserController {
     public MyLetterDTO findReceivedLetter(String myLetterId){
         return finder.findReceivedLetter(myLetterId);
     }
+
 }
