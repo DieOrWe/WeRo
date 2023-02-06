@@ -20,5 +20,5 @@ public interface ReceivedUserFinder {
      * @return myLetterDTO
      */
     MyLetterDTO findReceivedLetter(String myLetterId);
-    
+
 }

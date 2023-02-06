@@ -65,6 +65,7 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
             }
             sendUserRepository.deleteByMyLetterId(letterId);
         }
+
         return "---- 삭제 성공 !!";
     }
 }
