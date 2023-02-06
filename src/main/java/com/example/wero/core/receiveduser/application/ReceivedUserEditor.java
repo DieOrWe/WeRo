@@ -4,4 +4,7 @@ import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 
 public interface ReceivedUserEditor {
+    /**
+     *
+     */
 }

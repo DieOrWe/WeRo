@@ -38,7 +38,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
         // ReceivedUser -> ReceivedUserDTO로 변환
         List<ReceivedUserDTO> result = foundUser.stream().map(p-> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
         // 모든 받은 편지를 사용자 ID (userId)로 필터링
-        String[] splitToken = RequestJwt.split("\\s+");
+        String[] splitToken = RequestJwt.split("\\s+"); // Authoricate 할 때 "Bearer" 때문에 Jwt를 공백으로 나누어서 뒷부분만 받아줘야함.
         log.info(splitToken[1]);
         String userId = JwtUtil.getUserId(splitToken[1], secretKey);
         List<ReceivedUserDTO> filteredResult;
