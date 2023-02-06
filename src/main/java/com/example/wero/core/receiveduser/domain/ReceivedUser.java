@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 @ToString
 @Entity
 @Table(name = "ReceivedUsers")
@@ -22,7 +23,7 @@ public class ReceivedUser {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="myLetter_id")
     private MyLetter myLetter;
-    @Column(name = "myLetter_id", insertable = false, updatable = false)
+    @Column(name = "myLetter_id")
     private String myLetterId;
 
     @Column(name = "user_nickname")
