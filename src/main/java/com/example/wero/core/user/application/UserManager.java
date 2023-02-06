@@ -3,7 +3,6 @@ package com.example.wero.core.user.application;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.infrastructure.UserRepository;
-import com.example.wero.core.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,13 +52,12 @@ public class UserManager implements UserFinder, UserEditor {
             final User user = foundUser.get();
             BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
             boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), user.getUserPw());
-
             if (!loginSuccessOrFail) {
                 return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
             }
         }
+        return "존재하지 않는 사용자입니다.";
 
-        return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
 
 
@@ -93,10 +91,19 @@ public class UserManager implements UserFinder, UserEditor {
 
     @Override
     public String deleteUser(String id, String pw) {
-        final Optional<User> user = userRepository.findByUserIdAndUserPw(id, pw);
+        final Optional<User> user = userRepository.findById(id);
+        System.out.println("----------id = " + id);
+        System.out.println("-----------pw = " + pw);
         if (user.isPresent()) {
-            final User foundUser = user.get();
-            userRepository.delete(foundUser);
+            User foundUser = user.get();
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            boolean loginSuccessOrFail = scpwd.matches(pw, foundUser.getUserPw());
+            System.out.println(loginSuccessOrFail);
+
+            if (!loginSuccessOrFail) {
+                return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
+            }
+            userRepository.deleteById(id);
             return "{\"message\" : \"" + "회원탈퇴가 성공적으로 이루어졌습니다." + "\"}";
         }
         return "{\"message\" : \"" + "회원정보가 일치하지 않습니다." + "\"}";
