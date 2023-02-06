@@ -82,12 +82,37 @@ public class UserManager implements UserFinder, UserEditor {
     @Override
     public String updateUser(UserDTO updateUser) {
 
-        User updatedUser = modelMapper.map(updateUser, User.class);
-        userRepository.save(updatedUser);
+        final Optional<User> user = userRepository.findById(updateUser.getUserId());
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            boolean loginSuccessOrFail = scpwd.matches(updateUser.getUserPw(), foundUser.getUserPw());
 
+            if (!loginSuccessOrFail) {
+                return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
+            }
+            final User updateUserEntity = modelMapper.map(updateUser, User.class);
+            userRepository.save(updateUserEntity);
+        }
         return "{\"message\" : \"" + "회원정보가 수정되었습니다." + "\"}";
     }
 
+    @Override
+    public String updateUserPw(String userId, String userPw, String changePw) {
+        final Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            boolean loginSuccessOrFail = scpwd.matches(userPw, foundUser.getUserPw());
+
+            if (!loginSuccessOrFail) {
+                return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
+            }
+            foundUser.setUserPw(changePw);
+            userRepository.save(foundUser);
+        }
+        return "{\"message\" : \"" + "비밀번호 변경이 성공적으로 이루어졌습니다." + "\"}";
+    }
 
     @Override
     public String deleteUser(String id, String pw) {
