@@ -23,9 +23,9 @@ spring:
     username: sa
   jpa:
     show-sql: true
-    #    hibernate.hbm2ddl.auto: update
-    hibernate:
-      ddl-auto: create
+    hibernate.hbm2ddl.auto: update
+#    hibernate:
+#      ddl-auto: create
 
   mvc:
     path match:
