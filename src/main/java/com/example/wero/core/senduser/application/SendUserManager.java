@@ -7,9 +7,7 @@ import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.senduser.infrastructure.SendUserRepository;
-import com.example.wero.core.user.domain.UserDTO;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,9 +56,9 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     }
 
     @Override
-    public String deleteUserLetter(String[] letterIds) {
-        // ToDo: List 형태로 받아서 여러 편지 삭제
-        for (String letterId: letterIds) {
+    public String deleteUserLetter(String letterIds) {
+        String[] letters = letterIds.substring(2, letterIds.length()-2).split("\",\"");
+        for (String letterId: letters) {
             if(sendUserRepository.findByMyLetterId(letterId).isEmpty()) {
                 String message = String.format("존재하지 않는 LetterID : %s", letterId);
                 throw new IllegalArgumentException(message);
