@@ -15,16 +15,11 @@ public class ReceivedUserDTO {
 
     @NotBlank
     private String userId;
-    
     private String myLetterId;
-
     private String writerNickName;
-
     @NotBlank
     private String myLetterTitle;
-
     private String letterReceivedWhen;
-
     @NotNull
     private boolean isRead;
 
