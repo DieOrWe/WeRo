@@ -31,11 +31,20 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
 
     @Override
     public String createUserLetter(MyLetter myLetter) {
-        SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
-        sendUserRepository.save(sendUser);
-        SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-        System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
-        return receivedUserEditor.createUserLetter(myLetter);
+        if(myLetter.isMyLetterIsPrivate() == true){
+            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
+            sendUserRepository.save(sendUser);
+            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
+            return receivedUserEditor.createUserLetter(myLetter);
+        } else {
+            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
+            sendUserRepository.save(sendUser);
+            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
+
+            return sendUserDTO.getUserId();
+        }
     }
     
     @Override
