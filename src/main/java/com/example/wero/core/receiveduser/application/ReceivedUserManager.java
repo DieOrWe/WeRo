@@ -24,6 +24,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     private final ModelMapper modelMapper;
 
     private final MyLetterRepository myLetterRepository;
+
     private String secretKey;
 
     public ReceivedUserManager(ReceivedUserRepository receivedUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository){
@@ -33,12 +34,19 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     }
 
     @Override
+    public String createUserLetter(MyLetter myLetter){
+        ReceivedUser receivedUser = myLetter.myLetterToReceivedUser(myLetter);
+        receivedUserRepository.save(receivedUser);
+        ReceivedUserDTO receivedUserDTO = modelMapper.map(receivedUser, ReceivedUserDTO.class);
+        return receivedUserDTO.getUserId();
+    }
+    @Override
     public List<ReceivedUserDTO> findAllMyReceivedLetters(String RequestJwt){
         List<ReceivedUser> foundUser = receivedUserRepository.findAll(); // repository에서 가져오기
         // ReceivedUser -> ReceivedUserDTO로 변환
         List<ReceivedUserDTO> result = foundUser.stream().map(p-> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
         // 모든 받은 편지를 사용자 ID (userId)로 필터링
-        String[] splitToken = RequestJwt.split("\\s+");
+        String[] splitToken = RequestJwt.split("\\s+"); // Authoricate 할 때 "Bearer" 때문에 Jwt를 공백으로 나누어서 뒷부분만 받아줘야함.
         log.info(splitToken[1]);
         String userId = JwtUtil.getUserId(splitToken[1], secretKey);
         List<ReceivedUserDTO> filteredResult;
