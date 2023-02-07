@@ -5,6 +5,9 @@ logging:
     dev.bank: INFO
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   # DB
   datasource:
     url: jdbc:h2:tcp://localhost/~/test
