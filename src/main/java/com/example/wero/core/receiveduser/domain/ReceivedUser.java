@@ -23,7 +23,7 @@ public class ReceivedUser {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="myLetter_id")
     private MyLetter myLetter;
-    @Column(name = "myLetter_id")
+    @Column(name = "myLetter_id", insertable = false, updatable = false)
     private String myLetterId;
 
     @Column(name = "user_nickname")
