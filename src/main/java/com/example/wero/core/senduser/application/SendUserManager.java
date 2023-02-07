@@ -60,12 +60,11 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
         String[] letters = letterIds.substring(2, letterIds.length()-2).split("\",\"");
         for (String letterId: letters) {
             if(sendUserRepository.findByMyLetterId(letterId).isEmpty()) {
-                String message = String.format("존재하지 않는 LetterID : %s", letterId);
-                throw new IllegalArgumentException(message);
+                return "{\"message\" : \"" + "존재하지 않는 LetterID" + "\"}";
             }
             sendUserRepository.deleteByMyLetterId(letterId);
         }
+        return "{\"message\" : \"" + "---- 삭제 성공 !!" + "\"}";
 
-        return "---- 삭제 성공 !!";
     }
 }
