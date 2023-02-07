@@ -4,6 +4,7 @@ import com.example.wero.core.myletter.application.MyLetterManager;
 import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
+import com.example.wero.core.receiveduser.application.ReceivedUserEditor;
 import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 import com.example.wero.core.senduser.infrastructure.SendUserRepository;
@@ -19,20 +20,31 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     private final SendUserRepository sendUserRepository;
     private final ModelMapper modelMapper;
     private final MyLetterRepository myLetterRepository;
+    private final ReceivedUserEditor receivedUserEditor;
 
-    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository) {
+    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository, ReceivedUserEditor receivedUserEditor) {
         this.sendUserRepository = sendUserRepository;
         this.modelMapper = modelMapper;
         this.myLetterRepository = myLetterRepository;
+        this.receivedUserEditor = receivedUserEditor;
     }
 
     @Override
     public String createUserLetter(MyLetter myLetter) {
-        SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
-        sendUserRepository.save(sendUser);
-        SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-        System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
-        return sendUserDTO.getUserId();
+        if(myLetter.isMyLetterIsPrivate() == true){
+            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
+            sendUserRepository.save(sendUser);
+            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
+            return receivedUserEditor.createUserLetter(myLetter);
+        } else {
+            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
+            sendUserRepository.save(sendUser);
+            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
+
+            return sendUserDTO.getUserId();
+        }
     }
     
     @Override

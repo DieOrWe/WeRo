@@ -1,5 +1,6 @@
 package com.example.wero.core.myletter.domain;
 
+import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.user.domain.User;
 import lombok.*;
@@ -53,6 +54,16 @@ public class MyLetter {
                 .myLetterId(myLetterId)
                 .myLetterTitle(myLetterTitle)
                 .letterCreatedWhen(myLetterCreatedWhen)
+                .build();
+    }
+
+    public ReceivedUser myLetterToReceivedUser(MyLetter myLetter){
+        return ReceivedUser.builder()
+                .userId(writerId)
+                .writerNickName(myLetter.user.getUserNickName())
+                .myLetterId(myLetterId)
+                .myLetterTitle(myLetterTitle)
+                .letterReceivedWhen(myLetterCreatedWhen)
                 .build();
     }
 
