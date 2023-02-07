@@ -24,6 +24,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     private final ModelMapper modelMapper;
 
     private final MyLetterRepository myLetterRepository;
+
     private String secretKey;
 
     public ReceivedUserManager(ReceivedUserRepository receivedUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository){
@@ -32,6 +33,13 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
         this.myLetterRepository = myLetterRepository;
     }
 
+    @Override
+    public String createUserLetter(MyLetter myLetter){
+        ReceivedUser receivedUser = myLetter.myLetterToReceivedUser(myLetter);
+        receivedUserRepository.save(receivedUser);
+        ReceivedUserDTO receivedUserDTO = modelMapper.map(receivedUser, ReceivedUserDTO.class);
+        return receivedUserDTO.getUserId();
+    }
     @Override
     public List<ReceivedUserDTO> findAllMyReceivedLetters(String RequestJwt){
         List<ReceivedUser> foundUser = receivedUserRepository.findAll(); // repository에서 가져오기
