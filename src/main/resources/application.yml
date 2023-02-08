@@ -20,18 +20,16 @@ spring:
   #    password: Asdf1234@
   jpa:
     show-sql: true
-#    hibernate.hbm2ddl.auto: update
-    hibernate:
-      ddl-auto: create
 #javax:
 #  persistence:
 #    schema-generation:
 #      database:
 #        action: create-or-extend-tables
 
-#  mvc:
-#    path match:
-#      matching-strategy: ant_path_matcher
+    #    hibernate.hbm2ddl.auto: update
+    hibernate:
+      ddl-auto: create
+
 
 jwt:
   secret: hi.man.aa.bb
