@@ -1,5 +1,6 @@
 package com.example.wero.web.controller;
 
+import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.websocket.Greeting;
 import com.example.wero.core.websocket.HelloMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,9 +15,9 @@ public class GreetingController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
+    public Greeting greeting(MyLetter myLetter) throws Exception {
         Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+        return new Greeting("myLetter" + HtmlUtils.htmlEscape(myLetter.getMyLetterContent()) + "@@@");
     }
 
 
