@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,34 +40,61 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
 
     @Override
     public String createReceiveUser(){
-        // 일단 myLetterRepository에서 myLetter 공개 동의 여부 필드가 true인 것들을 myLetters에 리스트로 받아오기
-//        List<MyLetter> myLetters = myLetterRepository.findByMyLetterIsPrivate(true);
-//        if (myLetters.isEmpty()) { // 공개동의한 편지가 아예 없는 경우
-//            return "myLetter DB에 공개 가능한 편지가 없음.";
-//        }
-//
-//        Collection<String> receivedUserLetterId = receivedUserRepository.ReceivedUserLetterId();
-//        List<String> myLetterLetterId = myLetterRepository.MyLettersLetterId();
-//        myLetterLetterId.removeAll(receivedUserLetterId);
-//
-//
-//        ArrayList<MyLetter> myLetterEntity = new ArrayList<MyLetter>();
-//        for (String letterId: myLetterLetterId) {
-//            myLetterEntity.add(myLetterRepository.findAllByLetterId(letterId));
-//        }
-//
-//        for (MyLetter letter: myLetterEntity) {
-//            ReceivedUser receivedUser = myLetter.myLetterToReceivedUser(letter);
-//            receivedUserRepository.save(receivedUser);
-//        }
-
         // 1. ReceivedUser의 가장 최근 생성 시간이 ReceivedUser 의 마지막 index(Id)로 가져와서 String recentReceivedLetter 변수로 가져오기
-        // 2. myLetterRepository에서 recentReceivedLetter 이후에 생성된 편지 쿼리문을 통해 List<MyLetter> newMyLetters 로 반환
-        // 3. newMyLetters 를 ReceivedUser 로 만들기 - 만들 때 랜덤한 받은 회원 ID(USERID)가 생성
+        // ReceivedUser 가 null 일 때, nullPoint 에러 발생
 
+        // 1-1. ReceivedUser 에 데이터가 없는 경우 vs 데이터가 있는 경우 구분
+        if (receivedUserRepository.findAll().isEmpty()) {
+            if (myLetterRepository.myLetterFindAllByMyLetterIsPrivate().isEmpty()) {
+                return "공개가능한 편지가 없습니다.";
+            } else {
+                List<MyLetter> myLetters = myLetterRepository.myLetterFindAllByMyLetterIsPrivate();
+                for (MyLetter newLetter : myLetters) {
+                    System.out.println(newLetter);
+                    ReceivedUser receivedUser = newLetter.myLetterToReceivedUser(newLetter);
+                    receivedUserRepository.save(receivedUser);
+                }
+            }
+        } else {
+            // 2. myLetterRepository에서 recentReceivedLetter 이후에 생성된 편지 쿼리문을 통해 List<MyLetter> newMyLetters 로 반환
+            if (myLetterRepository.myLetterFindAllByMyLetterIsPrivate().isEmpty()) {
+                return "공개가능한 편지가 없습니다.";
+            }
+            String recentReceivedLetter = receivedUserRepository.RecentReceivedLetter();
+            System.out.println("---------- recentReceivedLetter = " + recentReceivedLetter);
 
-        return "receivedUser 생성 완료";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try { // simpleDateFomat.parse() 를 사용할 땐 무조건 try 구문에 넣어서 사용해야 compile 시 에러가 안남.
+                Date time = simpleDateFormat.parse(recentReceivedLetter);
+                List<MyLetter> newMyLetters = myLetterRepository.newMyLetters(time);
+                System.out.println("---------- newMyLetters = " + newMyLetters);
+
+                for (MyLetter newLetter : newMyLetters) {
+                    System.out.println(newLetter);
+                    ReceivedUser receivedUser = newLetter.myLetterToReceivedUser(newLetter);
+                    receivedUserRepository.save(receivedUser);
+                }
+                return String.format("생성한 ReceivedUser 갯수: %d", newMyLetters.size());
+
+            } catch (ParseException exception) {
+                System.out.println("-------- exception StackTrace --------");
+                exception.printStackTrace();
+            }
         }
+
+        if (receivedUserRepository.findByUserIdIsNull().isEmpty()) {
+            return "새롭게 생성할 ReceivedUser 가 없습니다.";
+        }
+        List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
+        int numberOfNeededUser = newReceivedUsers.size();
+        List<String> newUsers = myLetterRepository.randomSelectUserId(numberOfNeededUser);
+
+        for (int i = 0; i < numberOfNeededUser; i++) {
+            newReceivedUsers.get(i).setUserId(newUsers.get(i));
+            receivedUserRepository.save(newReceivedUsers.get(i));
+        }
+        return "receivedUser 생성 완료";
+    }
 
 
     @Override

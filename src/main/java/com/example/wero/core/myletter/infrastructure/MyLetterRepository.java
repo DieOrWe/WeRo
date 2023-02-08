@@ -7,17 +7,19 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface MyLetterRepository extends JpaRepository<MyLetter, String> {
-    Optional<MyLetter> findByMyLetterIdAndWriterId(String myLetterId, String writerId);
 
-    List<MyLetter> findByWriterId(String writerId);
+    @Query(value = "SELECT * FROM MY_LETTERS m WHERE m.MY_LETTER_IS_PRIVATE = false", nativeQuery = true)
+    List<MyLetter> myLetterFindAllByMyLetterIsPrivate();
 
-    List<MyLetter> findByMyLetterIsPrivate(Boolean myLetterIsPrivate);
+    @Query(value = "SELECT m.USER_ID FROM MY_LETTERS m ORDER BY RAND() LIMIT :NUM", nativeQuery = true)
+    List<String> randomSelectUserId(@Param("NUM") int numberOfNeededUser);
 
-//    @Query(value = "SELECT m.myLetterId FROM MyLetters m WHERE m.created_when > str_to_date(time, %Y-%M-%d)")
-//    List<String> MyLettersLetterId(@Param(value = "time") String myLetterCreatedWhen);
-//    MyLetter findAllByLetterId(String myLetterId);
+    @Query(value = "SELECT m.MY_LETTER_ID FROM MY_LETTERS m WHERE m.CREATED_WHEN > :time", nativeQuery = true)
+    List<MyLetter> newMyLetters(@Param(value = "time") Date letterReceivedWhen);
 }
