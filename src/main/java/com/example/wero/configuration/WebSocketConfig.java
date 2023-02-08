@@ -21,10 +21,19 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // 파라미터로 넘어간 “/topic” 이 접두어로 붙어있는 클라이언트들에게 메세지를 전달해주는 역할을 한다.
 
 
+    // Stomp는 WebSocket을 통한 메시징을 위한 간단한 텍스트 지향 프로토콜입니다.
+    // 메시지를 보내고 받을 뿐만 아니라 메시지 대기열을 구독 및 구독 취소하기 위한 간단한 API를 제공합니다.
+
+
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/gs-guide-websocket").withSockJS();
+        registry.addEndpoint("/gs-guide-websocket").setAllowedOriginPatterns("*").withSockJS();
     }
+
+    // SockJS는 WebSockets를 지원하지 않는 이전 브라우저에 대한 폴백 메커니즘을 제공하여
+    // 개발자가 더 광범위한 브라우저에서 WebSockets와 유사한 API를 사용할 수 있도록 합니다.
+
+    // registerStompEndpoints() 는 최초의 websocket을 생성하는 endpoint를 지정해줍니다.
 
 }
