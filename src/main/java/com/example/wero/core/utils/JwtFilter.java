@@ -1,10 +1,6 @@
-package com.example.wero.configuration;
+package com.example.wero.core.utils;
 
 import com.example.wero.core.user.application.UserManager;
-import com.example.wero.core.utils.JwtUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

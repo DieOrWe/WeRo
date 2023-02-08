@@ -21,17 +21,12 @@ spring:
   jpa:
     show-sql: true
     #    hibernate.hbm2ddl.auto: update
-    #    hibernate:
-    #      ddl-auto: create-or-extend-tables
-javax:
-  persistence:
-    schema-generation:
-      database:
-        action: create-or-extend-tables
+    hibernate:
+      ddl-auto: create
 
-  mvc:
-    path match:
-      matching-strategy: ant_path_matcher
+mvc:
+  path match:
+    matching-strategy: ant_path_matcher
 
 jwt:
   secret: hi.man.aa.bb
