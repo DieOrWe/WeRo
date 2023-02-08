@@ -20,9 +20,9 @@ spring:
   #    password: Asdf1234@
   jpa:
     show-sql: true
-    hibernate.hbm2ddl.auto: update
-#        hibernate:
-#          ddl-auto: create-or-extend-tables
+#    hibernate.hbm2ddl.auto: update
+    hibernate:
+      ddl-auto: create
 #javax:
 #  persistence:
 #    schema-generation:

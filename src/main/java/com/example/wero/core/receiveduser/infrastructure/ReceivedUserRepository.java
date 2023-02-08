@@ -7,14 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Integer> {
-    Optional<ReceivedUser> findByMyLetterId(String letterId);
 
-    Optional<ReceivedUser> deleteByMyLetterId(String letterId);
+    @Query(value = "SELECT LETTER_RECEIVED_WHEN FROM (SELECT * FROM RECEIVED_USERS ORDER BY LETTER_RECEIVED_WHEN DESC) WHERE ROWNUM = 1", nativeQuery = true)
+    String RecentReceivedLetter();
 
-//    @Query(value = "SELECT r.myLetter_id FROM ReceivedUsers r")
-//    Collection<String> ReceivedUserLetterId();
+    @Query(value = "SELECT * FROM RECEIVED_USERS WHERE USER_ID IS NULL", nativeQuery = true)
+    List<ReceivedUser> findByUserIdIsNull();
+
 }
