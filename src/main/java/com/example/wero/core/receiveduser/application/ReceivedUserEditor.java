@@ -8,6 +8,6 @@ public interface ReceivedUserEditor {
     /**
      *
      */
-    String createUserLetter(MyLetter myLetter);
+    String createReceiveUser();
 
 }

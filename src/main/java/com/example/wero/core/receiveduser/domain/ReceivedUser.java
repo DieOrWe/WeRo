@@ -17,6 +17,9 @@ import javax.persistence.*;
 public class ReceivedUser {
 
     @Id
+    @Column(name = "index")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int index;
     @Column(name = "userId")
     private String userId;
 

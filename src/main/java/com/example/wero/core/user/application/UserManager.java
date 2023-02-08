@@ -5,7 +5,9 @@ import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.infrastructure.UserRepository;
 import com.example.wero.core.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,16 +61,15 @@ public class UserManager implements UserFinder, UserEditor {
 
         if (!userRepository.findById(id).isPresent()) {
             return "{\"message\" : \"" + "존재하지 않는 사용자 입니다." + "\"}";
-        } else {
-            Optional<User> foundUser = userRepository.findById(id);
-            final User user = foundUser.get();
-            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-            boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), user.getUserPw());
-            if (!loginSuccessOrFail) {
-                return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
-            }
         }
-        return "{\"message\" : \"" + "존재하지 않는 사용자입니다." + "\"}";
+        Optional<User> foundUser = userRepository.findById(id);
+        final User user = foundUser.get();
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), user.getUserPw());
+        if (!loginSuccessOrFail) {
+            return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
+        }
+        return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
 
 

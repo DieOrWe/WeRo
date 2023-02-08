@@ -29,6 +29,7 @@ public class MyLetter {
     private User user;
     private String myLetterTitle;
     private String myLetterContent;
+    @Column(name = "created_when")
     private String myLetterCreatedWhen;
     private boolean myLetterIsPrivate;
     
@@ -59,11 +60,11 @@ public class MyLetter {
 
     public ReceivedUser myLetterToReceivedUser(MyLetter myLetter){
         return ReceivedUser.builder()
-                .userId(writerId)
-                .writerNickName(myLetter.user.getUserNickName())
-                .myLetterId(myLetterId)
-                .myLetterTitle(myLetterTitle)
-                .letterReceivedWhen(myLetterCreatedWhen)
+                .userId("")  // userId에는 작성자가 아니라, 받는 회원의 Id가 들어가야 됨. 후에 해당 메소드 호출 한 뒤에 userId를 토큰을 통해 지정해줘야함.
+                .writerNickName(myLetter.user.getUserNickName()) // 보낸 사람 닉네임
+                .myLetterId(myLetterId) // 편지 아이디
+                .myLetterTitle(myLetterTitle) // 편지 제목
+                .letterReceivedWhen(myLetterCreatedWhen) // 만약 편지 작성 시간에 수신을 바로 한다고 가정했을때는 OK
                 .build();
     }
 

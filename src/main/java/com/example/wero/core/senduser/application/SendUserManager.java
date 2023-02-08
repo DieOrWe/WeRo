@@ -20,31 +20,20 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     private final SendUserRepository sendUserRepository;
     private final ModelMapper modelMapper;
     private final MyLetterRepository myLetterRepository;
-    private final ReceivedUserEditor receivedUserEditor;
 
-    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository, ReceivedUserEditor receivedUserEditor) {
+    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository) {
         this.sendUserRepository = sendUserRepository;
         this.modelMapper = modelMapper;
         this.myLetterRepository = myLetterRepository;
-        this.receivedUserEditor = receivedUserEditor;
     }
 
     @Override
     public String createUserLetter(MyLetter myLetter) {
-        if(myLetter.isMyLetterIsPrivate() == true){
-            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
-            sendUserRepository.save(sendUser);
-            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
-            return receivedUserEditor.createUserLetter(myLetter);
-        } else {
-            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
-            sendUserRepository.save(sendUser);
-            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
-
-            return sendUserDTO.getUserId();
-        }
+        SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
+        sendUserRepository.save(sendUser);
+        SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+        System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
+        return sendUserDTO.getUserId();
     }
     
     @Override
