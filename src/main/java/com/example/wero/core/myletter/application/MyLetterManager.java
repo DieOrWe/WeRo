@@ -7,12 +7,14 @@ import com.example.wero.core.senduser.application.SendUserEditor;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
 @Service
+//@EnableJpaRepositories
 public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     private final MyLetterRepository myLetterRepository;
     private final ModelMapper modelMapper;

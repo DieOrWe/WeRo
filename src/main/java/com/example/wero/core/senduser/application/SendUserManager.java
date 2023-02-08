@@ -20,31 +20,19 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
     private final SendUserRepository sendUserRepository;
     private final ModelMapper modelMapper;
     private final MyLetterRepository myLetterRepository;
-    private final ReceivedUserEditor receivedUserEditor;
 
-    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository, ReceivedUserEditor receivedUserEditor) {
+    public SendUserManager(SendUserRepository sendUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository) {
         this.sendUserRepository = sendUserRepository;
         this.modelMapper = modelMapper;
         this.myLetterRepository = myLetterRepository;
-        this.receivedUserEditor = receivedUserEditor;
     }
 
     @Override
     public String createUserLetter(MyLetter myLetter) {
-        if(myLetter.isMyLetterIsPrivate() == true){
-            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
-            sendUserRepository.save(sendUser);
-            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
-            return receivedUserEditor.createUserLetter(myLetter);
-        } else {
-            SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
-            sendUserRepository.save(sendUser);
-            SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
-            System.out.println("-------SendUserRepository 확인=> " + sendUserRepository.findAll());
-
-            return sendUserDTO.getUserId();
-        }
+        SendUser sendUser = myLetter.myLetterToSendUser(myLetter);
+        sendUserRepository.save(sendUser);
+        SendUserDTO sendUserDTO = modelMapper.map(sendUser, SendUserDTO.class);
+        return sendUserDTO.getUserId();
     }
     
     @Override
@@ -52,6 +40,7 @@ public class SendUserManager implements SendUserEditor, SendUserFinder {
         List<SendUser> foundUser = sendUserRepository.findAll(); // 일단 repository에서 다 가져와
         // SendUser -> SendUserDTO 로 변환
         List<SendUserDTO> result = foundUser.stream().map(p -> modelMapper.map(p, SendUserDTO.class)).collect(Collectors.toList());
+        System.out.println("---------result = " + result);
         // 모든 보낸 편지를 사용자 ID(userId)로 필터링
         List<SendUserDTO> filteredResult;
         filteredResult= result.stream()

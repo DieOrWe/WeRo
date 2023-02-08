@@ -17,13 +17,13 @@ import javax.persistence.*;
 public class ReceivedUser {
 
     @Id
+    @Column(name = "index")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int index;
     @Column(name = "userId")
     private String userId;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name="myLetter_id")
-    private MyLetter myLetter;
-    @Column(name = "myLetter_id", insertable = false, updatable = false)
+    @Column(name = "myLetter_id")
     private String myLetterId;
 
     @Column(name = "user_nickname")

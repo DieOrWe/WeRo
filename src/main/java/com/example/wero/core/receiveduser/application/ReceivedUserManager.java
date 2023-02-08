@@ -6,40 +6,97 @@ import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
+import com.example.wero.core.user.domain.User;
+import com.example.wero.core.user.infrastructure.UserRepository;
 import com.example.wero.core.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Request;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+//@EnableJpaRepositories
 public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEditor{
-    private final ReceivedUserRepository receivedUserRepository;
-
     private final ModelMapper modelMapper;
-
+    private final ReceivedUserRepository receivedUserRepository;
     private final MyLetterRepository myLetterRepository;
 
     private String secretKey;
 
-    public ReceivedUserManager(ReceivedUserRepository receivedUserRepository, ModelMapper modelMapper, MyLetterRepository myLetterRepository){
-        this.receivedUserRepository = receivedUserRepository;
+    public ReceivedUserManager(ModelMapper modelMapper, ReceivedUserRepository receivedUserRepository, MyLetterRepository myLetterRepository) {
         this.modelMapper = modelMapper;
+        this.receivedUserRepository = receivedUserRepository;
         this.myLetterRepository = myLetterRepository;
     }
 
     @Override
-    public String createUserLetter(MyLetter myLetter){
-        ReceivedUser receivedUser = myLetter.myLetterToReceivedUser(myLetter);
-        receivedUserRepository.save(receivedUser);
-        ReceivedUserDTO receivedUserDTO = modelMapper.map(receivedUser, ReceivedUserDTO.class);
-        return receivedUserDTO.getUserId();
+    public String createReceiveUser(){
+        // 1. ReceivedUser의 가장 최근 생성 시간이 ReceivedUser 의 마지막 index(Id)로 가져와서 String recentReceivedLetter 변수로 가져오기
+        // ReceivedUser 가 null 일 때, nullPoint 에러 발생
+
+        // 1-1. ReceivedUser 에 데이터가 없는 경우 vs 데이터가 있는 경우 구분
+        if (receivedUserRepository.findAll().isEmpty()) {
+            if (myLetterRepository.myLetterFindAllByMyLetterIsPrivate().isEmpty()) {
+                return "공개가능한 편지가 없습니다.";
+            } else {
+                List<MyLetter> myLetters = myLetterRepository.myLetterFindAllByMyLetterIsPrivate();
+                for (MyLetter newLetter : myLetters) {
+                    System.out.println(newLetter);
+                    ReceivedUser receivedUser = newLetter.myLetterToReceivedUser(newLetter);
+                    receivedUserRepository.save(receivedUser);
+                }
+            }
+        } else {
+            // 2. myLetterRepository에서 recentReceivedLetter 이후에 생성된 편지 쿼리문을 통해 List<MyLetter> newMyLetters 로 반환
+            if (myLetterRepository.myLetterFindAllByMyLetterIsPrivate().isEmpty()) {
+                return "공개가능한 편지가 없습니다.";
+            }
+            String recentReceivedLetter = receivedUserRepository.RecentReceivedLetter();
+            System.out.println("---------- recentReceivedLetter = " + recentReceivedLetter);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try { // simpleDateFomat.parse() 를 사용할 땐 무조건 try 구문에 넣어서 사용해야 compile 시 에러가 안남.
+                Date time = simpleDateFormat.parse(recentReceivedLetter);
+                List<MyLetter> newMyLetters = myLetterRepository.newMyLetters(time);
+                System.out.println("---------- newMyLetters = " + newMyLetters);
+
+                for (MyLetter newLetter : newMyLetters) {
+                    System.out.println(newLetter);
+                    ReceivedUser receivedUser = newLetter.myLetterToReceivedUser(newLetter);
+                    receivedUserRepository.save(receivedUser);
+                }
+                return String.format("생성한 ReceivedUser 갯수: %d", newMyLetters.size());
+
+            } catch (ParseException exception) {
+                System.out.println("-------- exception StackTrace --------");
+                exception.printStackTrace();
+            }
+        }
+
+        if (receivedUserRepository.findByUserIdIsNull().isEmpty()) {
+            return "새롭게 생성할 ReceivedUser 가 없습니다.";
+        }
+        List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
+        int numberOfNeededUser = newReceivedUsers.size();
+        List<String> newUsers = myLetterRepository.randomSelectUserId(numberOfNeededUser);
+
+        for (int i = 0; i < numberOfNeededUser; i++) {
+            newReceivedUsers.get(i).setUserId(newUsers.get(i));
+            receivedUserRepository.save(newReceivedUsers.get(i));
+        }
+        return "receivedUser 생성 완료";
     }
+
+
     @Override
     public List<ReceivedUserDTO> findAllMyReceivedLetters(String RequestJwt){
         List<ReceivedUser> foundUser = receivedUserRepository.findAll(); // repository에서 가져오기

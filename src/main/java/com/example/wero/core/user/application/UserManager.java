@@ -59,16 +59,15 @@ public class UserManager implements UserFinder, UserEditor {
 
         if (!userRepository.findById(id).isPresent()) {
             return "{\"message\" : \"" + "존재하지 않는 사용자 입니다." + "\"}";
-        } else {
-            Optional<User> foundUser = userRepository.findById(id);
-            final User user = foundUser.get();
-            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-            boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), user.getUserPw());
-            if (!loginSuccessOrFail) {
-                return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
-            }
         }
-        return "{\"message\" : \"" + "존재하지 않는 사용자입니다." + "\"}";
+        Optional<User> foundUser = userRepository.findById(id);
+        final User user = foundUser.get();
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        boolean loginSuccessOrFail = scpwd.matches(loginUser.getUserPw(), user.getUserPw());
+        if (!loginSuccessOrFail) {
+            return "{\"message\" : \"" + "id 혹은 pw가 틀렸습니다." + "\"}";
+        }
+        return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
 
 
