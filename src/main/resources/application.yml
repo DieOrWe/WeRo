@@ -26,4 +26,8 @@ spring:
 jwt:
   secret: hi.man.aa.bb
 
+key:
+  spring.security.oauth2.client.registration.google.client-id: 438276004747-auer7q9fqk70187cdmf4l1mhjqn9caf5.apps.googleusercontent.com
+  spring.security.oauth2.client.registration.google.client-secret: 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
+  spring.security.oauth2.client.registration.google.scope : profile,email
 
