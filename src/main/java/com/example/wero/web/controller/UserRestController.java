@@ -65,7 +65,7 @@ public class UserRestController {
 
 
     @PutMapping("/data/updateWord/{userId}")
-    public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
+    public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, String changePw) {
         return editor.updateUserPw(userId, userPw, changePw);
     }
 
@@ -77,7 +77,7 @@ public class UserRestController {
 
     @PostMapping("/data/findId")
     public String findId(@RequestBody String userEmail) {
-        return finder.findId(userEmail);
+        return finder.findId(userEmail.substring(1, userEmail.length()-1));
     }
 
     @PostMapping("/data/findPw") // userPw 는 새로 바꿀 Pw를 받음.
