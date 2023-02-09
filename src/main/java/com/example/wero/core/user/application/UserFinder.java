@@ -35,4 +35,7 @@ public interface UserFinder {
 
     Boolean checkPw(String userId, String userPw);
 
+    String findEmail(String userId);
+    
+
 }
