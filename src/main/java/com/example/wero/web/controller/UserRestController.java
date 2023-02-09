@@ -3,63 +3,76 @@ package com.example.wero.web.controller;
 import com.example.wero.core.user.application.UserEditor;
 import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(path = "api/user")
 public class UserRestController {
 
+ 
+    private final UserFinder finder;
+    private final UserEditor editor;
 
     public UserRestController(UserFinder finder, UserEditor editor) {
         this.finder = finder;
         this.editor = editor;
     }
 
-    private final UserFinder finder;
-    private final UserEditor editor;
+    @PostMapping("/admin/IdPw/{userId}")
+    public Boolean checkPw(@PathVariable String userId, @RequestBody String userPw) {
+        return finder.checkPw(userId, userPw);
+    }
 
 
-
-    @GetMapping
+    @GetMapping("/admin")
     public List<UserDTO> findAll() {
-        System.out.println("findAll() called");
         return finder.findAll();
     }
-    @GetMapping("/{userId}") // localhost:8080/api/user/guguttemi <- 이렇게 받을거임
-    public UserDTO findUser(@PathVariable String userId) { // @PathVariable 이렇게 해야 아이디 값을 받아올 수 있음. -> url 변수의 경우
-        // @PathVariable에 대한 추가 정보 ref) https://leeborn.tistory.com/entry/Spring-PathVariable-%EA%B8%B0%EB%B3%B8%EA%B0%92-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
+
+
+    @GetMapping("/{userId}")
+    public UserDTO findUser(@PathVariable String userId) {
         return finder.findUser(userId);
     }
 
-    @PostMapping
-    public String createUser(@RequestBody @Validated UserDTO newUser, BindingResult br) {
+    @PostMapping("/login")
+    public String loginUser(@RequestBody UserDTO loginUser) {
+        return finder.loginUser(loginUser);
+    }
 
-        System.out.println(br);
-        if(br.hasErrors()) {
-            List<ObjectError> list =  br.getAllErrors();
-//            for(ObjectError e : list) {
-//              return e.getDefaultMessage();
-//            }
-            return list.toString();
-        }
+    @PostMapping
+    public String createUser(@RequestBody UserDTO newUser) {
         return editor.createUser(newUser);
     }
 
-    @PutMapping
-    public String updateUser(@RequestParam("id") String id, @RequestParam("pw") String pw, @RequestBody UserDTO updateUser) {
 
-        return editor.updateUser(id, pw, updateUser);
-
+    @PutMapping("/data")
+    public String updateUser(@RequestBody UserDTO updateUser) {
+        return editor.updateUser(updateUser);
     }
 
-    @DeleteMapping
-    public String deleteUser(@RequestParam("id") String id){
-        return editor.deleteUser(id);
+
+    @PutMapping("/data/updateWord/{userId}")
+    public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
+        return editor.updateUserPw(userId, userPw, changePw);
+    }
+
+
+    @DeleteMapping("/data/{userId}")
+    public String deleteUser(@PathVariable String userId, @RequestBody String userPw) {
+        return editor.deleteUser(userId, userPw);
     }
 
 }

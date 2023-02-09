@@ -1,28 +1,29 @@
 package com.example.wero.core.user.domain;
 
-import lombok.*;
-import org.hibernate.validator.constraints.Length;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import javax.persistence.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter @Setter
+@Getter
 @ToString
 @Entity
 @Table(name = "Users")
 public class User {
     @Column(name = "userID")
     @Id
-    private String userId; // 회원ID
+    private String userId; // 회원 ID
     @Column(name = "userPW")
     private String userPw; // 비밀번호
-    @Column(name = "userMobileNumber")
-    private String userMobileNumber; // 휴대폰번호
-    // Todo: 준 - 요즘은 Date말고 다른거 있지않나?
     @Column(name = "userCreateWhen")
     private String userCreatedWhen; // 생성일자
     @Column(name = "userNickName")
@@ -33,19 +34,18 @@ public class User {
     private boolean userNotify; // 알림동의여부
 
     public UserDTO toUserDTO(User user) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
 
         return UserDTO.builder()
                 .userId(userId)
                 .userPw(userPw)
-                .userMobileNumber(userMobileNumber)
-                .userCreatedWhen(formatter.format(date))
+                .userCreatedWhen(userCreatedWhen)
                 .userNickName(userNickName)
                 .userEmail(userEmail)
                 .userNotify(userNotify)
                 .build();
     }
 
+    public void setUserPw(String userPw) {
+        this.userPw = userPw;
+    }
 }
