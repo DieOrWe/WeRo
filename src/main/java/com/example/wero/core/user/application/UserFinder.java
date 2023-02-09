@@ -32,4 +32,23 @@ public interface UserFinder {
 
     Boolean checkPw(String userId, String userPw);
 
+    /**
+     * user 가 회원 ID 를 잊은 경우
+     * 이메일 정보를 받아서 유효성 검증을 해서 알려줌.
+     * @param userEmail
+     * @return
+     */
+    String findId(String userEmail);
+
+    /**
+     * 회원 Pw 를 잊은 경우
+     * 회원 Id 와 이메일 정보르 받아서 유효성 검증을 하고
+     * 입력받은 비밀번호로 다시 변경할 수 있게 해줌.
+     * @param userId
+     * @param userEmail
+     * @param userPw
+     * @return String message
+     */
+    String findPw(String userId, String userEmail, String userPw);
+
 }

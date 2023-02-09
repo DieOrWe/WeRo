@@ -102,10 +102,12 @@ public class UserManager implements UserFinder, UserEditor {
                 return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
             }
             final User updateUserEntity = modelMapper.map(updateUser, User.class);
+            updateUserEntity.setUserPw(scpwd.encode(updateUser.getUserPw()));
             userRepository.save(updateUserEntity);
             Long expiredMs = 3000 * 60 * 60L;
             return "{\"token\" : \"" + JwtUtil.createJwt(updateUser, secretKey, expiredMs) + "\"}";
         }
+        System.out.println("-------- 등록된 ID와 다른 값이 전달됨.");
         return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
     }
 
@@ -144,4 +146,32 @@ public class UserManager implements UserFinder, UserEditor {
         return "{\"message\" : \"" + "회원정보가 일치하지 않습니다." + "\"}";
     }
 
+    @Override
+    public String findId(String userEmail) {
+        try {
+            User foundUser = userRepository.findByUserEmail(userEmail);
+            UserDTO foundUserDTO = modelMapper.map(foundUser, UserDTO.class);
+            System.out.println(foundUserDTO.getUserId());
+            return foundUserDTO.getUserId();
+        } catch (Exception ex) {
+            return "등록된 회원정보에 입력된 Email이 없습니다.";
+        }
+    }
+
+    @Override
+    public String findPw(String userId, String userEmail, String userPw) {
+        Optional<User> foundUser = userRepository.findById(userId);
+        if (foundUser.isEmpty()) {
+            return "{\"message\" : \"" + "등록된 계정 정보가 없습니다." + "\"}";
+        }
+        User user = foundUser.get();
+        if (user.getUserEmail().equals(userEmail)) {
+            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+            String password = scpwd.encode(userPw);
+            user.setUserPw(password);
+            userRepository.save(user);
+            return "{\"message\" : \"" + "비밀번호가 성공적으로 변경 되었습니다." + "\"}";
+        }
+        return "{\"message\" : \"" + "입력한 Email 주소가 등록된 사용자 정보와 일치하지 않습니다." + "\"}";
+    }
 }

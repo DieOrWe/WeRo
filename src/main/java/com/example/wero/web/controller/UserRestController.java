@@ -66,4 +66,14 @@ public class UserRestController {
         return editor.deleteUser(userId, userPw);
     }
 
+    @PostMapping("/data/findId")
+    public String findId(@RequestBody String userEmail) {
+        return finder.findId(userEmail);
+    }
+
+    @PostMapping("/data/findPw") // userPw 는 새로 바꿀 Pw를 받음.
+    public String findPw(@RequestBody String userId, String userEmail, String userPw) {
+        return finder.findPw(userId, userEmail, userPw);
+    }
+
 }
