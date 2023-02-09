@@ -54,17 +54,7 @@ public class UserManager implements UserFinder, UserEditor {
         return modelMapper.map(user, UserDTO.class);
     }
 
-    @Override
-    public String findEmail(String userEmail) {
-        Optional<User> foundUser = userRepository.findByUserEmail(userEmail);
-        if (foundUser.isEmpty()) {
-            return "{\"message\" : \"" + "등록된 계정 정보가 없습니다." + "\"}";
-        }
 
-        UserDTO foundUserDTO = modelMapper.map(foundUser.get(), UserDTO.class);
-        System.out.println(foundUserDTO);
-        return foundUserDTO.getUserId();
-    }
 
     @Override
     public String loginUser(UserDTO loginUser) {

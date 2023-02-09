@@ -36,9 +36,6 @@ public interface UserFinder {
 
     Boolean checkPw(String userId, String userPw);
 
-<<<<<<
-
-    <HEAD
     /**
      * user 가 회원 ID 를 잊은 경우
      * 이메일 정보를 받아서 유효성 검증을 해서 알려줌.
