@@ -4,6 +4,7 @@ import com.example.wero.core.user.application.UserEditor;
 import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
 
+import com.example.wero.core.user.domain.UserVo;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,8 @@ public class UserRestController {
     }
 
 
+
+
     @GetMapping("/admin")
     public List<UserDTO> findAll() {
         return finder.findAll();
@@ -64,10 +67,11 @@ public class UserRestController {
     }
 
 
-    @PutMapping("/data/updateWord/{userId}")
-    public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
-        return editor.updateUserPw(userId, userPw, changePw);
+    @PostMapping("/data/updateWord/{userId}")
+    public String updateUserPw(@PathVariable String userId, @RequestBody String changePw) {
+        return editor.updateUserPw(userId, changePw);
     }
+    //    변경 -> 회원정보 확인(checkPw) -> 진짜 변경하는 부분(updateUserPw)
 
 
     @DeleteMapping("/data/{userId}")
@@ -81,8 +85,8 @@ public class UserRestController {
     }
 
     @PostMapping("/data/findPw") // userPw 는 새로 바꿀 Pw를 받음.
-    public String findPw(@RequestBody String userId, String userEmail, String userPw) {
-        return finder.findPw(userId, userEmail, userPw);
+    public String findPw(@RequestBody UserVo userVo) {
+        return finder.findPw(userVo);
     }
 
 }

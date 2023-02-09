@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter @Setter
+@Getter
 @ToString
 @Entity
 @Table(name = "Users")
@@ -48,4 +48,5 @@ public class User {
     public void setUserPw(String userPw) {
         this.userPw = userPw;
     }
+
 }

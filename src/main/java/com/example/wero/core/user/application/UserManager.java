@@ -3,6 +3,7 @@ package com.example.wero.core.user.application;
 import com.example.wero.core.jwtutils.JwtUtil;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
+import com.example.wero.core.user.domain.UserVo;
 import com.example.wero.core.user.infrastructure.UserRepository;
 
 import org.modelmapper.ModelMapper;
@@ -76,11 +77,13 @@ public class UserManager implements UserFinder, UserEditor {
     public String createUser(UserDTO newUser) {
 
         boolean createSuccessOrFail = userRepository.findById(newUser.getUserId()).isPresent();
+        boolean createSuccessOrFail2 = userRepository.findByUserEmail(newUser.getUserEmail()).isPresent();
 
         if (createSuccessOrFail) {
             return "{\"message\" : \"" + "이미 존재하는 ID 입니다." + "\"}";
+        } else if (createSuccessOrFail2) {
+            return "{\"message\" : \"" + "이미 존재하는 Email 입니다." + "\"}";
         }
-
         BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         String password = scpwd.encode(newUser.getUserPw());
         User user = modelMapper.map(newUser, User.class);
@@ -113,21 +116,17 @@ public class UserManager implements UserFinder, UserEditor {
     }
 
     @Override
-    public String updateUserPw(String userId, String userPw, String changePw) {
-        final Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-            boolean loginSuccessOrFail = scpwd.matches(userPw, foundUser.getUserPw());
-
-            if (!loginSuccessOrFail) {
-                return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
-            }
-            foundUser.setUserPw(changePw);
-            userRepository.save(foundUser);
-            return "{\"message\" : \"" + "비밀번호 변경이 성공적으로 이루어졌습니다." + "\"}";
+    public String updateUserPw(String userId, String changePw) {
+        Optional<User> foundUser = userRepository.findById(userId);
+        if (foundUser.isEmpty()) {
+            return "{\"message\" : \"" + "비밀번호 변경 실패(Not Found User)." + "\"}";
         }
-        return "{\"message\" : \"" + "pw가 틀렸습니다." + "\"}";
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        String password = scpwd.encode(changePw);
+        User pwUpdateUser = foundUser.get();
+        pwUpdateUser.setUserPw(password);
+        userRepository.save(pwUpdateUser);
+        return "{\"message\" : \"" + "비밀번호 변경이 성공적으로 이루어졌습니다." + "\"}";
     }
 
     @Override
@@ -149,6 +148,7 @@ public class UserManager implements UserFinder, UserEditor {
 
     @Override
     public String findId(String userEmail) {
+        // ToDo: 이메일 하나만 만들 수 있게 해야됨 - 여러 이메일로 여러 아이디 만들면 답이 없음
         Optional<User> foundUser = userRepository.findByUserEmail(userEmail);
         if (foundUser.isEmpty()) {
             return "{\"message\" : \"" + "등록된 계정 정보가 없습니다." + "\"}";
@@ -160,15 +160,15 @@ public class UserManager implements UserFinder, UserEditor {
     }
 
     @Override
-    public String findPw(String userId, String userEmail, String userPw) {
-        Optional<User> foundUser = userRepository.findById(userId);
+    public String findPw(UserVo userVo) {
+        Optional<User> foundUser = userRepository.findById(userVo.getUserId());
         if (foundUser.isEmpty()) {
             return "{\"message\" : \"" + "등록된 계정 정보가 없습니다." + "\"}";
         }
         User user = foundUser.get();
-        if (user.getUserEmail().equals(userEmail)) {
+        if (user.getUserEmail().equals(userVo.getUserEmail())) {
             BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-            String password = scpwd.encode(userPw);
+            String password = scpwd.encode(userVo.getUserPw());
             user.setUserPw(password);
             userRepository.save(user);
             return "{\"message\" : \"" + "비밀번호가 성공적으로 변경 되었습니다." + "\"}";
