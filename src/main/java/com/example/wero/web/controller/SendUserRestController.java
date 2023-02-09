@@ -11,11 +11,11 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "api/user/sendLetters")
-public class SendUserController {
+public class SendUserRestController {
     private final SendUserFinder finder;
     private final SendUserEditor editor;
 
-    public SendUserController(SendUserFinder finder, SendUserEditor editor) {
+    public SendUserRestController(SendUserFinder finder, SendUserEditor editor) {
         this.finder = finder;
         this.editor = editor;
     }

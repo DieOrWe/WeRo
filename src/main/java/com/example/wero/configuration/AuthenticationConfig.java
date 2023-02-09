@@ -1,7 +1,7 @@
 package com.example.wero.configuration;
 
 import com.example.wero.core.user.application.UserManager;
-import com.example.wero.core.utils.JwtFilter;
+import com.example.wero.core.jwtutils.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

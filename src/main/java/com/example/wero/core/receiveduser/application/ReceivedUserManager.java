@@ -6,17 +6,11 @@ import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
-import com.example.wero.core.user.domain.User;
-import com.example.wero.core.user.infrastructure.UserRepository;
-import com.example.wero.core.utils.JwtUtil;
+import com.example.wero.core.jwtutils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Request;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;

@@ -1,4 +1,4 @@
-package com.example.wero.core.utils;
+package com.example.wero.core.jwtutils;
 
 import com.example.wero.core.user.domain.UserDTO;
 import io.jsonwebtoken.Jwts;

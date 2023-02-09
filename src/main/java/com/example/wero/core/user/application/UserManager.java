@@ -3,7 +3,7 @@ package com.example.wero.core.user.application;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.infrastructure.UserRepository;
-import com.example.wero.core.utils.JwtUtil;
+import com.example.wero.core.jwtutils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

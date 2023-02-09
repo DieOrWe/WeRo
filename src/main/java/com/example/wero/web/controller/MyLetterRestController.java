@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "api/myLetter")
-public class MyLetterController {
+public class MyLetterRestController {
     private final MyLetterFinder finder;
     private final MyLetterEditor editor;
     private final MyLetterRepository myLetterRepository;
 
-    public MyLetterController(MyLetterFinder finder, MyLetterEditor editor, MyLetterRepository myLetterRepository) {
+    public MyLetterRestController(MyLetterFinder finder, MyLetterEditor editor, MyLetterRepository myLetterRepository) {
         this.finder = finder;
         this.editor = editor;
         this.myLetterRepository = myLetterRepository;

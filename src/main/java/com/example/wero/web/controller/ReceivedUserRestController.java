@@ -1,12 +1,10 @@
 package com.example.wero.web.controller;
 
 
-import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.receiveduser.application.ReceivedUserEditor;
 import com.example.wero.core.receiveduser.application.ReceivedUserFinder;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,12 +12,12 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "api/user/myLetters")
-public class ReceivedUserController {
+public class ReceivedUserRestController {
 
     private final ReceivedUserFinder finder;
     private final ReceivedUserEditor editor;
 
-    public ReceivedUserController(ReceivedUserFinder finder, ReceivedUserEditor editor) {
+    public ReceivedUserRestController(ReceivedUserFinder finder, ReceivedUserEditor editor) {
         this.finder = finder;
         this.editor = editor;
     }
