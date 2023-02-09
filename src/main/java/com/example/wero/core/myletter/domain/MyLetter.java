@@ -3,10 +3,20 @@ package com.example.wero.core.myletter.domain;
 import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.senduser.domain.SendUser;
 import com.example.wero.core.user.domain.User;
-import lombok.*;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,20 +30,18 @@ public class MyLetter {
 
     @Id
     @Column(name = "myLetterId", updatable = false)
-    private String myLetterId; // 편지 Id는 프론트에서 정해진 규칙에 맞춰서 작성됨(클라이언트가 작성하는 것이 아닌 front에서 작성
+    private String myLetterId; // 편지 Id는 프론트에서 정해진 규칙에 맞춰서 작성됨(클라이언트가 작성하는 것이 아닌 front 에서 작성
 
     @Column(name = "user_id", insertable = false, updatable = false)
     private String writerId;
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
     private String myLetterTitle;
     private String myLetterContent;
     @Column(name = "created_when")
     private String myLetterCreatedWhen;
     private boolean myLetterIsPrivate;
-    
-    
 
 
     public MyLetterDTO toMyLetterDTO(MyLetter myLetter) {
@@ -59,11 +67,11 @@ public class MyLetter {
                 .build();
     }
 
-    public ReceivedUser myLetterToReceivedUser(MyLetter myLetter){
+    public ReceivedUser myLetterToReceivedUser(MyLetter myLetter) {
         System.out.println("----------- MyLetterID" + myLetter.getMyLetterId());
         System.out.println("----------- UserId" + myLetter.user.getUserId());
         return ReceivedUser.builder()
-                .userId(null)  // userId에는 작성자가 아니라, 받는 회원의 Id가 들어가야 됨. 후에 해당 메소드 호출 한 뒤에 userId를 토큰을 통해 지정해줘야함.
+                .userId(null)  // userId 에는 작성자가 아니라, 받는 회원의 Id가 들어가야 됨. 후에 해당 메소드 호출 한 뒤에 userId를 토큰을 통해 지정해줘야함.
                 .writerNickName(myLetter.user.getUserNickName()) // 보낸 사람 닉네임
                 .myLetterId(myLetter.getMyLetterId()) // 편지 아이디
                 .myLetterTitle(myLetter.getMyLetterTitle()) // 편지 제목

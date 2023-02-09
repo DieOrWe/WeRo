@@ -1,10 +1,18 @@
 package com.example.wero.core.receiveduser.domain;
 
-import com.example.wero.core.myletter.domain.MyLetter;
-import com.example.wero.core.user.domain.User;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import lombok.*;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +23,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ReceivedUsers")
 public class ReceivedUser {
-
+ 
     @Id
     @Column(name = "index")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,9 +43,9 @@ public class ReceivedUser {
     private String letterReceivedWhen;
 
     private boolean isRead;
-    
 
-    public ReceivedUserDTO receivedUserDTO(ReceivedUser receivedUser){
+
+    public ReceivedUserDTO receivedUserDTO(ReceivedUser receivedUser) {
         return ReceivedUserDTO.builder()
                 .userId(userId)
                 .myLetterId(myLetterId)

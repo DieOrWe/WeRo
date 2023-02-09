@@ -6,9 +6,8 @@ logging:
 
 spring:
   mvc:
-    pathmatch:
+    path-match:
       matching-strategy: ant_path_matcher
-  # DB
   datasource:
     url: jdbc:h2:tcp://localhost/~/test
     driver-class-name: org.h2.Driver
@@ -20,13 +19,6 @@ spring:
   #    password: Asdf1234@
   jpa:
     show-sql: true
-#javax:
-#  persistence:
-#    schema-generation:
-#      database:
-#        action: create-or-extend-tables
-
-    #    hibernate.hbm2ddl.auto: update
     hibernate:
       ddl-auto: create
 

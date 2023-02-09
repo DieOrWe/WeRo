@@ -1,9 +1,10 @@
 package com.example.wero.core.user.application;
 
+import com.example.wero.core.jwtutils.JwtUtil;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.infrastructure.UserRepository;
-import com.example.wero.core.jwtutils.JwtUtil;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,7 +58,7 @@ public class UserManager implements UserFinder, UserEditor {
         Long expiredMs = 3000 * 60 * 60L;
         String id = loginUser.getUserId();
 
-        if (!userRepository.findById(id).isPresent()) {
+        if (userRepository.findById(id).isEmpty()) {
             return "{\"message\" : \"" + "존재하지 않는 사용자 입니다." + "\"}";
         }
         Optional<User> foundUser = userRepository.findById(id);
@@ -70,7 +71,7 @@ public class UserManager implements UserFinder, UserEditor {
         return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
 
-
+ 
     @Override
     public String createUser(UserDTO newUser) {
 
@@ -148,14 +149,14 @@ public class UserManager implements UserFinder, UserEditor {
 
     @Override
     public String findId(String userEmail) {
-        try {
-            User foundUser = userRepository.findByUserEmail(userEmail);
-            UserDTO foundUserDTO = modelMapper.map(foundUser, UserDTO.class);
-            System.out.println(foundUserDTO.getUserId());
-            return foundUserDTO.getUserId();
-        } catch (Exception ex) {
-            return "등록된 회원정보에 입력된 Email이 없습니다.";
+        Optional<User> foundUser = userRepository.findByUserEmail(userEmail);
+        if (foundUser.isEmpty()) {
+            return "{\"message\" : \"" + "등록된 계정 정보가 없습니다." + "\"}";
         }
+
+        UserDTO foundUserDTO = modelMapper.map(foundUser.get(), UserDTO.class);
+        System.out.println(foundUserDTO);
+        return foundUserDTO.getUserId();
     }
 
     @Override

@@ -3,7 +3,16 @@ package com.example.wero.web.controller;
 import com.example.wero.core.user.application.UserEditor;
 import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -12,7 +21,7 @@ import java.util.List;
 @RequestMapping(path = "api/user")
 public class UserRestController {
 
-
+ 
     private final UserFinder finder;
     private final UserEditor editor;
 
@@ -58,7 +67,7 @@ public class UserRestController {
     @PutMapping("/data/updateWord/{userId}")
     public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
         return editor.updateUserPw(userId, userPw, changePw);
-    };
+    }
 
 
     @DeleteMapping("/data/{userId}")

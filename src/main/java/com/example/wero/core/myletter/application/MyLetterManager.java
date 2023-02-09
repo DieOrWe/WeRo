@@ -6,8 +6,8 @@ import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 import com.example.wero.core.senduser.application.SendUserEditor;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
+
 import org.modelmapper.ModelMapper;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
 
     @Override
     public MyLetterDTO findMyLetter(String myLetterId) { // 쓰일 일이 있을 것 같아서 일단 구현
-        String message = String.format("%s에 해당하는 MyLetter가 없습니다.", myLetterId);
+        String message = String.format("%s에 해당하는 MyLetter 가 없습니다.", myLetterId);
         final MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
         return modelMapper.map(myLetter, MyLetterDTO.class);
     }
@@ -60,7 +60,7 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
 
     @Override
     public String deleteMyLetter(String myLetterId, String writerId) {
-        // ToDo: 받은사람 + 보낸사람 DB에 편지 id 없으면 MyLetter삭제 (주기적으로 삭제를 하는 기간을 정해서?)
+        // ToDo: 받은사람 + 보낸사람 DB에 편지 id 없으면 MyLetter 삭제 (주기적으로 삭제를 하는 기간을 정해서?)
         return null;
     }
 }
