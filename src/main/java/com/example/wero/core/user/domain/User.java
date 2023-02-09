@@ -1,9 +1,15 @@
 package com.example.wero.core.user.domain;
 
-import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,9 +32,6 @@ public class User {
     private String userEmail; // 이메일
     @Column(name = "userNotify")
     private boolean userNotify; // 알림동의여부
-    
-//    @Column(name = "num_of_send")
-//    private
 
     public UserDTO toUserDTO(User user) {
 
@@ -41,6 +44,7 @@ public class User {
                 .userNotify(userNotify)
                 .build();
     }
+
     public void setUserPw(String userPw) {
         this.userPw = userPw;
     }

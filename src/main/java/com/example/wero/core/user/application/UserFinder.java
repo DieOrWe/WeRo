@@ -9,6 +9,7 @@ public interface UserFinder {
     /**
      * DB에 등록된 모든 User 리스트 반환
      * 하나도 없을 경우 비어있는 리스트 반환
+     *
      * @return List<User> users
      */
     List<UserDTO> findAll();
@@ -17,6 +18,7 @@ public interface UserFinder {
      * 전달된 id와 일치하는 하나의 User 반환
      * DB에 등록된 user 반환
      * 하나도 없을 경우 null 반환
+     *
      * @return User user
      * @throws NoSuchElementException - User 의 id가 유효하지 않을때
      */
@@ -26,6 +28,7 @@ public interface UserFinder {
     /**
      * id와 pw로 로그인기능
      * DB와 id, pw 조회
+     *
      * @return String JWT 토큰
      */
     String loginUser(UserDTO loginUser);

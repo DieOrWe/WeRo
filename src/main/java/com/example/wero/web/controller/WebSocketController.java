@@ -1,10 +1,10 @@
 package com.example.wero.web.controller;
 
-import com.example.wero.core.websocket.domain.BackMessage;
 import com.example.wero.core.websocket.application.WebSocketHandler;
+import com.example.wero.core.websocket.domain.BackMessage;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -15,11 +15,11 @@ public class WebSocketController {
     private final WebSocketHandler webSocketHandler;
 
 
-    public WebSocketController( WebSocketHandler webSocketHandler) {
+    public WebSocketController(WebSocketHandler webSocketHandler) {
         this.webSocketHandler = webSocketHandler;
     }
 
-
+ 
     @MessageMapping("/frontmessage")
     @SendTo("/topic/backmessage")
     public BackMessage backMessage(String myLetterId) throws Exception {
@@ -27,8 +27,8 @@ public class WebSocketController {
     }
 
 
-    // @MessageMapping을 통해 실제 유저가 어떤 메세지를 전달할 endpoint가 된다.
-    // @SendTo도 마찬가지로 client들의 구독 endpoint
+    // @MessageMapping 을 통해 실제 유저가 어떤 메세지를 전달할 endpoint 가 된다.
+    // @SendTo도 마찬가지로 client 들의 구독 endpoint
 
     // RestController vs Controller
 

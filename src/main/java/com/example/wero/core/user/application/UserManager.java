@@ -1,9 +1,10 @@
 package com.example.wero.core.user.application;
 
+import com.example.wero.core.jwtutils.JwtUtil;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.infrastructure.UserRepository;
-import com.example.wero.core.jwtutils.JwtUtil;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,7 +58,7 @@ public class UserManager implements UserFinder, UserEditor {
         Long expiredMs = 3000 * 60 * 60L;
         String id = loginUser.getUserId();
 
-        if (!userRepository.findById(id).isPresent()) {
+        if (userRepository.findById(id).isEmpty()) {
             return "{\"message\" : \"" + "존재하지 않는 사용자 입니다." + "\"}";
         }
         Optional<User> foundUser = userRepository.findById(id);
@@ -70,7 +71,7 @@ public class UserManager implements UserFinder, UserEditor {
         return "{\"token\" : \"" + JwtUtil.createJwt(loginUser, secretKey, expiredMs) + "\"}";
     }
 
-
+ 
     @Override
     public String createUser(UserDTO newUser) {
 

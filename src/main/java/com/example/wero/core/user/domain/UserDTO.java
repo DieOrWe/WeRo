@@ -1,13 +1,13 @@
 package com.example.wero.core.user.domain;
 
-import lombok.*;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * UserDTO 클라이언트의 요청에 사용할 DTO
@@ -37,6 +37,7 @@ public class UserDTO {
     /**
      * UserDTO method
      * UserDTO to User
+     *
      * @return User user
      */
     public User toUser(UserDTO userDTO) {

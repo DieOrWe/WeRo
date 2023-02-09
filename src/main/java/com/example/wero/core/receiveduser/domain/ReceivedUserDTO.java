@@ -1,12 +1,14 @@
 package com.example.wero.core.receiveduser.domain;
 
 
-import com.example.wero.core.myletter.domain.MyLetter;
-import com.example.wero.core.myletter.domain.MyLetterDTO;
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString
@@ -14,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceivedUserDTO {
-
+ 
     @NotBlank
     private String userId;
     private String myLetterId;
@@ -25,7 +27,7 @@ public class ReceivedUserDTO {
     @NotNull
     private boolean isRead;
 
-    public ReceivedUser ToReceivedUser(ReceivedUserDTO receivedUserDTO){
+    public ReceivedUser ToReceivedUser(ReceivedUserDTO receivedUserDTO) {
         return ReceivedUser.builder()
                 .userId(userId)
                 .myLetterId(myLetterId)
