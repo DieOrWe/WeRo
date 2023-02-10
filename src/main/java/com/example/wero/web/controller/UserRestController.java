@@ -3,6 +3,7 @@ package com.example.wero.web.controller;
 import com.example.wero.core.user.application.UserEditor;
 import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
+import com.example.wero.core.user.domain.UserVo;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,8 +21,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(path = "api/user")
 public class UserRestController {
-
- 
+    
     private final UserFinder finder;
     private final UserEditor editor;
 
@@ -47,6 +47,7 @@ public class UserRestController {
         return finder.findUser(userId);
     }
 
+
     @PostMapping("/login")
     public String loginUser(@RequestBody UserDTO loginUser) {
         return finder.loginUser(loginUser);
@@ -64,10 +65,11 @@ public class UserRestController {
     }
 
 
-    @PutMapping("/data/updateWord/{userId}")
-    public String updateUserPw(@PathVariable String userId, @RequestBody String userPw, @RequestBody String changePw) {
-        return editor.updateUserPw(userId, userPw, changePw);
+    @PostMapping("/data/updateWord/{userId}")
+    public String updateUserPw(@PathVariable String userId, @RequestBody String changePw) {
+        return editor.updateUserPw(userId, changePw);
     }
+    //    변경 -> 회원정보 확인(checkPw) -> 진짜 변경하는 부분(updateUserPw)
 
 
     @DeleteMapping("/data/{userId}")
@@ -75,4 +77,18 @@ public class UserRestController {
         return editor.deleteUser(userId, userPw);
     }
 
+    @PostMapping("/data/findId")
+    public String findId(@RequestBody String userEmail) {
+        return finder.findId(userEmail.substring(1, userEmail.length() - 1));
+    }
+
+    @PostMapping("/data/findPw") // userPw 는 새로 바꿀 Pw를 받음.
+    public String findPw(@RequestBody UserVo userVo) {
+        return finder.findPw(userVo);
+    }
+
+    @PostMapping("/getGoogleAuthUrl")
+    public String getGoogleAuthUrl() throws Exception {
+        return finder.getGoogleAuthUrl();
+    }
 }

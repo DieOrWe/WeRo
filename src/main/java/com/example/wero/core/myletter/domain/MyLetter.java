@@ -60,6 +60,7 @@ public class MyLetter {
                 .build();
     }
 
+    // 정적 팩토리 메소드(static factory method)
     public SendUser myLetterToSendUser(MyLetter myLetter) {
         System.out.println("************* myLetterID: ==" + myLetter.getMyLetterId());
         return SendUser.builder()

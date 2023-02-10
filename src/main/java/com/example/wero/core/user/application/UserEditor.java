@@ -32,7 +32,7 @@ public interface UserEditor {
      *
      * @return String message
      */
-    String updateUserPw(String userId, String userPw, String changePw);
+    String updateUserPw(String userId, String changePw);
 
     /**
      * userId 를 통해 DB에 저장되어 있는 Pw와 일치하는지 확인
