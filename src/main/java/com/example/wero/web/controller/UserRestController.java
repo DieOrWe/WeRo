@@ -21,7 +21,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(path = "api/user")
 public class UserRestController {
-    
+
     private final UserFinder finder;
     private final UserEditor editor;
 
@@ -87,7 +87,7 @@ public class UserRestController {
         return finder.findPw(userVo);
     }
 
-    @PostMapping("/getGoogleAuthUrl")
+    @GetMapping("/getGoogleAuthUrl")
     public String getGoogleAuthUrl() throws Exception {
         return finder.getGoogleAuthUrl();
     }
