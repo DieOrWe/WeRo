@@ -104,17 +104,17 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
 
 
     @Override
-    public List<ReceivedUserDTO> findAllMyReceivedLetters(String RequestJwt) {
+    public List<ReceivedUserDTO> findAllMyReceivedLetters(String userId) {
         List<ReceivedUser> foundUser = receivedUserRepository.findAll(); // repository 에서 가져오기
         // ReceivedUser -> ReceivedUserDTO 로 변환
         List<ReceivedUserDTO> result = foundUser.stream().map(p -> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
         // 모든 받은 편지를 사용자 ID (userId)로 필터링
-        String[] splitToken = RequestJwt.split("\\s+"); // Authenticate 할 때 "Bearer" 때문에 Jwt 를 공백으로 나누어서 뒷부분만 받아줘야함.
-        System.out.println(splitToken[1].toString());
-        log.info(splitToken[1].toString());
-        String userId = JwtUtil.getUserId(splitToken[1].toString(), secretKey);
+//        String[] splitToken = RequestJwt.split("\\s+"); // Authenticate 할 때 "Bearer" 때문에 Jwt 를 공백으로 나누어서 뒷부분만 받아줘야함.
+        System.out.println("===== userId :" + result);
+//        String userId = JwtUtil.getUserId(splitToken[1].toString(), secretKey);
         List<ReceivedUserDTO> filteredResult;
-        filteredResult = result.stream().filter(a -> a.getUserId().equals(userId))
+        filteredResult = result.stream()
+                .filter(a -> a.getUserId().equals(userId))
                 .collect(Collectors.toList());
         return filteredResult;
     }
