@@ -1,8 +1,8 @@
 package com.example.wero.configuration;
 
+import com.example.wero.core.jwtutils.JwtFilter;
 import com.example.wero.core.user.application.UserManager;
-import com.example.wero.core.utils.JwtFilter;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 
 // security 의 config 파일

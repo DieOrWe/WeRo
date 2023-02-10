@@ -1,8 +1,12 @@
 package com.example.wero.core.senduser.domain;
 
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString
@@ -22,7 +26,7 @@ public class SendUserDTO {
     private String letterCreatedWhen;
 
 
-    public SendUser toSendUser (SendUserDTO sendUserDTO){
+    public SendUser toSendUser(SendUserDTO sendUserDTO) {
         return SendUser.builder()
                 .userId(userId)
                 .userNickName(userNickName)

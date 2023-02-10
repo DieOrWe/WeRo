@@ -1,3 +1,6 @@
+server:
+  port: 5000
+
 logging:
   pattern:
     console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
@@ -6,33 +9,27 @@ logging:
 
 spring:
   mvc:
-    pathmatch:
+    path-match:
       matching-strategy: ant_path_matcher
-  # DB
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/test
-    driver-class-name: org.h2.Driver
-    username: sa
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/test
+#    driver-class-name: org.h2.Driver
+#    username: sa
   #  datasource:
   #    driver-class-name: com.mysql.cj.jdbc.Driver
   #    url: jdbc:mysql://localhost:3306/Wero?serverTimezone=UTC&characterEncoding=UTF-8
   #    username: root
   #    password: Asdf1234@
-  jpa:
-    show-sql: true
-#javax:
-#  persistence:
-#    schema-generation:
-#      database:
-#        action: create-or-extend-tables
-
-    #    hibernate.hbm2ddl.auto: update
-    hibernate:
-      ddl-auto: create
-
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create
 
 
 jwt:
   secret: hi.man.aa.bb
 
-
+key:
+  spring.security.oauth2.client.registration.google.client-id: 438276004747-auer7q9fqk70187cdmf4l1mhjqn9caf5.apps.googleusercontent.com
+  spring.security.oauth2.client.registration.google.client-secret: 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
+  spring.security.oauth2.client.registration.google.scope : profile,email

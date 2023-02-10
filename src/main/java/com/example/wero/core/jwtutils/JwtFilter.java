@@ -1,8 +1,7 @@
-package com.example.wero.core.utils;
+package com.example.wero.core.jwtutils;
 
 import com.example.wero.core.user.application.UserManager;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,12 +9,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 // 로그인시 발급받은 Jwt 토큰을 확인하는 (인증)
 // 이후 권한을 확인하는 (인가) 과정
@@ -42,8 +45,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Token 꺼내기
         String token = authorization.split(" ")[1];
-        log.info("Realtoken:{}", token);
-        log.info("secretKey:{}", secretKey);
+//        log.info("Realtoken:{}", token);
+//        log.info("secretKey:{}", secretKey);
 
 
         // Token expired (만료)확인
@@ -59,12 +62,12 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("UserId:{}", UserId);
 
         // Token 에서 userNickName 꺼내기
-        String UserNickName = JwtUtil.getUserNickName(token, secretKey);
-        log.info("UserNickName:{}", UserNickName);
+//        String UserNickName = JwtUtil.getUserNickName(token, secretKey);
+//        log.info("UserNickName:{}", UserNickName);
 
         // 프론트에서 전송된 Jwt 토큰
-        String ReqeustJwt = JwtUtil.getJwt();
-        log.info("ReqeustJwt:{}", ReqeustJwt);
+//        String RequestJwt = JwtUtil.getJwt();
+//        log.info("RequestJwt:{}", RequestJwt);
 
 
         // 권한부여

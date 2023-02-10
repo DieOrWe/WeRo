@@ -11,7 +11,7 @@ public interface ReceivedUserFinder {
      *
      * @return List<ReceivedUserDTO: 회원 ID, 편지 ID, 편지 제목, 작성 일자를 보여줌
      */
-    List<ReceivedUserDTO> findAllMyReceivedLetters(String ReqeustJwt);
+    List<ReceivedUserDTO> findAllMyReceivedLetters(String RequestJwt);
 
     /**
      * 보낸 편지함에서 편지를 클릭했을 때, 해당 편지의 상세 정보를 보여주기 위한 메소드
