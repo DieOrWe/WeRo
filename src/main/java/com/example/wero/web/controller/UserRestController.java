@@ -21,7 +21,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping(path = "api/user")
 public class UserRestController {
-    
+
     private final UserFinder finder;
     private final UserEditor editor;
 
@@ -32,7 +32,7 @@ public class UserRestController {
 
     @PostMapping("/admin/IdPw/{userId}")
     public Boolean checkPw(@PathVariable String userId, @RequestBody String userPw) {
-        return finder.checkPw(userId, userPw);
+        return finder.checkPw(userId, userPw.substring(1,userPw.length()-1));
     }
 
 
@@ -67,7 +67,7 @@ public class UserRestController {
 
     @PostMapping("/data/updateWord/{userId}")
     public String updateUserPw(@PathVariable String userId, @RequestBody String changePw) {
-        return editor.updateUserPw(userId, changePw);
+        return editor.updateUserPw(userId, changePw.substring(1,changePw.length()-1));
     }
     //    변경 -> 회원정보 확인(checkPw) -> 진짜 변경하는 부분(updateUserPw)
 
@@ -87,7 +87,7 @@ public class UserRestController {
         return finder.findPw(userVo);
     }
 
-    @PostMapping("/getGoogleAuthUrl")
+    @GetMapping("/getGoogleAuthUrl")
     public String getGoogleAuthUrl() throws Exception {
         return finder.getGoogleAuthUrl();
     }

@@ -186,7 +186,7 @@ public class UserManager implements UserFinder, UserEditor {
                 + "/o/oauth2/v2/auth?client_id="
                 + googleClientId
                 + "&redirect_uri="
-                + "http://localhost:8080/"
+                + "http://localhost:8080/callback"
                 + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
         return reqUrl;
     }
