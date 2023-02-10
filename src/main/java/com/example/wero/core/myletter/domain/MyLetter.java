@@ -19,6 +19,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -71,12 +74,15 @@ public class MyLetter {
     public ReceivedUser myLetterToReceivedUser(MyLetter myLetter) {
         System.out.println("----------- MyLetterID" + myLetter.getMyLetterId());
         System.out.println("----------- UserId" + myLetter.user.getUserId());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String formattedDate = dateFormat.format(date); // 스트링으로 변환
         return ReceivedUser.builder()
                 .userId(null)  // userId 에는 작성자가 아니라, 받는 회원의 Id가 들어가야 됨. 후에 해당 메소드 호출 한 뒤에 userId를 토큰을 통해 지정해줘야함.
                 .writerNickName(myLetter.user.getUserNickName()) // 보낸 사람 닉네임
                 .myLetterId(myLetter.getMyLetterId()) // 편지 아이디
                 .myLetterTitle(myLetter.getMyLetterTitle()) // 편지 제목
-                .letterReceivedWhen(myLetterCreatedWhen) // 만약 편지 작성 시간에 수신을 바로 한다고 가정했을때는 OK
+                .letterReceivedWhen(formattedDate) // 해당 메소드가 실행되는 시간을 스트링으로 넗어줌
                 .isRead(false)
                 .build();
     }

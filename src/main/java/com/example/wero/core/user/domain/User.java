@@ -19,7 +19,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "Users")
 public class User {
-    @Column(name = "userID")
+    @Column(name = "user_id")
     @Id
     private String userId; // 회원 ID
     @Column(name = "userPW")
