@@ -67,8 +67,6 @@ public class UserRestController {
 
     @PostMapping("/data/updateWord/{userId}")
     public String updateUserPw(@PathVariable String userId, @RequestBody String changePw) {
-        System.out.println(userId);
-        System.out.println(changePw);
         return editor.updateUserPw(userId, changePw.substring(1,changePw.length()-1));
     }
     //    변경 -> 회원정보 확인(checkPw) -> 진짜 변경하는 부분(updateUserPw)
