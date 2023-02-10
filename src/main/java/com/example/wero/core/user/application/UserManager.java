@@ -24,6 +24,9 @@ public class UserManager implements UserFinder, UserEditor {
     @Value("${jwt.secret}")
     private String secretKey;
 
+    @Value("${key.spring.security.oauth2.client.registration.google.client-id}")
+    private String googleClientId;
+
 
     public UserManager(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
@@ -54,17 +57,6 @@ public class UserManager implements UserFinder, UserEditor {
         return modelMapper.map(user, UserDTO.class);
     }
 
-    @Override
-    public String findEmail(String userEmail) {
-        Optional<User> foundUser = userRepository.findByUserEmail(userEmail);
-        if (foundUser.isEmpty()) {
-            return "{\"message\" : \"" + "등록된 계정 정보가 없습니다." + "\"}";
-        }
-
-        UserDTO foundUserDTO = modelMapper.map(foundUser.get(), UserDTO.class);
-        System.out.println(foundUserDTO);
-        return foundUserDTO.getUserId();
-    }
 
     @Override
     public String loginUser(UserDTO loginUser) {
@@ -186,5 +178,17 @@ public class UserManager implements UserFinder, UserEditor {
             return "{\"message\" : \"" + "비밀번호가 성공적으로 변경 되었습니다." + "\"}";
         }
         return "{\"message\" : \"" + "입력한 Email 주소가 등록된 사용자 정보와 일치하지 않습니다." + "\"}";
+    }
+
+
+    @Override
+    public String getGoogleAuthUrl() {
+        String reqUrl = "https://accounts.google.com"
+                + "/o/oauth2/v2/auth?client_id="
+                + googleClientId
+                + "&redirect_uri="
+                + "http://localhost:8080/login"
+                + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
+        return reqUrl;
     }
 }
