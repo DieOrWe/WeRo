@@ -28,7 +28,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/gs-guide-websocket").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/gs-guide-websocket").withSockJS();
+        .setAllowedOriginPatterns("*")
     }
 
     // SockJS는 WebSockets를 지원하지 않는 이전 브라우저에 대한 폴백 메커니즘을 제공하여
