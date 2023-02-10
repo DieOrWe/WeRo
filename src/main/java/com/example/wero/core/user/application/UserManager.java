@@ -57,7 +57,6 @@ public class UserManager implements UserFinder, UserEditor {
         return modelMapper.map(user, UserDTO.class);
     }
 
-
     @Override
     public String loginUser(UserDTO loginUser) {
         Long expiredMs = 3000 * 60 * 60L;
