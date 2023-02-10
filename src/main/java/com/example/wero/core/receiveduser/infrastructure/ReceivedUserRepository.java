@@ -17,4 +17,5 @@ public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Inte
     @Query(value = "SELECT * FROM RECEIVED_USERS WHERE USER_ID IS NULL", nativeQuery = true)
     List<ReceivedUser> findByUserIdIsNull();
 
+
 }

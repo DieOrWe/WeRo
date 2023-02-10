@@ -8,20 +8,21 @@ import com.example.wero.core.receiveduser.domain.ReceivedUser;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
 
+import com.example.wero.core.user.domain.User;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@ToString
 //@EnableJpaRepositories
 public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEditor {
     private final ModelMapper modelMapper;
@@ -58,7 +59,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
             if (myLetterRepository.myLetterFindAllByMyLetterIsPrivate().isEmpty()) {
                 return "공개가능한 편지가 없습니다.";
             }
-            String recentReceivedLetter = receivedUserRepository.RecentReceivedLetter();
+            String recentReceivedLetter  = receivedUserRepository.RecentReceivedLetter();
             System.out.println("---------- recentReceivedLetter = " + recentReceivedLetter);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -84,13 +85,20 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
             return "새롭게 생성할 ReceivedUser 가 없습니다.";
         }
         List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
-        int numberOfNeededUser = newReceivedUsers.size();
-        List<String> newUsers = myLetterRepository.randomSelectUserId(numberOfNeededUser);
+        System.out.println("========= newReceivedUsers.size()" + newReceivedUsers.size());
 
-        for (int i = 0; i < numberOfNeededUser; i++) {
-            newReceivedUsers.get(i).setUserId(newUsers.get(i));
-            receivedUserRepository.save(newReceivedUsers.get(i));
+        for (ReceivedUser receivedUser : newReceivedUsers){
+            Optional<String> tempUserID = myLetterRepository.getUserIdByNickName(receivedUser.getWriterNickName());
+            if (tempUserID.isEmpty()){
+                return "myLetter를 작성한 유저가 없습니다.";
+            }
+            System.out.println("========= tempUserId : " + tempUserID);
+            receivedUser.setUserId(tempUserID.get());
+            System.out.println("========= receivedUser : " + receivedUser);
+            receivedUserRepository.save(receivedUser);
         }
+
+
         return "receivedUser 생성 완료";
     }
 
@@ -102,8 +110,9 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
         List<ReceivedUserDTO> result = foundUser.stream().map(p -> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
         // 모든 받은 편지를 사용자 ID (userId)로 필터링
         String[] splitToken = RequestJwt.split("\\s+"); // Authenticate 할 때 "Bearer" 때문에 Jwt 를 공백으로 나누어서 뒷부분만 받아줘야함.
-        log.info(splitToken[1]);
-        String userId = JwtUtil.getUserId(splitToken[1], secretKey);
+        System.out.println(splitToken[1].toString());
+        log.info(splitToken[1].toString());
+        String userId = JwtUtil.getUserId(splitToken[1].toString(), secretKey);
         List<ReceivedUserDTO> filteredResult;
         filteredResult = result.stream().filter(a -> a.getUserId().equals(userId))
                 .collect(Collectors.toList());

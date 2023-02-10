@@ -1,5 +1,6 @@
 package com.example.wero.core.myletter.domain;
 
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -8,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 
 
 @Getter
@@ -34,6 +36,7 @@ public class MyLetterDTO {
     private boolean myLetterIsPrivate;
 
 
+
     public MyLetter myLetter(MyLetterDTO toMyLetterDTO) {
         return MyLetter.builder()
                 .myLetterId(myLetterId)
@@ -45,3 +48,4 @@ public class MyLetterDTO {
                 .build();
     }
 }
+
