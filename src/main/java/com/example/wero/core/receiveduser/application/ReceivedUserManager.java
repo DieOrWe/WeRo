@@ -56,6 +56,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
                     ReceivedUser receivedUser = newLetter.myLetterToReceivedUser(newLetter);
                     receivedUserRepository.save(receivedUser);
                 }
+                return createUserIdInReceivedUser();
             }
         } else {
             // 2. myLetterRepository 에서 recentReceivedLetter 이후에 생성된 편지 쿼리문을 통해 List<MyLetter> newMyLetters 로 반환
@@ -76,21 +77,24 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
                     ReceivedUser receivedUser = newLetter.myLetterToReceivedUser(newLetter);
                     receivedUserRepository.save(receivedUser);
                 }
-                return String.format("생성한 ReceivedUser 갯수: %d", newMyLetters.size());
+                return createUserIdInReceivedUser();
 
             } catch (ParseException exception) {
                 System.out.println("-------- exception StackTrace --------");
                 exception.printStackTrace();
             }
         }
-
+        return "createReceivedUser called()";
+    }
+    
+    public String createUserIdInReceivedUser() {
         if (receivedUserRepository.findByUserIdIsNull().isEmpty()) {
             return "새롭게 생성할 ReceivedUser 가 없습니다.";
         }
         List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
         System.out.println("========= newReceivedUsers.size()" + newReceivedUsers.size());
-        
-
+    
+    
         for (ReceivedUser receivedUser : newReceivedUsers){
             Optional<String> tempUserID = myLetterRepository.getUserIdByNickName(receivedUser.getWriterNickName());
             if (tempUserID.isEmpty()){
@@ -101,9 +105,9 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
             System.out.println("========= receivedUser : " + receivedUser);
             receivedUserRepository.save(receivedUser);
         }
-        
+    
         returnBackMessage(newReceivedUsers);
-
+    
         return "ReceivedUser 생성 완료!";
     }
     
