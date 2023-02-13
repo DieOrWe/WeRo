@@ -9,6 +9,8 @@ import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
 
 import com.example.wero.core.user.domain.User;
+import com.example.wero.core.user.domain.UserDTO;
+import com.example.wero.core.websocket.domain.BackMessage;
 import lombok.ToString;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.util.HtmlUtils;
 
 @Slf4j
 @Service
@@ -86,6 +89,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
         }
         List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
         System.out.println("========= newReceivedUsers.size()" + newReceivedUsers.size());
+        
 
         for (ReceivedUser receivedUser : newReceivedUsers){
             Optional<String> tempUserID = myLetterRepository.getUserIdByNickName(receivedUser.getWriterNickName());
@@ -97,21 +101,23 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
             System.out.println("========= receivedUser : " + receivedUser);
             receivedUserRepository.save(receivedUser);
         }
+        
+        returnBackMessage(newReceivedUsers);
 
-
-        return "receivedUser 생성 완료";
+        return "ReceivedUser 생성 완료!";
+    }
+    
+    public BackMessage returnBackMessage(List<ReceivedUser> newReceivedUsers) {
+        List<ReceivedUserDTO> newReceivedUserDTOS = newReceivedUsers.stream().map(p -> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
+        return new BackMessage(HtmlUtils.htmlEscape(newReceivedUserDTOS.toString()));
     }
 
 
     @Override
     public List<ReceivedUserDTO> findAllMyReceivedLetters(String userId) {
         List<ReceivedUser> foundUser = receivedUserRepository.findAll(); // repository 에서 가져오기
-        // ReceivedUser -> ReceivedUserDTO 로 변환
         List<ReceivedUserDTO> result = foundUser.stream().map(p -> modelMapper.map(p, ReceivedUserDTO.class)).collect(Collectors.toList());
-        // 모든 받은 편지를 사용자 ID (userId)로 필터링
-//        String[] splitToken = RequestJwt.split("\\s+"); // Authenticate 할 때 "Bearer" 때문에 Jwt 를 공백으로 나누어서 뒷부분만 받아줘야함.
         System.out.println("===== userId :" + result);
-//        String userId = JwtUtil.getUserId(splitToken[1].toString(), secretKey);
         List<ReceivedUserDTO> filteredResult;
         filteredResult = result.stream()
                 .filter(a -> a.getUserId().equals(userId))
