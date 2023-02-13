@@ -6,11 +6,9 @@ import com.example.wero.core.receiveduser.application.ReceivedUserEditor;
 import com.example.wero.core.receiveduser.application.ReceivedUserFinder;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.wero.core.websocket.domain.BackMessage;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,16 +31,21 @@ public class ReceivedUserRestController {
     }
 
     @PostMapping(path = "/received")
-    public MyLetterDTO findReceivedLetter(String myLetterId) {
+    public MyLetterDTO findReceivedLetter(@RequestBody String myLetterId) {
         return finder.findReceivedLetter(myLetterId);
     }
 
-    //    @Scheduled(cron = "0/60 * * * * ?") // 시스템 시간을 기준으로 1분 마다 한 번씩 실행됨
+    @Scheduled(cron = "* * 00,12 * * ?") // 시스템 시간을 기준으로 매일 00시와 12시 00분 00초에 실행됨.
     // Todo : 하루에 한 번 receivedUser 가 생성될 지, 시간을 기준으로 하루에 한 번 혹은 두 번 생성되게 할 지 정하기!!!
-    @PostMapping(path = "createReceivedUser")
+//    @PostMapping(path = "/createReceivedUser")
     public String createReceiveUser() {
         System.out.println("createReceiveUser() called");
         return editor.createReceiveUser();
+    }
+    
+    @DeleteMapping(path = "/deleteReceivedUser")
+    public String deleteReceivedUser(@RequestBody String myLetterId) {
+        return editor.deleteReceivedUser(myLetterId);
     }
 
 }
