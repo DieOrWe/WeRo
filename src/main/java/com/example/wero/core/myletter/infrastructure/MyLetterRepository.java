@@ -14,6 +14,9 @@ import java.util.Optional;
 
 
 public interface MyLetterRepository extends JpaRepository<MyLetter, String> {
+    
+    @Query(value = "SELECT MY_LETTER_ID FROM MY_LETTERS", nativeQuery = true)
+    List<String> findLetterIds();
 
     @Query(value = "SELECT * FROM MY_LETTERS m WHERE m.MY_LETTER_IS_PRIVATE = false", nativeQuery = true)
     List<MyLetter> myLetterFindAllByMyLetterIsPrivate();

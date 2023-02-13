@@ -29,7 +29,7 @@ public class MyLetterRestController {
         return editor.createMyLetter(myLetterDTO);
     }
     
-//    @Scheduled(cron = "")
+    @Scheduled(cron = "* * 00 * * ?") // 시스템 시간을 기준으로 매일 00시 00분 00초에 실행됨.
     public String deleteMyLetter() {
         return editor.deleteMyLetter();
     }

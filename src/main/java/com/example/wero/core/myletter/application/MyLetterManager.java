@@ -10,6 +10,8 @@ import com.example.wero.core.senduser.infrastructure.SendUserRepository;
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.infrastructure.UserRepository;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -69,11 +71,19 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     @Override
     public String deleteMyLetter() {
         // ToDo: 받은사람 + 보낸사람 DB에 편지 id 없으면 MyLetter 삭제 (주기적으로 삭제를 하는 기간을 정해서?)
-        List<String> sendUserIds = sendUserRepository.findUserIds();
-        Collection<String> receivedUserIds = receivedUserRepository.findUserIds();
-        
-        
-        
-        return null;
+        List<String> sendLetterIds = sendUserRepository.findLetterIds();
+        List<String> receivedLetterIds = receivedUserRepository.findLetterIds();
+        Iterable<String> joinedIterable = Iterables.unmodifiableIterable(
+                Iterables.concat(sendLetterIds, receivedLetterIds)); // sendLetterIds 리스트와 receivedLetterIds 리스트 합치기
+        Collection<String> joinedCollection = Lists.newArrayList(joinedIterable); // 합친걸 Collection<String> 으로 변환
+        List<String> myLetterIds = myLetterRepository.findLetterIds();
+        myLetterIds.removeAll(joinedCollection); // myLetterIds랑 중복되는 데이터(받은사람+보낸사람이 존재하는 myLetter)들은 제거하고
+                                                 // myLetterIds 에만 존재하는 데이터만 남겨져있음.
+        for (String myLetterId:myLetterIds) {
+            myLetterRepository.deleteById(myLetterId);
+            System.out.println("myLetterId : " + myLetterId + " 삭제 완료!!");
+        }
+        String message = String.format("deleteMyLetter() 메소드에 의해 SendUser와 ReceivedUser에 존재 하지 않는 %d 개의 편지 삭제 완료",myLetterIds.size());
+        return message;
     }
 }

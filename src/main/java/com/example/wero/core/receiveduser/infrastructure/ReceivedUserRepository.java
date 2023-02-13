@@ -25,8 +25,8 @@ public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Inte
     @Transactional
     Optional<String> deleteByMyLetterId(String myLetterId);
     
-    @Query(value = "SELECT USER_ID FROM RECEIVED_USERS", nativeQuery = true)
-    Collection<String> findUserIds();
+    @Query(value = "SELECT MY_LETTER_ID FROM RECEIVED_USERS", nativeQuery = true)
+    List<String> findLetterIds();
 
 
 }
