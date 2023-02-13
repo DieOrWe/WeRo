@@ -19,6 +19,6 @@ public interface SendUserRepository extends JpaRepository<SendUser, Integer> {
     @Transactional
     Optional<SendUser> deleteByMyLetterId(String letterId);
     
-    @Query("")
+    @Query(value = "SELECT USER_ID FROM SEND_USERS", nativeQuery = true)
     List<String> findUserIds();
 }

@@ -4,6 +4,7 @@ import com.example.wero.core.myletter.domain.MyLetter;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 
+import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
 import com.example.wero.core.senduser.application.SendUserEditor;
 import com.example.wero.core.senduser.infrastructure.SendUserRepository;
 import com.example.wero.core.user.domain.User;
@@ -13,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -23,13 +26,15 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     private final UserRepository userRepository;
     private final SendUserEditor sendUserEditor;
     private final SendUserRepository sendUserRepository;
+    private final ReceivedUserRepository receivedUserRepository;
     
-    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository, SendUserEditor sendUserEditor, SendUserRepository sendUserRepository) {
+    public MyLetterManager(MyLetterRepository myLetterRepository, ModelMapper modelMapper, UserRepository userRepository, SendUserEditor sendUserEditor, SendUserRepository sendUserRepository, ReceivedUserRepository receivedUserRepository) {
         this.myLetterRepository = myLetterRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.sendUserEditor = sendUserEditor;
         this.sendUserRepository = sendUserRepository;
+        this.receivedUserRepository = receivedUserRepository;
     }
     
     @Override
@@ -64,7 +69,11 @@ public class MyLetterManager implements MyLetterFinder, MyLetterEditor {
     @Override
     public String deleteMyLetter() {
         // ToDo: 받은사람 + 보낸사람 DB에 편지 id 없으면 MyLetter 삭제 (주기적으로 삭제를 하는 기간을 정해서?)
-        sendUserRepository.
+        List<String> sendUserIds = sendUserRepository.findUserIds();
+        Collection<String> receivedUserIds = receivedUserRepository.findUserIds();
+        
+        
+        
         return null;
     }
 }
