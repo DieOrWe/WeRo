@@ -134,10 +134,15 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     
     @Override
     public String deleteReceivedUser(String myLetterId) {
-        if (receivedUserRepository.deleteByMyLetterId(myLetterId).isEmpty()) {
-            return "해당하는 편지가 없습니다.";
+        String[] letters = myLetterId.substring(2, myLetterId.length() - 2).split("\",\"");
+    
+        for (String letterId : letters) {
+            if (receivedUserRepository.deleteByMyLetterId(letterId).isEmpty()) {
+                String message = String.format("존재하지 않는 LetterID : %s", letterId);
+                throw new IllegalArgumentException(message);
+            }
+            receivedUserRepository.deleteByMyLetterId(letterId);
         }
-        receivedUserRepository.deleteByMyLetterId(myLetterId);
         System.out.println("deleteByMyLetterId(myLetterId) : " + myLetterId + " -- receivedUser 삭제.");
         return "편지 삭제를 완료했습니다.";
     }

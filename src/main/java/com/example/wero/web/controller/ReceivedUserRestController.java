@@ -30,7 +30,7 @@ public class ReceivedUserRestController {
     }
 
     @PostMapping(path = "/received")
-    public MyLetterDTO findReceivedLetter(String myLetterId) {
+    public MyLetterDTO findReceivedLetter(@RequestBody String myLetterId) {
         return finder.findReceivedLetter(myLetterId);
     }
 
@@ -42,8 +42,8 @@ public class ReceivedUserRestController {
         return editor.createReceiveUser();
     }
     
-    @DeleteMapping(path = "deleteReceivedUser")
-    public String deleteReceivedUser(String myLetterId) {
+    @DeleteMapping(path = "deleteReceivedUser/")
+    public String deleteReceivedUser(@RequestBody String myLetterId) {
         return editor.deleteReceivedUser(myLetterId);
     }
 
