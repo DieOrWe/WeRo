@@ -13,7 +13,7 @@ spring:
       matching-strategy: ant_path_matcher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/Wero?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://wero-db.cmzcgnogtckl.ap-northeast-2.rds.amazonaws.com:3306/werodb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: Asdf1234!
   jpa:
