@@ -7,11 +7,7 @@ import com.example.wero.core.receiveduser.application.ReceivedUserFinder;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 
 import com.example.wero.core.websocket.domain.BackMessage;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,6 +42,7 @@ public class ReceivedUserRestController {
         return editor.createReceiveUser();
     }
     
+    @DeleteMapping(path = "deleteReceivedUser")
     public String deleteReceivedUser(String myLetterId) {
         return editor.deleteReceivedUser(myLetterId);
     }
