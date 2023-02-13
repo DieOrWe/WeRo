@@ -135,6 +135,11 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     public MyLetterDTO findReceivedLetter(String myLetterId) {
         String message = String.format("%s에 해당하는 MyLetter 가 없습니다.", myLetterId);
         final MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
+        Optional<ReceivedUser> receivedUser = receivedUserRepository.findByMyLetterId(myLetterId);
+        ReceivedUser readReceivedUser = receivedUser.get();
+        readReceivedUser.setRead(true);
+        receivedUserRepository.save(readReceivedUser);
+        
         return modelMapper.map(myLetter, MyLetterDTO.class);
     }
     
