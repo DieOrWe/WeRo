@@ -110,7 +110,6 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     
             return "ReceivedUser 생성 완료!";
         }
-        return "createUserIdInReceivedUser() called";
     }
     
     public BackMessage returnBackMessage(List<ReceivedUser> newReceivedUsers) {
