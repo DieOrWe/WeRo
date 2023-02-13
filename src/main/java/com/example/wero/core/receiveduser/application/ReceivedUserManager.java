@@ -66,7 +66,7 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
             String recentReceivedLetter  = receivedUserRepository.RecentReceivedLetter();
             System.out.println("---------- recentReceivedLetter = " + recentReceivedLetter);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try { // simpleDateFormat.parse() 를 사용할 땐 무조건 try 구문에 넣어서 사용해야 compile 시 에러가 안남.
                 Date time = simpleDateFormat.parse(recentReceivedLetter);
                 List<MyLetter> newMyLetters = myLetterRepository.newMyLetters(time);
@@ -84,31 +84,33 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
                 exception.printStackTrace();
             }
         }
-        return "createReceivedUser called()";
+        return "createReceivedUser() called";
     }
     
     public String createUserIdInReceivedUser() {
         if (receivedUserRepository.findByUserIdIsNull().isEmpty()) {
             return "새롭게 생성할 ReceivedUser 가 없습니다.";
-        }
-        List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
-        System.out.println("========= newReceivedUsers.size()" + newReceivedUsers.size());
+        } else {
+            List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
+            System.out.println("========= newReceivedUsers.size()" + newReceivedUsers.size());
     
     
-        for (ReceivedUser receivedUser : newReceivedUsers){
-            Optional<String> tempUserID = myLetterRepository.getUserIdByNickName(receivedUser.getWriterNickName());
-            if (tempUserID.isEmpty()){
-                return "myLetter를 작성한 유저가 없습니다.";
+            for (ReceivedUser receivedUser : newReceivedUsers) {
+                Optional<String> tempUserID = myLetterRepository.getUserIdByNickName(receivedUser.getWriterNickName());
+                if (tempUserID.isEmpty()) {
+                    return "myLetter를 작성한 유저가 없습니다.";
+                }
+                System.out.println("========= tempUserId : " + tempUserID);
+                receivedUser.setUserId(tempUserID.get());
+                System.out.println("========= receivedUser : " + receivedUser);
+                receivedUserRepository.save(receivedUser);
             }
-            System.out.println("========= tempUserId : " + tempUserID);
-            receivedUser.setUserId(tempUserID.get());
-            System.out.println("========= receivedUser : " + receivedUser);
-            receivedUserRepository.save(receivedUser);
+    
+            returnBackMessage(newReceivedUsers);
+    
+            return "ReceivedUser 생성 완료!";
         }
-    
-        returnBackMessage(newReceivedUsers);
-    
-        return "ReceivedUser 생성 완료!";
+        return "createUserIdInReceivedUser() called";
     }
     
     public BackMessage returnBackMessage(List<ReceivedUser> newReceivedUsers) {
