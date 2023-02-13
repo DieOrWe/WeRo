@@ -131,4 +131,14 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
         final MyLetter myLetter = myLetterRepository.findById(myLetterId).orElseThrow(() -> new NoSuchElementException(message));
         return modelMapper.map(myLetter, MyLetterDTO.class);
     }
+    
+    @Override
+    public String deleteReceivedUser(String myLetterId) {
+        if (receivedUserRepository.deleteByMyLetterId(myLetterId).isEmpty()) {
+            return "해당하는 편지가 없습니다.";
+        }
+        receivedUserRepository.deleteByMyLetterId(myLetterId);
+        System.out.println("deleteByMyLetterId(myLetterId) : " + myLetterId + " -- receivedUser 삭제.");
+        return "편지 삭제를 완료했습니다.";
+    }
 }

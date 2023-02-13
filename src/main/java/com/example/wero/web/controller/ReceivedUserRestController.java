@@ -45,5 +45,9 @@ public class ReceivedUserRestController {
         System.out.println("createReceiveUser() called");
         return editor.createReceiveUser();
     }
+    
+    public String deleteReceivedUser(String myLetterId) {
+        return editor.deleteReceivedUser(myLetterId);
+    }
 
 }

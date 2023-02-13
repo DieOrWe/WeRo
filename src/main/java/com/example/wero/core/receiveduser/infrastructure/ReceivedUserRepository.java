@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Integer> {
@@ -16,6 +17,8 @@ public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Inte
 
     @Query(value = "SELECT * FROM RECEIVED_USERS WHERE USER_ID IS NULL", nativeQuery = true)
     List<ReceivedUser> findByUserIdIsNull();
+    
+    Optional<String> deleteByMyLetterId(String myLetterId);
 
 
 }
