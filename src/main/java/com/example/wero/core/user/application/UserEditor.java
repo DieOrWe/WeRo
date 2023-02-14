@@ -1,5 +1,6 @@
 package com.example.wero.core.user.application;
 
+import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
 
 public interface UserEditor {
@@ -41,4 +42,5 @@ public interface UserEditor {
      * @return String message
      */
     String deleteUser(String userId, String userPw);
+    
 }

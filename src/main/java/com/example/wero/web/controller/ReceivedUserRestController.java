@@ -35,12 +35,12 @@ public class ReceivedUserRestController {
     }
 
     @Scheduled(cron = "* * 00,12 * * ?") // 시스템 시간을 기준으로 매일 00시와 12시 00분 00초에 실행됨.
-    // Todo : 하루에 한 번 receivedUser 가 생성될 지, 시간을 기준으로 하루에 한 번 혹은 두 번 생성되게 할 지 정하기!!!
 //    @PostMapping(path = "/createReceivedUser")
     public String createReceiveUser() {
         System.out.println("createReceiveUser() called");
         return editor.createReceiveUser();
     }
+    
     
     @DeleteMapping(path = "/deleteReceivedUser")
     public String deleteReceivedUser(@RequestBody String myLetterId) {

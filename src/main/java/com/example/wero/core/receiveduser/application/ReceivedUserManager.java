@@ -92,7 +92,6 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
             return "새롭게 생성할 ReceivedUser 가 없습니다.";
         } else {
             List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
-            System.out.println("========= newReceivedUsers.size()" + newReceivedUsers.size());
     
     
             for (ReceivedUser receivedUser : newReceivedUsers) {
