@@ -34,4 +34,4 @@ build/
 
 
 ### yml ###
-application.yml  
+application-aws.yml
