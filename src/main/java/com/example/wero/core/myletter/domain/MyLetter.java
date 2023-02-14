@@ -80,7 +80,7 @@ public class MyLetter {
         String formattedDate = dateFormat.format(date); // 스트링으로 변환
         return ReceivedUser.builder()
                 .userId(null)  // userId 에는 작성자가 아니라, 받는 회원의 Id가 들어가야 됨. 후에 해당 메소드 호출 한 뒤에 userId를 토큰을 통해 지정해줘야함.
-                .writerNickName(myLetter.user.getUserNickName()) // 보낸 사람 닉네임
+                .writerNickName(myLetter.user.getUserId()) // 보낸 사람 ID 후에 닉네임으로 변경
                 .myLetterId(myLetter.getMyLetterId()) // 편지 아이디
                 .myLetterTitle(myLetter.getMyLetterTitle()) // 편지 제목
                 .letterReceivedWhen(formattedDate) // 해당 메소드가 실행되는 시간을 스트링으로 넗어줌

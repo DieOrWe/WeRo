@@ -10,6 +10,7 @@ import com.example.wero.core.receiveduser.infrastructure.ReceivedUserRepository;
 
 import com.example.wero.core.user.domain.User;
 import com.example.wero.core.user.domain.UserDTO;
+import com.example.wero.core.user.infrastructure.UserRepository;
 import com.example.wero.core.websocket.domain.BackMessage;
 import lombok.ToString;
 import org.modelmapper.ModelMapper;
@@ -29,17 +30,19 @@ import org.springframework.web.util.HtmlUtils;
 //@EnableJpaRepositories
 public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEditor {
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
     private final ReceivedUserRepository receivedUserRepository;
     private final MyLetterRepository myLetterRepository;
 
     private String secretKey;
-
-    public ReceivedUserManager(ModelMapper modelMapper, ReceivedUserRepository receivedUserRepository, MyLetterRepository myLetterRepository) {
+    
+    public ReceivedUserManager(ModelMapper modelMapper, UserRepository userRepository, ReceivedUserRepository receivedUserRepository, MyLetterRepository myLetterRepository) {
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
         this.receivedUserRepository = receivedUserRepository;
         this.myLetterRepository = myLetterRepository;
     }
-
+    
     @Override
     public String createReceiveUser() {
         // 1. ReceivedUser 의 가장 최근 생성 시간이 ReceivedUser 의 마지막 index(Id)로 가져와서 String recentReceivedLetter 변수로 가져오기
@@ -89,23 +92,25 @@ public class ReceivedUserManager implements ReceivedUserFinder, ReceivedUserEdit
     
     public String createUserIdInReceivedUser() {
         if (receivedUserRepository.findByUserIdIsNull().isEmpty()) {
+            System.out.println("새롭게 생성할 ReceivedUser 가 없습니다.");
             return "새롭게 생성할 ReceivedUser 가 없습니다.";
         } else {
             List<ReceivedUser> newReceivedUsers = receivedUserRepository.findByUserIdIsNull();
     
     
             for (ReceivedUser receivedUser : newReceivedUsers) {
-                Optional<String> tempUserID = myLetterRepository.getUserIdByNickName(receivedUser.getWriterNickName());
+                Optional<String> tempUserID = myLetterRepository.getUserIdById(receivedUser.getWriterNickName());
                 if (tempUserID.isEmpty()) {
                     return "myLetter를 작성한 유저가 없습니다.";
                 }
                 System.out.println("========= tempUserId : " + tempUserID);
                 receivedUser.setUserId(tempUserID.get());
+                String writerNickName = userRepository.findUserNickName(receivedUser.getWriterNickName());
+                System.out.println("---- writerNickName : " + writerNickName);
+                receivedUser.setWriterNickName(writerNickName);
                 System.out.println("========= receivedUser : " + receivedUser);
                 receivedUserRepository.save(receivedUser);
             }
-    
-            returnBackMessage(newReceivedUsers);
     
             return "ReceivedUser 생성 완료!";
         }

@@ -15,17 +15,17 @@ import java.util.Optional;
 public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Integer> {
     
     Optional<ReceivedUser> findByMyLetterId(String myLetterId);
-
-    @Query(value = "SELECT LETTER_RECEIVED_WHEN FROM (SELECT * FROM RECEIVED_USERS ORDER BY LETTER_RECEIVED_WHEN DESC) WHERE ROWNUM = 1", nativeQuery = true)
+//    (select * from received_users order by letter_received_when desc) where ROWNUM = 1 rd
+    @Query(value = "select letter_received_when from received_users order by letter_received_when desc limit 1", nativeQuery = true)
     String RecentReceivedLetter();
-
-    @Query(value = "SELECT * FROM RECEIVED_USERS WHERE USER_ID IS NULL", nativeQuery = true)
+    
+    @Query(value = "select * from received_users where user_id is null", nativeQuery = true)
     List<ReceivedUser> findByUserIdIsNull();
     
     @Transactional
     Optional<String> deleteByMyLetterId(String myLetterId);
     
-    @Query(value = "SELECT MY_LETTER_ID FROM RECEIVED_USERS", nativeQuery = true)
+    @Query(value = "select my_letter_id from received_users", nativeQuery = true)
     List<String> findLetterIds();
 
 
