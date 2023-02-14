@@ -25,7 +25,7 @@ public interface MyLetterRepository extends JpaRepository<MyLetter, String> {
     @Query(value = "select * from my_letters where created_when > :time", nativeQuery = true)
     List<MyLetter> newMyLetters(@Param(value = "time") Date letterReceivedWhen);
     
-    @Query(value = "SELECT du.user_id FROM (SELECT * FROM users WHERE NOT user_id = :ID) du LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT du.user_id FROM (SELECT * FROM users WHERE NOT user_id = :ID ORDER BY RAND()) du LIMIT 1", nativeQuery = true)
     Optional<String> getUserIdById(@Param("ID") String userId);
     
     
