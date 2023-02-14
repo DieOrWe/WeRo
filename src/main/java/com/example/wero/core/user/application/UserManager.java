@@ -6,8 +6,6 @@ import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.domain.UserVo;
 import com.example.wero.core.user.infrastructure.UserRepository;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

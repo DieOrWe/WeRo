@@ -36,6 +36,7 @@ public class AuthenticationConfig {
                 .antMatchers("/api/user/login").permitAll() // permitAll() 모든기능 기능
                 .antMatchers(HttpMethod.POST, "/api/user").permitAll()
                 .antMatchers("/**").authenticated()//.authenticated() 인가받을때만 가능
+                .antMatchers("/**").permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// jwt 토큰 사용하는경우 쓴다고함
