@@ -33,9 +33,9 @@ public class AuthenticationConfig {
                 .csrf().disable() // csrf 보안
                 .cors().and()
                 .authorizeRequests()
-//                .antMatchers("/api/user/login").permitAll() // permitAll() 모든기능 기능
-//                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
-//                .antMatchers("/**").authenticated()//.authenticated() 인가받을때만 가능
+                .antMatchers("/api/user/login").permitAll() // permitAll() 모든기능 기능
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+                .antMatchers("/**").authenticated()//.authenticated() 인가받을때만 가능
                 .antMatchers("/**").permitAll()
                 .and()
                 .sessionManagement()
