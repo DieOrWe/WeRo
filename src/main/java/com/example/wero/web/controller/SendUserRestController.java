@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping(path = "api/user/sendLetters")
 public class SendUserRestController {
     private final SendUserFinder finder;
