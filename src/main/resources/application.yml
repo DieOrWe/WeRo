@@ -1,5 +1,5 @@
 server:
-  port: 5000
+  port: 8080
 
 logging:
   pattern:
@@ -12,17 +12,21 @@ spring:
     path-match:
       matching-strategy: ant_path_matcher
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://wero-db.cmzcgnogtckl.ap-northeast-2.rds.amazonaws.com:3306/werodb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: Asdf1234!
+    url: jdbc:h2:tcp://localhost/~/test
+    driver-class-name: org.h2.Driver
+    username: sa
+  #    datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://localhost:3306/Wero?serverTimezone=UTC&characterEncoding=UTF-8
+  #    username: root
+  #    password: Asdf1234@
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
 
 jwt:
-  secret: hi.wero.man
+  secret: hi.man.aa.bb
 
 key:
   spring.security.oauth2.client.registration.google.client-id: 438276004747-auer7q9fqk70187cdmf4l1mhjqn9caf5.apps.googleusercontent.com
