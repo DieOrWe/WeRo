@@ -22,7 +22,7 @@ public interface MyLetterRepository extends JpaRepository<MyLetter, String> {
     @Query(value = "select * from my_letters m where m.my_letter_is_private = false", nativeQuery = true)
     List<MyLetter> myLetterFindAllByMyLetterIsPrivate();
 
-    @Query(value = "select m.my_letter_id from my_letters m where m.created_when > :time", nativeQuery = true)
+    @Query(value = "select * from my_letters where created_when > :time", nativeQuery = true)
     List<MyLetter> newMyLetters(@Param(value = "time") Date letterReceivedWhen);
     
     @Query(value = "SELECT du.user_id FROM (SELECT * FROM users WHERE NOT user_id = :ID) du LIMIT 1", nativeQuery = true)
