@@ -35,8 +35,9 @@ public class ReceivedUserRestController {
         return finder.findReceivedLetter(myLetterId);
     }
 
-    @Scheduled(cron = "* * 00,12 * * ?") // 시스템 시간을 기준으로 매일 00시와 12시 00분 00초에 실행됨.
+//    @Scheduled(cron = "* * 00,12 * * ?") // 시스템 시간을 기준으로 매일 00시와 12시 00분 00초에 실행됨.
 //    @PostMapping(path = "/createReceivedUser")
+    @Scheduled(cron = "0 * * * * *") // 배포 test용 1분마다 실행되게 함.
     public String createReceiveUser() {
         System.out.println("createReceiveUser() called");
         return editor.createReceiveUser();
