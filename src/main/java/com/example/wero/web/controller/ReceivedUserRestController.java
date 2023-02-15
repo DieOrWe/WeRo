@@ -7,11 +7,13 @@ import com.example.wero.core.receiveduser.application.ReceivedUserFinder;
 import com.example.wero.core.receiveduser.domain.ReceivedUserDTO;
 
 import com.example.wero.core.websocket.domain.BackMessage;
+import io.swagger.annotations.Api;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = {"받은 편지에 관한 API를 제공하는 Controller"})
 @RestController
 @RequestMapping(path = "api/user/myLetters")
 public class ReceivedUserRestController {

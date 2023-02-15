@@ -5,6 +5,7 @@ import com.example.wero.core.myletter.application.MyLetterFinder;
 import com.example.wero.core.myletter.domain.MyLetterDTO;
 import com.example.wero.core.myletter.infrastructure.MyLetterRepository;
 
+import io.swagger.annotations.Api;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = {"편지에 관한 API 정보를 제공하는 Controller"})
 @RestController
 @RequestMapping(path = "api/myLetter")
 public class MyLetterRestController {
@@ -22,7 +24,7 @@ public class MyLetterRestController {
     public MyLetterRestController(MyLetterFinder finder, MyLetterEditor editor, MyLetterRepository myLetterRepository) {
         this.editor = editor;
     }
-
+    
     @PostMapping(path = "/createMyLetter")
     public String createMyLetter(@RequestBody MyLetterDTO myLetterDTO) {
         return editor.createMyLetter(myLetterDTO);

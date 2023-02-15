@@ -5,6 +5,7 @@ import com.example.wero.core.senduser.application.SendUserEditor;
 import com.example.wero.core.senduser.application.SendUserFinder;
 import com.example.wero.core.senduser.domain.SendUserDTO;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(tags = {"보낸 편지에 관한 API를 제공하는 Controller"})
 @RestController
 @RequestMapping(path = "api/user/sendLetters")
 public class SendUserRestController {

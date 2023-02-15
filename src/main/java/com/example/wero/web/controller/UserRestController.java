@@ -5,6 +5,7 @@ import com.example.wero.core.user.application.UserFinder;
 import com.example.wero.core.user.domain.UserDTO;
 import com.example.wero.core.user.domain.UserVo;
 
+import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@Api(tags = {"사용자에 관한 API를 제공하는 Controller"})
 @RestController
 @RequestMapping(path = "api/user")
 public class UserRestController {
