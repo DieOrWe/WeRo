@@ -19,6 +19,7 @@ public interface ReceivedUserRepository extends JpaRepository<ReceivedUser, Inte
     @Query(value = "select letter_received_when from received_users order by letter_received_when desc limit 1", nativeQuery = true)
     String RecentReceivedLetter();
     
+    
     @Query(value = "select * from received_users r where r.user_id is null", nativeQuery = true)
     List<ReceivedUser> findByUserIdIsNull();
     
