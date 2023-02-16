@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = {"보낸 편지에 관한 API를 제공하는 Controller"})
 @RestController
 @RequestMapping(path = "api/user/sendLetters")
 public class SendUserRestController {

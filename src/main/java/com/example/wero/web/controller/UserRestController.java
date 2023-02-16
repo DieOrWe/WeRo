@@ -21,7 +21,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@Api(tags = {"사용자에 관한 API를 제공하는 Controller"})
 @RestController
 @RequestMapping(path = "api/user")
 public class UserRestController {
