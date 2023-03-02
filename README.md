@@ -1,5 +1,13 @@
 # WeRo
-WeRo's main repository
+team: DieOrWe
+project name: WeRo
+### **우리가 생각하는 프로젝트의 가치, 정체성**
 
+<aside>
+💡 **TEAM - DieOrWe(다이어리)**
+**래헌:** 나에게 여유를 남에게 남은 여유를
+**준태:** 차가운 세상 속에서 따뜻한 마음을 나누기
+**정준:** 스스로를 위로함으로써 남까지 위로해주기
+**찬휘:** 나의 공백을 타인을 통해 채우기
 
---jun testing
+</aside>
